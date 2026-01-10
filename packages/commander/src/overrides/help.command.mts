@@ -1,4 +1,5 @@
-import { inject, Logger } from '@navios/core'
+import { ScreenLogger } from '@navios/commander-tui'
+import { inject } from '@navios/core'
 import { z } from 'zod'
 
 import { Command } from '../decorators/command.decorator.mjs'
@@ -23,9 +24,10 @@ type HelpOptions = z.infer<typeof helpOptionsSchema>
   path: 'help',
   description: 'Show available commands or help for a specific command',
   optionsSchema: helpOptionsSchema,
+  priority: 1000,
 })
 export class HelpCommand implements CommandHandler<HelpOptions> {
-  private logger = inject(Logger, { context: 'Commander' })
+  private logger = inject(ScreenLogger, { screen: { name: 'Help', static: true }, context: 'Help' })
   private commandRegistry = inject(CommandRegistryService)
 
   async execute(options: HelpOptions): Promise<void> {

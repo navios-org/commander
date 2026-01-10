@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-01-10
+
+### Added
+
+- **TUI Mode Support** - New `enableTUI` option in `CommanderFactory.create()` to enable terminal UI mode
+  - Dynamically imports `@navios/commander-tui` when enabled
+  - Auto-binds `ScreenManager` with configurable options
+  - Falls back to standard console logger when TUI is disabled
+- **TUI Options** - New `CommanderTuiOptions` interface for TUI-specific configuration
+  - `exitOnCtrlC`, `sidebarWidth`, `sidebarPosition`, `sidebarTitle`
+  - `autoClose` with configurable delay
+  - `theme` support (preset name or custom object)
+  - `useMouse` and `hideDefaultScreen` options
+- **Log Levels Configuration** - New `logLevels` option in `CommanderFactoryOptions`
+- **Command Token Option** - New `token` option in `@Command()` decorator for custom injection tokens
+- **Help Command Token** - New `HelpCommandToken` for overriding the built-in help command
+
+### Changed
+
+- **Optional TUI Dependency** - `@navios/commander-tui` is now an optional peer dependency
+- **Command Decorator** - Internal token handling refactored to support custom tokens
+
+### Dependencies
+
+- Added optional peer dependency: `@navios/commander-tui` ^1.0.0
+
 ## [1.0.0] - 2026-01-09
 
 ### Added

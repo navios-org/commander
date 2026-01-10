@@ -1,9 +1,11 @@
-import type { ClassType, Registry } from '@navios/core'
-import type { ZodObject } from 'zod'
-
 import { Injectable, InjectableScope, InjectionToken } from '@navios/core'
 
+import type { ClassType, ClassTypeWithInstance, Registry } from '@navios/core'
+import type { ZodObject } from 'zod'
+
 import { getCommandMetadata } from '../metadata/index.mjs'
+
+import type { CommandHandler } from '../interfaces/index.mjs'
 
 /**
  * Options for the `@Command` decorator.
@@ -11,6 +13,11 @@ import { getCommandMetadata } from '../metadata/index.mjs'
  * @public
  */
 export interface CommandOptions {
+  /**
+   * The token to use for the command.
+   * If provided, the command will be registered with this token.
+   */
+  token?: InjectionToken<ClassTypeWithInstance<CommandHandler<any>>>
   /**
    * The command path that users will invoke from the CLI.
    * Can be a single word (e.g., 'greet') or multi-word with colons (e.g., 'user:create', 'db:migrate').
@@ -71,22 +78,24 @@ export interface CommandOptions {
 export function Command({
   path,
   description,
+  token,
   optionsSchema,
   priority,
   registry,
 }: CommandOptions) {
   return function (target: ClassType, context: ClassDecoratorContext) {
     if (context.kind !== 'class') {
-      throw new Error(
-        '[Navios Commander] @Command decorator can only be used on classes.',
-      )
+      throw new Error('[Navios Commander] @Command decorator can only be used on classes.')
     }
-    const token = InjectionToken.create(target)
+    const tokenToUse =
+      token ?? InjectionToken.create<ClassTypeWithInstance<CommandHandler<any>>>(target)
+
     if (context.metadata) {
       getCommandMetadata(target, context, path, description, optionsSchema)
     }
+    // @ts-expect-error Injectable is callable
     return Injectable({
-      token,
+      token: tokenToUse,
       scope: InjectableScope.Singleton,
       priority,
       registry,
