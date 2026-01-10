@@ -1,0 +1,25 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] - 2025-01-10
+
+### Added
+
+- **ScreenManager** - Terminal UI lifecycle management with theme support
+- **ScreenLogger** - Rich logging with multiple levels (log, debug, warn, error, success, trace, fatal)
+- **Prompt** - Interactive prompts (confirm, choice, multi-choice, input) with timeout support
+- **Loading indicators** - Spinner-based loading with manual and promise-based resolution
+- **Progress bars** - Visual progress tracking with completion/failure states
+- **Tables** - Formatted table output with headers and borders
+- **Log groups** - Collapsible log grouping for organized output
+- **File display** - Syntax-highlighted file content and diff views
+- **Multi-screen support** - Sidebar navigation between multiple screens
+- **Theming** - Built-in dark, light, and high-contrast themes
+- **Keyboard navigation** - Configurable keyboard bindings for UI interaction
+- **Filter engine** - Log filtering by level, content, and context
+- **Stdout printing** - Fallback printing when TUI is not available
+- **Dependency injection** - Seamless integration with `@navios/core` container

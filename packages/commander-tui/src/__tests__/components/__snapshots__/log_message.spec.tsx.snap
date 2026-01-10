@@ -1,0 +1,3169 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LogMessage > border styles > should render with thick border style 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    borderStyle="thick"
+    level="log"
+  >
+    Thick border
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > border styles > should render with thin border style (default) 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    borderStyle="thin"
+    level="log"
+  >
+    Thin border
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > renders log levels > should render debug level 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="debug"
+  >
+    Test message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > renders log levels > should render error level 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="error"
+  >
+    Test message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > renders log levels > should render fatal level 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="fatal"
+  >
+    Test message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > renders log levels > should render log level 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="log"
+  >
+    Test message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > renders log levels > should render verbose level 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="verbose"
+  >
+    Test message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > renders log levels > should render warn level 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="warn"
+  >
+    Test message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > variants > should render with success variant 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="log"
+    variant="success"
+  >
+    Success message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > variants > should render with trace variant 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="verbose"
+    variant="trace"
+  >
+    Trace message
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with custom colors > should render with custom backgroundColor 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    backgroundColor="#111111"
+    level="log"
+  >
+    Custom background color
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with custom colors > should render with custom borderColor 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    borderColor="#ff0000"
+    level="log"
+  >
+    Custom border color
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with label > should render with label 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    label="API"
+    level="log"
+  >
+    Message with label
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with label > should render with label and timestamp 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    label="Database"
+    level="log"
+    timestamp={2024-01-15T10:30:00.000Z}
+  >
+    Message with both
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with padding and margin > should render with custom margin 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="log"
+    margin={1}
+  >
+    Custom margin
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with padding and margin > should render with custom padding 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="log"
+    padding={2}
+  >
+    Custom padding
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with timestamp > should render with Date timestamp 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="log"
+    timestamp={2024-01-15T10:30:00.000Z}
+  >
+    Message with timestamp
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with timestamp > should render with string timestamp 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="log"
+    timestamp="10:30:00"
+  >
+    Message with string timestamp
+  </LogMessage>
+</LoggerProvider>
+`;
+
+exports[`LogMessage > with trace content > should render with trace 1`] = `
+<LoggerProvider
+  theme={
+    {
+      "colors": {
+        "background": "#111827",
+        "error": "#EF4444",
+        "foreground": "#F9FAFB",
+        "muted": "#6B7280",
+        "primary": "#3B82F6",
+        "secondary": "#8B5CF6",
+        "success": "#22C55E",
+        "warning": "#F59E0B",
+      },
+      "errorHighlight": {
+        "background": "#EF444425",
+        "border": "#EF4444",
+        "gutterBackground": "#EF444440",
+      },
+      "file": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "headerBackground": "#3B82F625",
+        "headerText": "#F9FAFB",
+      },
+      "filter": {
+        "activeLevel": "#3B82F6",
+        "background": "#1F293780",
+        "border": "#3B82F6",
+        "cursor": "#3B82F6",
+        "inactiveLevel": "#4B5563",
+        "inputBackground": "#1F2937",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "group": {
+        "background": "#6B728010",
+        "border": "#6B7280",
+        "headerText": "#E5E7EB",
+        "icon": "#9CA3AF",
+      },
+      "header": {
+        "background": undefined,
+        "border": "#374151",
+        "text": "#F9FAFB",
+      },
+      "help": {
+        "background": "#1F2937",
+        "border": "#3B82F6",
+        "category": "#3B82F6",
+        "description": "#E5E7EB",
+        "hint": "#6B7280",
+        "key": "#F59E0B",
+        "title": "#F9FAFB",
+      },
+      "logLevels": {
+        "debug": {
+          "background": "#8B5CF615",
+          "border": "#8B5CF6",
+        },
+        "error": {
+          "background": "#EF444415",
+          "border": "#EF4444",
+        },
+        "fatal": {
+          "background": "#DC262625",
+          "border": "#DC2626",
+          "text": "#FCA5A5",
+        },
+        "log": {
+          "background": "#3B82F615",
+          "border": "#3B82F6",
+        },
+        "verbose": {
+          "background": "#6B728015",
+          "border": "#6B7280",
+        },
+        "warn": {
+          "background": "#F59E0B15",
+          "border": "#F59E0B",
+        },
+      },
+      "name": "dark",
+      "progress": {
+        "background": "#3B82F615",
+        "barEmpty": "#374151",
+        "barFilled": "#3B82F6",
+        "border": "#3B82F6",
+        "complete": "#22C55E",
+        "completeBackground": "#22C55E15",
+        "failed": "#EF4444",
+        "failedBackground": "#EF444415",
+        "text": "#E5E7EB",
+        "textDim": "#9CA3AF",
+      },
+      "prompt": {
+        "border": "#374151",
+        "buttonBackground": "#374151",
+        "buttonSelectedBackground": "#1F2937",
+        "cancelButton": "#EF4444",
+        "confirmButton": "#22C55E",
+        "focusBorder": "#3B82F6",
+        "inputBackground": "#1F2937",
+        "inputBorder": "#3B82F6",
+        "inputCursor": "#3B82F6",
+        "inputPlaceholder": "#6B7280",
+        "inputText": "#F9FAFB",
+        "optionSelected": "#3B82F6",
+        "optionSelectedBackground": "#1E3A5F",
+        "optionText": "#E5E7EB",
+        "optionTextDim": "#9CA3AF",
+        "question": "#F9FAFB",
+      },
+      "separator": {
+        "line": "#374151",
+        "text": "#6B7280",
+      },
+      "sidebar": {
+        "background": undefined,
+        "badge": "#3B82F6",
+        "border": "#374151",
+        "focusBorder": "#3B82F6",
+        "hoverBackground": "#374151",
+        "selectedBackground": "#1F293780",
+        "text": "#E5E7EB",
+        "textDim": "#6B7280",
+      },
+      "statusIndicators": {
+        "fail": {
+          "color": "#EF4444",
+          "icon": "✗",
+        },
+        "pending": {
+          "color": "#F59E0B",
+          "icon": "◐",
+        },
+        "success": {
+          "color": "#22C55E",
+          "icon": "✓",
+        },
+        "waiting": {
+          "color": "#6B7280",
+          "icon": "○",
+        },
+      },
+      "table": {
+        "background": "#3B82F615",
+        "border": "#3B82F6",
+        "cellText": "#E5E7EB",
+        "headerText": "#F9FAFB",
+        "separator": "#3B82F650",
+        "title": "#F9FAFB",
+      },
+    }
+  }
+>
+  <LogMessage
+    level="verbose"
+    trace="    at someFunction (file.ts:10:5)\\n    at main (index.ts:1:1)"
+  >
+    Message with trace
+  </LogMessage>
+</LoggerProvider>
+`;
