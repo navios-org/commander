@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "@navios/commander-tui": "workspace:*",
-    "@navios/core": "workspace:*"
+    "@navios/core": "^1.0.0"
   }
 }

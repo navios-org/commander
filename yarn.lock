@@ -1426,6 +1426,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@examples/commander-tui@workspace:examples/commander-tui":
+  version: 0.0.0-use.local
+  resolution: "@examples/commander-tui@workspace:examples/commander-tui"
+  dependencies:
+    "@navios/commander": "workspace:*"
+    "@navios/commander-tui": "workspace:*"
+    "@navios/core": "npm:^1.0.0"
+    typescript: "npm:^5.9.3"
+    zod: "npm:^4.3.5"
+  languageName: unknown
+  linkType: soft
+
 "@examples/tui@workspace:examples/tui":
   version: 0.0.0-use.local
   resolution: "@examples/tui@workspace:examples/tui"
@@ -1924,7 +1936,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@navios/commander@workspace:packages/commander":
+"@navios/commander@workspace:*, @navios/commander@workspace:packages/commander":
   version: 0.0.0-use.local
   resolution: "@navios/commander@workspace:packages/commander"
   dependencies:
@@ -1934,7 +1946,11 @@ __metadata:
     typescript: "npm:^5.9.3"
     zod: "npm:^4.3.5"
   peerDependencies:
+    "@navios/commander-tui": ^1.0.0
     zod: ^4.0.0
+  peerDependenciesMeta:
+    "@navios/commander-tui":
+      optional: true
   languageName: unknown
   linkType: soft
 
