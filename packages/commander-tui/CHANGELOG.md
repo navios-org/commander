@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-01-10
+
+### Added
+
+- **Static screen status** - New `static` status for screens that persist without affecting auto-close behavior
+- **Static screen option** - `static: boolean` option in screen configuration to mark screens as static
+- **Logger setup method** - Added `setup()` method to console logger override for configuring log levels
+
+### Changed
+
+- **Auto-close behavior** - Static screens are now excluded from auto-close calculations. Auto-close triggers when all non-static screens succeed, or after delay if only static screens exist
+- **Console logger screen** - Default console logger screen renamed from 'default' to 'internal' and marked as static
+- **Auto-close timer** - Timer now resets on any screen activity via `notifyChange()`
+
+### Fixed
+
+- **Theme consistency** - Added `static` status indicator to all themes (dark, light, high-contrast)
+
 ## [1.0.0] - 2025-01-10
 
 ### Added

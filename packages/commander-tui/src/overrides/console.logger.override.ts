@@ -3,11 +3,13 @@ import {
   Injectable,
   LoggerOutput,
   type ClassTypeWithInstance,
+  type LoggerOptions,
   type LoggerService,
   type LogLevel,
 } from '@navios/core'
 
 import { ScreenLogger } from '../tokens/index.ts'
+import { ALL_LOG_LEVELS } from '../types/index.ts'
 
 export function overrideConsoleLogger(
   hidden: boolean = false,
@@ -22,11 +24,16 @@ export function overrideConsoleLogger(
   class ConsoleLoggerOverride implements LoggerService {
     protected readonly logger = inject(ScreenLogger, {
       screen: {
-        name: 'default',
+        name: 'internal',
         icon: '💻',
         hidden,
+        static: true,
       },
     })
+
+    setup(options: LoggerOptions & { logLevels: LogLevel[] }): void {
+      this.logger.setLogLevels(options.logLevels ?? ALL_LOG_LEVELS)
+    }
 
     log(message: string): void {
       this.logger.log(message)

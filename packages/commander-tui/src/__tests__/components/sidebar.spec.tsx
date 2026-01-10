@@ -200,6 +200,23 @@ describe('Sidebar', () => {
 
       expect(component).toMatchSnapshot()
     })
+
+    it('should render static status', () => {
+      const screens = [createMockScreen({ id: '1', name: 'Static', status: 'static' })]
+
+      const component = wrapWithContext(
+        <Sidebar
+          screens={screens}
+          selectedIndex={0}
+          activeScreenId="1"
+          focused={true}
+          width={30}
+          title="Screens"
+        />,
+      )
+
+      expect(component).toMatchSnapshot()
+    })
   })
 
   describe('badge counts', () => {

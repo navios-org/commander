@@ -138,6 +138,10 @@ exports[`ProgressMessage > complete state > should render complete state 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -311,6 +315,10 @@ exports[`ProgressMessage > complete state > should show resolved content when co
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -487,6 +495,10 @@ exports[`ProgressMessage > failed state > should render failed state 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -660,6 +672,10 @@ exports[`ProgressMessage > failed state > should show error content when failed 
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -836,6 +852,10 @@ exports[`ProgressMessage > progress percentages > should handle non-100 totals 1
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1009,6 +1029,10 @@ exports[`ProgressMessage > progress percentages > should render progress at 0% 1
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1184,6 +1208,10 @@ exports[`ProgressMessage > progress percentages > should render progress at 50% 
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1357,6 +1385,10 @@ exports[`ProgressMessage > progress percentages > should render progress at 100%
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1532,6 +1564,10 @@ exports[`ProgressMessage > progress percentages > should render progress at arbi
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1705,6 +1741,10 @@ exports[`ProgressMessage > with label > should render with label 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",

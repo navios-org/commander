@@ -68,6 +68,10 @@ export const lightTheme: Theme = {
       icon: '✗',
       color: '#DC2626', // Red-600
     },
+    static: {
+      icon: '●',
+      color: '#2563EB', // Blue-600
+    },
   },
 
   separator: {

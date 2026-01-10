@@ -74,6 +74,10 @@ export const highContrastTheme: Theme = {
       icon: '✗',
       color: '#EF4444', // Red-500
     },
+    static: {
+      icon: '●',
+      color: '#00FFFF', // Cyan for high visibility
+    },
   },
 
   separator: {

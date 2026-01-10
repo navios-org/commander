@@ -43,6 +43,9 @@ export class ScreenInstance {
     this.icon = options.icon
     this.badgeCount = options.badgeCount ?? 0
     this.hidden = options.hidden ?? false
+    if (options.static) {
+      this.status = 'static'
+    }
   }
 
   incrementVersion(): void {

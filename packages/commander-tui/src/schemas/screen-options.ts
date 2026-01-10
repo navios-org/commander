@@ -9,6 +9,8 @@ export const ScreenOptionsSchema = z.object({
   badgeCount: z.number().optional(),
   /** Whether the screen is hidden */
   hidden: z.boolean().optional().default(false),
+  /** Whether the screen is static (ignored in auto-close calculations) */
+  static: z.boolean().optional().default(false),
 })
 
 export type ScreenOptions = z.infer<typeof ScreenOptionsSchema>

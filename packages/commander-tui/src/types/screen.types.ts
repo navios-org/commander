@@ -108,7 +108,7 @@ export interface LoggerContextValue {
 // Screen Service Types
 // ============================================
 
-export type ScreenStatus = 'waiting' | 'pending' | 'success' | 'fail'
+export type ScreenStatus = 'waiting' | 'pending' | 'success' | 'fail' | 'static'
 
 export interface BindOptions {
   exitOnCtrlC?: boolean

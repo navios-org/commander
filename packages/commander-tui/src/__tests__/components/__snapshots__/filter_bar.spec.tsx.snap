@@ -138,6 +138,10 @@ exports[`FilterBar > combined states > should render with search query and disab
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -321,6 +325,10 @@ exports[`FilterBar > level counts > should not show counts when zero 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -510,6 +518,10 @@ exports[`FilterBar > level counts > should render level counts 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -697,6 +709,10 @@ exports[`FilterBar > level counts > should truncate high counts to 99+ 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -886,6 +902,10 @@ exports[`FilterBar > log level toggles > should render log level toggles 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1073,6 +1093,10 @@ exports[`FilterBar > log level toggles > should render with all levels enabled 1
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1262,6 +1286,10 @@ exports[`FilterBar > log level toggles > should render with only one level enabl
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1444,6 +1472,10 @@ exports[`FilterBar > log level toggles > should render with some levels disabled
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1629,6 +1661,10 @@ exports[`FilterBar > search input > should render levels focused state 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1818,6 +1854,10 @@ exports[`FilterBar > search input > should render search focused state 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2006,6 +2046,10 @@ exports[`FilterBar > search input > should render search input 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2193,6 +2237,10 @@ exports[`FilterBar > search input > should render with active search query 1`] =
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",

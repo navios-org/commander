@@ -52,6 +52,7 @@ export interface StatusIndicatorsTheme {
   pending: StatusIndicator
   success: StatusIndicator
   fail: StatusIndicator
+  static: StatusIndicator
 }
 
 /**

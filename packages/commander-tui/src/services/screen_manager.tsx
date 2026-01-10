@@ -244,33 +244,34 @@ export class ScreenManager {
       }
     }
 
-    // Check for auto-close
-    this.checkAutoClose()
-
     this.notifyChange()
   }
 
   /**
-   * Check if all screens are successful and start auto-close timer if enabled
+   * Check if all screens are successful (or only static) and start auto-close timer if enabled.
+   * Static screens are ignored in this calculation.
+   * If there are only static screens, the timer will trigger after the delay with no new activity.
    */
   private checkAutoClose(): void {
     const autoClose = this.bindOptions.autoClose
     if (!autoClose || !this.isBound) return
 
-    // Clear any existing timer
+    // Clear any existing timer (will be restarted if conditions are met)
     if (this.autoCloseTimer) {
       clearTimeout(this.autoCloseTimer)
       this.autoCloseTimer = null
     }
 
-    // Check if all screens are successful
-    const screens = this.getScreens()
-    if (screens.length === 0) return
+    // Get non-static screens
+    const nonStaticScreens = this.getScreens().filter((s) => s.getStatus() !== 'static')
 
-    const allSuccessful = screens.every((s) => s.getStatus() === 'success')
-    if (!allSuccessful) return
+    // If there are non-static screens, check if all are successful
+    if (nonStaticScreens.length > 0) {
+      const allSuccessful = nonStaticScreens.every((s) => s.getStatus() === 'success')
+      if (!allSuccessful) return
+    }
 
-    // Start auto-close timer
+    // Start auto-close timer (either all non-static screens succeeded, or only static screens exist)
     const delay = typeof autoClose === 'number' ? autoClose : 5000
     this.autoCloseTimer = setTimeout(() => {
       this.unbind()
@@ -376,6 +377,9 @@ export class ScreenManager {
   }
 
   private notifyChange(): void {
+    // Check auto-close on every change (resets timer if activity occurs)
+    this.checkAutoClose()
+
     // Notify listeners - React components will forceUpdate and re-render
     this.changeListeners.forEach((listener) => listener())
   }

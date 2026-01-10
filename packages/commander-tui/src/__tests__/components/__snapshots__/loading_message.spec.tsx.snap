@@ -138,6 +138,10 @@ exports[`LoadingMessage > fail state > should render fail state 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -310,6 +314,10 @@ exports[`LoadingMessage > fail state > should show error message when failed 1`]
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -484,6 +492,10 @@ exports[`LoadingMessage > loading state > should render loading state 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -656,6 +668,10 @@ exports[`LoadingMessage > loading state > should render loading with custom cont
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -827,6 +843,10 @@ exports[`LoadingMessage > success state > should fall back to original content i
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1001,6 +1021,10 @@ exports[`LoadingMessage > success state > should render success state 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1174,6 +1198,10 @@ exports[`LoadingMessage > success state > should show resolved content when succ
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1346,6 +1374,10 @@ exports[`LoadingMessage > with timestamp > should include timestamp in all state
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",

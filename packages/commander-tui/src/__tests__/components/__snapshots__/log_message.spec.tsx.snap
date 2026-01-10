@@ -138,6 +138,10 @@ exports[`LogMessage > border styles > should render with thick border style 1`] 
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -304,6 +308,10 @@ exports[`LogMessage > border styles > should render with thin border style (defa
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -472,6 +480,10 @@ exports[`LogMessage > renders log levels > should render debug level 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -637,6 +649,10 @@ exports[`LogMessage > renders log levels > should render error level 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -804,6 +820,10 @@ exports[`LogMessage > renders log levels > should render fatal level 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -969,6 +989,10 @@ exports[`LogMessage > renders log levels > should render log level 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1136,6 +1160,10 @@ exports[`LogMessage > renders log levels > should render verbose level 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1302,6 +1330,10 @@ exports[`LogMessage > renders log levels > should render warn level 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1467,6 +1499,10 @@ exports[`LogMessage > variants > should render with success variant 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1635,6 +1671,10 @@ exports[`LogMessage > variants > should render with trace variant 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1801,6 +1841,10 @@ exports[`LogMessage > with custom colors > should render with custom backgroundC
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1969,6 +2013,10 @@ exports[`LogMessage > with custom colors > should render with custom borderColor
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2136,6 +2184,10 @@ exports[`LogMessage > with label > should render with label 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2302,6 +2354,10 @@ exports[`LogMessage > with label > should render with label and timestamp 1`] = 
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -2471,6 +2527,10 @@ exports[`LogMessage > with padding and margin > should render with custom margin
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2637,6 +2697,10 @@ exports[`LogMessage > with padding and margin > should render with custom paddin
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -2805,6 +2869,10 @@ exports[`LogMessage > with timestamp > should render with Date timestamp 1`] = `
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2972,6 +3040,10 @@ exports[`LogMessage > with timestamp > should render with string timestamp 1`] =
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -3138,6 +3210,10 @@ exports[`LogMessage > with trace content > should render with trace 1`] = `
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",

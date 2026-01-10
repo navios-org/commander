@@ -138,6 +138,10 @@ exports[`PromptRenderer > choice prompt > should render choice prompt with optio
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -328,6 +332,10 @@ exports[`PromptRenderer > choice prompt > should render choice with input mode 1
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -515,6 +523,10 @@ exports[`PromptRenderer > choice prompt > should render choice with timeout 1`] 
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -698,6 +710,10 @@ exports[`PromptRenderer > choice prompt > should render resolved choice prompt 1
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -885,6 +901,10 @@ exports[`PromptRenderer > choice prompt > should render selected option highligh
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1076,6 +1096,10 @@ exports[`PromptRenderer > confirm prompt > should render confirm prompt (Yes/No)
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1251,6 +1275,10 @@ exports[`PromptRenderer > confirm prompt > should render resolved confirm prompt
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1429,6 +1457,10 @@ exports[`PromptRenderer > confirm prompt > should render with No selected 1`] = 
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1604,6 +1636,10 @@ exports[`PromptRenderer > confirm prompt > should render with custom button labe
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -1781,6 +1817,10 @@ exports[`PromptRenderer > input prompt > should render input prompt with placeho
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -1955,6 +1995,10 @@ exports[`PromptRenderer > input prompt > should render input with entered value 
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -2131,6 +2175,10 @@ exports[`PromptRenderer > input prompt > should render resolved input prompt 1`]
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2306,6 +2354,10 @@ exports[`PromptRenderer > multiChoice prompt > should render multiChoice with ch
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -2496,6 +2548,10 @@ exports[`PromptRenderer > multiChoice prompt > should render resolved multiChoic
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",
@@ -2690,6 +2746,10 @@ exports[`PromptRenderer > multiChoice prompt > should render with some options s
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -2883,6 +2943,10 @@ exports[`PromptRenderer > multiChoice prompt > should show minSelect warning whe
           "color": "#F59E0B",
           "icon": "◐",
         },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
+        },
         "success": {
           "color": "#22C55E",
           "icon": "✓",
@@ -3074,6 +3138,10 @@ exports[`PromptRenderer > multiChoice prompt > should show selection count 1`] =
         "pending": {
           "color": "#F59E0B",
           "icon": "◐",
+        },
+        "static": {
+          "color": "#3B82F6",
+          "icon": "●",
         },
         "success": {
           "color": "#22C55E",

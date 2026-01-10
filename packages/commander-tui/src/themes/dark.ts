@@ -69,6 +69,10 @@ export const darkTheme: Theme = {
       icon: '✗',
       color: '#EF4444', // Red-500
     },
+    static: {
+      icon: '●',
+      color: '#3B82F6', // Blue-500
+    },
   },
 
   separator: {
