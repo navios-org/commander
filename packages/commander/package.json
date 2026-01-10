@@ -8,7 +8,7 @@
   "repository": {
     "directory": "packages/commander",
     "type": "git",
-    "url": "https://github.com/Arilas/navios.git"
+    "url": "https://github.com/navios-org/commander.git"
   },
   "license": "MIT",
   "peerDependencies": {
@@ -30,11 +30,12 @@
     }
   },
   "devDependencies": {
+    "@navios/builder": "^1.0.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "zod": "^4.3.5"
   },
   "dependencies": {
-    "@navios/core": "workspace:^"
+    "@navios/core": "^1.0.0"
   }
 }
