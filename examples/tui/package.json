@@ -1,0 +1,17 @@
+{
+  "name": "@examples/tui",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "bun src/index.ts",
+    "basic": "bun src/index.ts basic",
+    "progress": "bun src/index.ts progress",
+    "prompt": "bun src/index.ts prompt",
+    "multi": "bun src/index.ts multi",
+    "tables": "bun src/index.ts tables"
+  },
+  "dependencies": {
+    "@navios/commander-tui": "workspace:*",
+    "@navios/core": "workspace:*"
+  }
+}

@@ -2,11 +2,11 @@
   "name": "@navios/commander-mono",
   "packageManager": "yarn@4.12.0",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "private": true,
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@navios/builder": "^1.0.0",
     "@nx/js": "21.5.2",
     "@nx/workspace": "22.3.3",
@@ -14,8 +14,8 @@
     "@types/node": "25.0.3",
     "@vitest/coverage-v8": "^4.0.16",
     "nx": "21.5.2",
+    "oxfmt": "^0.23.0",
     "oxlint": "^1.38.0",
-    "prettier": "^3.7.4",
     "tsdown": "^0.18.4",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
