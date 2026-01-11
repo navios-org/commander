@@ -68,7 +68,7 @@ export class ScreenLoggerInstance implements LoggerService {
   }
 
   trace(msg: string | object, label?: string): this {
-    const trace = captureTrace()
+    const trace = captureTrace(1)
     return this.write('verbose', msg, label, trace, 'trace')
   }
 

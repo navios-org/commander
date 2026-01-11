@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-11
+
+### Added
+
+- **Isomorphic Logger** - New `IsomorphicLogger` token and factory for unified logging across TUI and server environments
+  - `IsomorphicLoggerInterface` type that works with both `ScreenLogger` (TUI) and standard `Logger` (server)
+  - `IsomorphicLoggerFactory` automatically selects the appropriate logger based on TUI availability
+- **Interfaces Export** - New `interfaces` module export for public type definitions
+
+### Changed
+
+- **Mouse Support Default** - `useMouse` option now defaults to `true` (previously `false`)
+
+### Fixed
+
+- **Stack Trace Capture** - Improved `captureTrace()` to dynamically find the correct stack frame offset, ensuring accurate trace output regardless of call depth
+
 ## [1.1.0] - 2026-01-10
 
 ### Added

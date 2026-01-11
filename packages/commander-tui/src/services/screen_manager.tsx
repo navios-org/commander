@@ -101,7 +101,7 @@ export class ScreenManager {
     this.renderer = await createCliRenderer({
       exitOnCtrlC: options?.exitOnCtrlC ?? true,
       useAlternateScreen: true,
-      useMouse: options?.useMouse ?? false,
+      useMouse: options?.useMouse ?? true,
     })
 
     this.root = createRoot(this.renderer)

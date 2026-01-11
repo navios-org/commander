@@ -99,6 +99,33 @@ logger.fatal('Fatal error')
 logger.log('Step 1').log('Step 2').success('Done!')
 ```
 
+### IsomorphicLogger
+
+A unified logger that automatically switches between `ScreenLogger` (TUI mode) and standard `Logger` (server mode) based on the environment. This is useful when writing code that needs to work both in TUI and non-TUI contexts.
+
+```typescript
+import { IsomorphicLogger } from '@navios/commander-tui'
+import { inject, Injectable } from '@navios/core'
+
+@Injectable()
+class MyService {
+  // Will use ScreenLogger when TUI is bound, otherwise standard Logger
+  private logger = inject(IsomorphicLogger, { context: 'MyService' })
+
+  doWork() {
+    this.logger.log('Processing...')
+    this.logger.debug('Debug info')
+    this.logger.error('Something went wrong')
+  }
+}
+```
+
+The `IsomorphicLoggerFactory` checks if the `ScreenManager` has an active TUI binding:
+- **TUI bound**: Returns a `ScreenLogger` instance with full TUI features
+- **TUI not bound**: Returns a standard `Logger` instance for console output
+
+This makes it easy to write services that can be used in both CLI tools with TUI and background server processes.
+
 #### Loading Indicators
 
 ```typescript

@@ -43,10 +43,11 @@ export function formatObject(obj: unknown, depth: number = 2, currentDepth: numb
 /**
  * Capture a stack trace, filtering out internal frames
  */
-export function captureTrace(): string {
+export function captureTrace(offset: number = 0): string {
   const err = new Error()
   const stack = err.stack ?? ''
   const lines = stack.split('\n')
+  const begin = lines.findIndex((line) => line.includes('captureTrace'))
   // Skip the first 4 lines: Error, captureTrace, trace method, and the log method
-  return lines.slice(4).join('\n')
+  return lines.slice(begin !== -1 ? begin + 1 + offset : 4).join('\n')
 }

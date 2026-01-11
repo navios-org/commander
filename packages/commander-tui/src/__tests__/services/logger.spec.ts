@@ -1,12 +1,14 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { TestContainer } from '@navios/core/testing'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+import type { LogLevel } from '@navios/core'
 
 import { ScreenLoggerInstance } from '../../services/logger.ts'
 import { Screen } from '../../tokens/index.ts'
 import { createMockScreenInstance } from '../utils/factories.ts'
 
+import type { ScreenInstance } from '../../index.js'
 import type { MockScreenInstance } from '../utils/factories.ts'
-import type { LogLevel } from '@navios/core'
 
 describe('ScreenLoggerInstance', () => {
   let container: TestContainer
@@ -17,7 +19,7 @@ describe('ScreenLoggerInstance', () => {
   beforeEach(() => {
     container = new TestContainer()
     mockScreen = createMockScreenInstance()
-    container.bind(Screen).toValue(mockScreen)
+    container.bind(Screen).toValue(mockScreen as unknown as ScreenInstance)
   })
 
   afterEach(async () => {

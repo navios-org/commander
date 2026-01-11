@@ -119,6 +119,6 @@ export interface BindOptions {
   autoClose?: boolean | number
   /** Theme to use for the TUI (theme object or preset name) */
   theme?: Theme | ThemePreset
-  /** Enable mouse support (default: false) */
+  /** Enable mouse support (default: true) */
   useMouse?: boolean
 }
