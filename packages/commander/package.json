@@ -1,6 +1,6 @@
 {
   "name": "@navios/commander",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Oleksandr Hanzha",
     "email": "alex@granted.name"
@@ -32,6 +32,16 @@
       "require": {
         "types": "./lib/index.d.cts",
         "default": "./lib/index.cjs"
+      }
+    },
+    "./legacy-compat": {
+      "import": {
+        "types": "./lib/legacy-compat/index.d.mts",
+        "default": "./lib/legacy-compat/index.mjs"
+      },
+      "require": {
+        "types": "./lib/legacy-compat/index.d.cts",
+        "default": "./lib/legacy-compat/index.cjs"
       }
     }
   },

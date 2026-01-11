@@ -312,6 +312,28 @@ CLI adapter interface returned by `app.getAdapter()`.
 - `async executeCommand(path, options?)` - Executes a command programmatically with options
 - `getAllCommands()` - Returns all registered commands
 
+## Legacy Decorator Support
+
+If your project uses TypeScript experimental decorators (legacy mode), you can import from the `legacy-compat` subpath:
+
+```typescript
+import { Command, CliModule, CommandHandler } from '@navios/commander/legacy-compat'
+
+@Command({ path: 'greet' })
+export class GreetCommand implements CommandHandler {
+  async execute() {
+    console.log('Hello!')
+  }
+}
+
+@CliModule({
+  commands: [GreetCommand],
+})
+export class AppModule {}
+```
+
+This provides wrapper decorators that convert the legacy decorator API to Stage 3 format internally, allowing you to use the same decorator syntax while maintaining compatibility with older TypeScript configurations.
+
 ## License
 
 MIT
