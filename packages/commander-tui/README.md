@@ -1,9 +1,10 @@
 # @navios/commander-tui
 
-A powerful terminal user interface (TUI) library for building beautiful CLI applications with React. Built on top of [@opentui/react](https://github.com/nicepkg/opentui), it provides a high-level API for logging, prompts, progress indicators, and multi-screen management.
+A powerful terminal user interface (TUI) library for building beautiful CLI applications. Built on top of [@opentui](https://github.com/nicepkg/opentui), it provides a high-level API for logging, prompts, progress indicators, and multi-screen management with support for both React and Solid.js frameworks.
 
 ## Features
 
+- **Framework Agnostic** - Choose between React or Solid.js adapters for rendering
 - **Rich Logging** - Multiple log levels (log, debug, warn, error, success, trace, fatal) with contextual labels
 - **Interactive Prompts** - Confirm, choice, multi-choice, and text input prompts
 - **Progress Indicators** - Loading spinners and progress bars with manual or promise-based resolution
@@ -19,6 +20,12 @@ A powerful terminal user interface (TUI) library for building beautiful CLI appl
 npm install @navios/commander-tui @navios/core
 # or
 yarn add @navios/commander-tui @navios/core
+```
+
+For Solid.js support, also install:
+
+```bash
+npm install solid-js
 ```
 
 ## Quick Start
@@ -296,6 +303,40 @@ Three built-in themes are available:
 ```typescript
 await screenManager.bind({ theme: 'high-contrast' })
 ```
+
+## Framework Adapters
+
+The TUI library supports multiple rendering frameworks through adapters. By default, React is used, but you can switch to Solid.js for potentially better performance.
+
+### Using with @navios/commander
+
+When using with `@navios/commander`, specify the adapter in the TUI options:
+
+```typescript
+import { CommanderFactory } from '@navios/commander'
+
+const app = await CommanderFactory.create(AppModule, {
+  enableTUI: true,
+  tuiOptions: {
+    adapter: 'react', // 'react' (default) or 'solid'
+    theme: 'dark',
+  },
+})
+```
+
+### Direct Adapter Import
+
+For standalone usage, import the adapter directly:
+
+```typescript
+// React adapter (default)
+import '@navios/commander-tui/adapters/react'
+
+// Or Solid.js adapter
+import '@navios/commander-tui/adapters/solid'
+```
+
+The adapter must be imported before using any TUI services. It registers the framework-specific components with the dependency injection container.
 
 ## License
 

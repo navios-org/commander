@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { FilterBar } from '../../components/filter/filter_bar.tsx'
+import { FilterBar } from '../../adapters/react/components/filter/filter_bar.tsx'
 import { createFilterState } from '../utils/factories.ts'
 import { wrapWithContext } from '../utils/render-utils.tsx'
 

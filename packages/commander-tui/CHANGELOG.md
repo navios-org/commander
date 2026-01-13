@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-13
+
+### Added
+
+- **Framework Adapter Architecture** - TUI components are now framework-agnostic with dedicated adapters
+  - New `TuiAdapterInterface` for framework-agnostic TUI rendering
+  - `@navios/commander-tui/adapters/react` - React adapter (default, uses @opentui/react)
+  - `@navios/commander-tui/adapters/solid` - Solid.js adapter (optional, uses @opentui/solid)
+- **Solid.js Support** - Full Solid.js implementation of all TUI components
+  - All components ported: Sidebar, Screen, Log, Prompt, Filter, Help, File display
+  - SolidJS-specific patterns with reactive signals and proper type narrowing
+  - Optional peer dependency on `solid-js`
+- **Adapter Token** - New `TuiAdapterToken` for injecting the active TUI adapter
+- **Screen Manager Token** - New `ScreenManagerToken` for service injection
+
+### Changed
+
+- **Component Organization** - Components moved from `src/components/` to `src/adapters/react/components/`
+- **Context Organization** - Context providers moved to `src/adapters/react/context/`
+- **Hooks Organization** - Hooks moved to `src/adapters/react/hooks/`
+- **Screen Manager** - Refactored to use adapter interface instead of direct React rendering
+- **Build Configuration** - Separate TypeScript configs for React and Solid builds
+
+### Fixed
+
+- **Type Safety** - Solid adapter uses proper SolidJS type narrowing patterns instead of `as any` casts
+
 ## [1.2.0] - 2026-01-11
 
 ### Added

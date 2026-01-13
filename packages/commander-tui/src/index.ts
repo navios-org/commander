@@ -67,3 +67,8 @@ export * from './keyboard/index.ts'
 // Filter
 // ============================================
 export * from './filter/index.ts'
+
+// ============================================
+// Adapters (interface only - import adapters/react for implementation)
+// ============================================
+export * from './adapters/index.ts'

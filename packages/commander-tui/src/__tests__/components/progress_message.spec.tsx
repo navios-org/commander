@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ProgressMessage } from '../../components/screen/progress_message.tsx'
+import { ProgressMessage } from '../../adapters/react/components/screen/progress_message.tsx'
 import { createProgressMessage } from '../utils/factories.ts'
 import { wrapWithContext } from '../utils/render-utils.tsx'
 

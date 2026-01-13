@@ -1,0 +1,31 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/base",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "declaration": true,
+    "composite": true
+  },
+  "include": [
+    "src/types/**/*",
+    "src/utils/**/*",
+    "src/themes/**/*",
+    "src/tokens/**/*",
+    "src/services/**/*",
+    "src/schemas/**/*",
+    "src/filter/**/*",
+    "src/keyboard/**/*",
+    "src/interfaces/**/*",
+    "src/factories/**/*",
+    "src/context/**/*",
+    "src/hooks/**/*",
+    "src/components/**/*",
+    "src/overrides/**/*",
+    "src/adapters/index.ts",
+    "src/adapters/interface.ts",
+    "src/index.ts"
+  ],
+  "exclude": ["src/**/*.spec.ts", "src/**/*.spec.tsx"]
+}

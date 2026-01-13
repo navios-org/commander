@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { LogMessage } from '../../components/log/log_message.tsx'
+import { LogMessage } from '../../adapters/react/components/log/log_message.tsx'
 import { wrapWithContext } from '../utils/render-utils.tsx'
 
 import type { LogLevel } from '@navios/core'

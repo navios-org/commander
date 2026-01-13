@@ -1,4 +1,4 @@
-import { LoggerProvider } from '../../context/index.ts'
+import { LoggerProvider } from '../../adapters/react/context/index.ts'
 import { darkTheme } from '../../themes/index.ts'
 
 import type { ReactNode } from 'react'

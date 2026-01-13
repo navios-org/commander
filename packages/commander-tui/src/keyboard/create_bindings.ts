@@ -1,11 +1,11 @@
-import type { ScreenInstance, ScreenManager } from '../services/index.ts'
+import type { ScreenInstance, ScreenManagerInstance } from '../services/index.ts'
 import type { KeyBinding, KeyboardContext, KeyEvent } from '../types/index.ts'
 
 /**
  * Interface for binding handlers that need manager/screen access.
  */
 export interface BindingHandlers {
-  manager: ScreenManager
+  manager: ScreenManagerInstance
   getActiveScreen: () => ScreenInstance | null
   toggleHelp: () => void
   toggleFilter: () => void

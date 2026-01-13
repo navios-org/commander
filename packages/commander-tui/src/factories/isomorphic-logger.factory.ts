@@ -1,7 +1,6 @@
 import { Factory, inject, Logger, type FactoryContext } from '@navios/core'
 
-import { ScreenManager } from '../services/screen_manager.js'
-import { IsomorphicLogger, ScreenLogger } from '../tokens/logger.js'
+import { IsomorphicLogger, ScreenLogger, ScreenManager } from '../tokens/index.ts'
 
 import type { IsomorphicLoggerInterface } from '../interfaces/isomorphic-logger.js'
 import type { LoggerOptions } from '../schemas/index.js'

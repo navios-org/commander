@@ -3,8 +3,8 @@ import { Factory, inject } from '@navios/core'
 import type { FactoryContext } from '@navios/core'
 
 import { type ScreenOptions } from '../schemas/index.ts'
-import { ScreenInstance, ScreenManager } from '../services/index.ts'
-import { Screen } from '../tokens/index.ts'
+import { ScreenInstance } from '../services/index.ts'
+import { Screen, ScreenManager } from '../tokens/index.ts'
 
 @Factory({
   token: Screen,

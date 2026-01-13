@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { LoadingMessage } from '../../components/screen/loading_message.tsx'
+import { LoadingMessage } from '../../adapters/react/components/screen/loading_message.tsx'
 import { createLoadingMessage } from '../utils/factories.ts'
 import { wrapWithContext } from '../utils/render-utils.tsx'
 

@@ -8,9 +8,9 @@
   "targets": {
     "check": {
       "executor": "nx:run-commands",
-      "inputs": ["^projectSources", "projectSources", "{projectRoot}/tsconfig.json"],
+      "inputs": ["^projectSources", "projectSources", "{projectRoot}/tsconfig.json", "{projectRoot}/tsconfig.base.json", "{projectRoot}/tsconfig.react.json", "{projectRoot}/tsconfig.solid.json"],
       "options": {
-        "command": ["tsc --noEmit"],
+        "command": "tsc --build",
         "cwd": "packages/commander-tui"
       }
     },

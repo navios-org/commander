@@ -1,15 +1,3 @@
-// Log components
-export * from './log/index.ts'
-
-// File components
-export * from './file/index.ts'
-
-// Prompt components
-export * from './prompt/index.ts'
-
-// Screen components
-export * from './screen/index.ts'
-export * from './sidebar/index.ts'
-
-// Main bridge
-export * from './screen_manager_bridge.tsx'
+// Components have been moved to adapters/react/components/
+// This file is kept for backwards compatibility but exports nothing.
+// Import components from '@navios/commander-tui/adapters/react' instead.

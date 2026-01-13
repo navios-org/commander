@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { PromptRenderer } from '../../components/prompt/prompt_renderer.tsx'
+import { PromptRenderer } from '../../adapters/react/components/prompt/prompt_renderer.tsx'
 import {
   createChoicePrompt,
   createConfirmPrompt,

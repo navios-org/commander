@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/react",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@opentui/react",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "declaration": true,
+    "composite": true
+  },
+  "include": ["src/adapters/react/**/*"],
+  "exclude": ["src/**/*.spec.ts", "src/**/*.spec.tsx"],
+  "references": [{ "path": "./tsconfig.base.json" }]
+}

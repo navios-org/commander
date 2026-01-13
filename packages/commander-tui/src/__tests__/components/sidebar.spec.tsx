@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { Sidebar } from '../../components/sidebar/sidebar.tsx'
+import { Sidebar } from '../../adapters/react/components/sidebar/sidebar.tsx'
 import { wrapWithContext } from '../utils/render-utils.tsx'
 
 import type { ScreenInstance } from '../../services/screen.ts'

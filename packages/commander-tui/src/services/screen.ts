@@ -11,7 +11,7 @@ import type {
   ScreenStatus,
 } from '../types/index.ts'
 
-import type { ScreenManager } from './screen_manager.tsx'
+import type { ScreenManagerInstance } from './screen_manager.ts'
 
 interface PendingPrompt {
   data: PromptData
@@ -27,7 +27,7 @@ export class ScreenInstance {
   private status: ScreenStatus = 'waiting'
   private hidden: boolean = false
   private messages: MessageData[] = []
-  private manager: ScreenManager | null = null
+  private manager: ScreenManagerInstance | null = null
   private changeListeners: Set<() => void> = new Set()
   private printFn: ((messages: MessageData[], name: string, isError: boolean) => void) | null = null
   private hasPrinted: boolean = false
@@ -59,7 +59,7 @@ export class ScreenInstance {
   /**
    * Internal: Set the manager reference
    */
-  _setManager(manager: ScreenManager): void {
+  _setManager(manager: ScreenManagerInstance): void {
     this.manager = manager
   }
 
