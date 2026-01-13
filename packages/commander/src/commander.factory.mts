@@ -63,6 +63,11 @@ export interface CommanderTuiOptions {
    */
   exitOnCtrlC?: boolean
   /**
+   * Adapter to use for the TUI.
+   * @default 'react'
+   */
+  adapter?: 'react' | 'solid'
+  /**
    * Sidebar width in columns.
    */
   sidebarWidth?: number
@@ -178,6 +183,11 @@ export class CommanderFactory {
     options: CommanderFactoryOptions = {},
   ): Promise<NaviosApplication<CliEnvironment>> {
     if (options.enableTUI) {
+      if (options.tuiOptions?.adapter === 'solid') {
+        await import('@navios/commander-tui/adapters/solid')
+      } else {
+        await import('@navios/commander-tui/adapters/react')
+      }
       // Dynamic import to keep commander-tui as optional peer dependency
       let tuiModule: typeof import('@navios/commander-tui')
       try {

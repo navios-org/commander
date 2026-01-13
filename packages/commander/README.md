@@ -312,6 +312,56 @@ CLI adapter interface returned by `app.getAdapter()`.
 - `async executeCommand(path, options?)` - Executes a command programmatically with options
 - `getAllCommands()` - Returns all registered commands
 
+## TUI Mode
+
+Commander supports an optional Terminal User Interface (TUI) mode for rich, interactive CLI experiences.
+
+### Enabling TUI
+
+```typescript
+import { CommanderFactory } from '@navios/commander'
+
+const app = await CommanderFactory.create(AppModule, {
+  enableTUI: true,
+  tuiOptions: {
+    theme: 'dark',
+    autoClose: { enabled: true, delay: 3000 },
+  },
+})
+```
+
+### Choosing a Framework Adapter
+
+The TUI supports both React and Solid.js rendering frameworks:
+
+```typescript
+const app = await CommanderFactory.create(AppModule, {
+  enableTUI: true,
+  tuiOptions: {
+    adapter: 'react', // 'react' (default) or 'solid'
+    theme: 'dark',
+  },
+})
+```
+
+For Solid.js support, install the optional dependency:
+
+```bash
+npm install solid-js
+```
+
+### TUI Options
+
+- `adapter` - Framework adapter: `'react'` (default) or `'solid'`
+- `theme` - Theme preset: `'dark'`, `'light'`, or `'high-contrast'`
+- `exitOnCtrlC` - Exit on Ctrl+C (default: `true`)
+- `sidebarWidth` - Sidebar width in columns
+- `sidebarPosition` - Sidebar position: `'left'` or `'right'`
+- `sidebarTitle` - Sidebar title text
+- `autoClose` - Auto-close configuration with `enabled` and `delay`
+- `useMouse` - Enable mouse support (default: `true`)
+- `hideDefaultScreen` - Hide the default screen
+
 ## Legacy Decorator Support
 
 If your project uses TypeScript experimental decorators (legacy mode), you can import from the `legacy-compat` subpath:
