@@ -1,0 +1,4 @@
+preload = ["./bun-plugin.mts"]
+
+[test]
+preload = ["./src/__tests__/setup.ts"]
