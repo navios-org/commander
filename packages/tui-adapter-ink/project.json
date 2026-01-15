@@ -1,0 +1,60 @@
+{
+  "name": "@navios/tui-adapter-ink",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/tui-adapter-ink/src",
+  "prefix": "tui-adapter-ink",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "check": {
+      "executor": "nx:run-commands",
+      "inputs": ["^projectSources", "projectSources", "{projectRoot}/tsconfig.json"],
+      "options": {
+        "command": "tsc --build",
+        "cwd": "packages/tui-adapter-ink"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "inputs": ["^projectSources", "project"],
+      "options": {
+        "command": "oxlint --fix",
+        "cwd": "packages/tui-adapter-ink"
+      }
+    },
+    "test:ci": {
+      "executor": "nx:run-commands",
+      "inputs": ["^projectSources", "project"],
+      "options": {
+        "command": "vitest run",
+        "cwd": "packages/tui-adapter-ink"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "inputs": ["projectSources", "{projectRoot}/tsdown.config.mts"],
+      "outputs": ["{projectRoot}/lib"],
+      "dependsOn": ["check", "test:ci", "lint"],
+      "options": {
+        "command": "tsdown",
+        "cwd": "packages/tui-adapter-ink"
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "yarn npm publish --access public",
+        "cwd": "packages/tui-adapter-ink"
+      }
+    },
+    "publish:next": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "yarn npm publish --access public --tag next",
+        "cwd": "packages/tui-adapter-ink"
+      }
+    }
+  }
+}
