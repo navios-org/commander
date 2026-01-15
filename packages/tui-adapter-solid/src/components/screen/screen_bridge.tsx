@@ -76,15 +76,16 @@ export function ScreenBridge(props: ScreenBridgeProps) {
 
   // Subscribe to screen events to trigger re-render when messages change
   createEffect(() => {
+    const screen = props.screen
     const handleUpdate = () => setMessageVersion((v) => v + 1)
 
     for (const event of SCREEN_EVENTS) {
-      props.screen.on(event, handleUpdate)
+      screen.on(event, handleUpdate)
     }
 
     onCleanup(() => {
       for (const event of SCREEN_EVENTS) {
-        props.screen.off(event, handleUpdate)
+        screen.off(event, handleUpdate)
       }
     })
   })
