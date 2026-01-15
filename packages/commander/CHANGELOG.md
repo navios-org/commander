@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-01-15
+
+### Added
+
+- **Ink Adapter Support** - New `'ink'` adapter option for native terminal TUI rendering
+  - Uses Ink/React for true terminal UI with cursor control
+  - Automatically enables OpenTUI mode when Ink adapter is selected
+
+### Changed
+
+- **Adapter Default** - Default adapter changed from `'react'` to `'none'`
+- **External Adapter Packages** - TUI adapters are now loaded from separate packages:
+  - `@navios/tui-adapter-ink` - Ink/React terminal adapter
+  - `@navios/tui-adapter-react` - OpenTUI React web adapter
+  - `@navios/tui-adapter-solid` - OpenTUI Solid.js web adapter
+
 ## [1.3.0] - 2026-01-13
 
 ### Added

@@ -197,13 +197,16 @@ export class CommanderFactory {
         // Dynamic imports using Function constructor to bypass bundler static analysis
         tuiModule =
           await dynamicImport<typeof import('@navios/commander-tui')>('@navios/commander-tui')
+        // Load the appropriate adapter based on configuration
+        const adapter = options.tuiOptions?.adapter
         const isBun = tuiModule.isBunRuntime()
-        if (options.tuiOptions?.adapter === 'solid' && isBun) {
-          await dynamicImport('@navios/commander-tui/adapters/solid')
-        } else if (options.tuiOptions?.adapter === 'react' && isBun) {
-          await dynamicImport('@navios/commander-tui/adapters/react')
-        } else if (options.tuiOptions?.adapter === 'ink') {
-          await dynamicImport('@navios/commander-tui/adapters/ink')
+
+        if (adapter === 'ink') {
+          await dynamicImport('@navios/tui-adapter-ink')
+        } else if (adapter === 'solid' && isBun) {
+          await dynamicImport('@navios/tui-adapter-solid')
+        } else if (adapter === 'react' && isBun) {
+          await dynamicImport('@navios/tui-adapter-react')
         }
       } catch (error) {
         console.error(error)
@@ -230,6 +233,9 @@ export class CommanderFactory {
 
       // Get screen manager and bind TUI before returning
       const screenManager = await app.get(ScreenManager)
+      screenManager.setup({
+        logLevels: options.logLevels,
+      })
       await screenManager.bind({
         exitOnCtrlC: options.tuiOptions?.exitOnCtrlC,
         sidebarWidth: options.tuiOptions?.sidebarWidth,
