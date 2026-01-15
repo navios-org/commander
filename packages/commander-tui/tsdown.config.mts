@@ -39,7 +39,12 @@ const baseSwcConfig = {
 }
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/adapters/react/index.ts', 'src/adapters/solid/index.tsx'],
+  entry: [
+    'src/index.ts',
+    'src/adapters/react/index.ts',
+    'src/adapters/solid/index.tsx',
+    'src/adapters/ink/index.ts',
+  ],
   outDir: 'lib',
   format: ['esm', 'cjs'],
   clean: true,
@@ -48,11 +53,11 @@ export default defineConfig({
   platform: 'node',
   dts: true,
   target: 'es2022',
-  external: ['@opentui/core', '@opentui/react', 'react', '@navios/core'],
+  external: ['@opentui/core', '@opentui/react', 'react', '@navios/core', 'ink', 'ink-syntax-highlight', 'ink-virtual-list', 'fullscreen-ink'],
   alias: solidResolveAliases,
   noExternal: ['solid-js', 'solid-js/store', 'solid-js/web'],
   plugins: [
-    // React adapter JSX transform
+    // React adapter JSX transform (OpenTUI)
     withFilter(
       swc.rolldown({
         jsc: {
@@ -67,6 +72,36 @@ export default defineConfig({
         },
       }),
       { transform: { id: '**/adapters/react/**' } },
+    ),
+    // Ink adapter JSX transform (standard React)
+    withFilter(
+      swc.rolldown({
+        jsc: {
+          ...baseSwcConfig.jsc,
+          transform: {
+            ...baseSwcConfig.jsc.transform,
+            react: {
+              runtime: 'automatic',
+            },
+          },
+        },
+      }),
+      { transform: { id: '**/adapters/ink/**' } },
+    ),
+    // React-shared hooks JSX transform (standard React)
+    withFilter(
+      swc.rolldown({
+        jsc: {
+          ...baseSwcConfig.jsc,
+          transform: {
+            ...baseSwcConfig.jsc.transform,
+            react: {
+              runtime: 'automatic',
+            },
+          },
+        },
+      }),
+      { transform: { id: '**/adapters/react-shared/**' } },
     ),
     // Solid adapter JSX transform using babel-preset-solid
     withFilter(

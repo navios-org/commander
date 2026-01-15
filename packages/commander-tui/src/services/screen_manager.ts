@@ -109,19 +109,27 @@ export class ScreenManagerInstance implements OnServiceDestroy {
     const useOpenTUI = options?.useOpenTUI ?? isBunRuntime()
 
     if (useOpenTUI) {
-      // Dynamic import of OpenTUI using Function constructor to bypass bundler static analysis
-      const { createCliRenderer } =
-        await dynamicImport<typeof import('@opentui/core')>('@opentui/core')
-
-      this.renderer = await createCliRenderer({
-        exitOnCtrlC: options?.exitOnCtrlC ?? true,
-        useAlternateScreen: true,
-        useMouse: options?.useMouse ?? true,
-      })
-
-      // Get adapter from container (React/Solid should already be registered)
+      // Get adapter from container (React/Solid/Ink should already be registered)
       this.adapter = await this.container.get(Adapter)
-      this.root = await this.adapter.createRoot(this.renderer!)
+
+      // Check if adapter handles its own rendering (e.g., Ink adapter)
+      if (this.adapter.handlesOwnRenderer) {
+        // Adapter manages its own renderer - no OpenTUI needed
+        this.root = await this.adapter.createRoot()
+      } else {
+        // Default path: use OpenTUI renderer
+        // Dynamic import using Function constructor to bypass bundler static analysis
+        const { createCliRenderer } =
+          await dynamicImport<typeof import('@opentui/core')>('@opentui/core')
+
+        this.renderer = await createCliRenderer({
+          exitOnCtrlC: options?.exitOnCtrlC ?? true,
+          useAlternateScreen: true,
+          useMouse: options?.useMouse ?? true,
+        })
+
+        this.root = await this.adapter.createRoot(this.renderer!)
+      }
 
       // Initial render
       this.render()
@@ -233,8 +241,17 @@ export class ScreenManagerInstance implements OnServiceDestroy {
   }
 
   /**
+   * Check if TUI rendering is active (has renderer or self-rendering adapter).
+   * When false, stdout mode is used - prompts return defaults, static screens print immediately.
+   */
+  isTuiRendererActive(): boolean {
+    return this.renderer !== null || (this.adapter?.handlesOwnRenderer ?? false)
+  }
+
+  /**
    * Check if OpenTUI rendering is active (has renderer).
    * When false, stdout mode is used - prompts return defaults, static screens print immediately.
+   * @deprecated Use isTuiRendererActive() instead
    */
   isOpenTUIActive(): boolean {
     return this.renderer !== null

@@ -23,9 +23,9 @@ async function bootstrap() {
     enableTUI: true,
     tuiOptions: {
       sidebarTitle: 'Commander TUI Demo',
-      autoClose: 5000, // Auto close 5 seconds after all screens complete
-      hideDefaultScreen: true,
-      adapter: 'solid',
+      autoClose: 50000, // Auto close 5 seconds after all screens complete
+      hideDefaultScreen: false,
+      adapter: 'ink',
     },
   })
 

@@ -34,11 +34,19 @@ export interface AdapterRenderProps {
  */
 export interface AdapterInterface {
   /**
+   * Whether this adapter handles its own rendering without requiring
+   * the ScreenManager to create an OpenTUI CliRenderer.
+   * When true, createRoot() will be called without a renderer argument.
+   * @default false
+   */
+  readonly handlesOwnRenderer?: boolean
+
+  /**
    * Create a root instance for rendering.
-   * @param renderer - CLI renderer from @opentui/core
+   * @param renderer - CLI renderer from @opentui/core (undefined if handlesOwnRenderer is true)
    * @returns Root instance with render/unmount methods, or a Promise that resolves to one
    */
-  createRoot(renderer: CliRenderer): AdapterRoot | Promise<AdapterRoot>
+  createRoot(renderer?: CliRenderer): AdapterRoot | Promise<AdapterRoot>
 
   /**
    * Render the adapter's internal bridge component to the root.

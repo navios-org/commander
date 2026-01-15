@@ -45,12 +45,28 @@
         "types": "./lib/adapters/solid/index.d.cts",
         "default": "./lib/adapters/solid/index.cjs"
       }
+    },
+    "./adapters/ink": {
+      "import": {
+        "types": "./lib/adapters/ink/index.d.mts",
+        "default": "./lib/adapters/ink/index.mjs"
+      },
+      "require": {
+        "types": "./lib/adapters/ink/index.d.cts",
+        "default": "./lib/adapters/ink/index.cjs"
+      }
     }
   },
   "dependencies": {
     "@opentui/core": "^0.1.69",
     "@opentui/react": "^0.1.69",
     "react": "^19.0.0"
+  },
+  "optionalDependencies": {
+    "fullscreen-ink": "^0.1.0",
+    "ink": "^6.0.0",
+    "ink-syntax-highlight": "^2.0.2",
+    "ink-virtual-list": "^0.2.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.6",

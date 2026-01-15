@@ -67,7 +67,7 @@ export interface CommanderTuiOptions {
    * Adapter to use for the TUI.
    * @default 'none'
    */
-  adapter?: 'react' | 'solid' | 'none'
+  adapter?: 'react' | 'solid' | 'ink' | 'none'
   /**
    * Sidebar width in columns.
    */
@@ -202,6 +202,8 @@ export class CommanderFactory {
           await dynamicImport('@navios/commander-tui/adapters/solid')
         } else if (options.tuiOptions?.adapter === 'react' && isBun) {
           await dynamicImport('@navios/commander-tui/adapters/react')
+        } else if (options.tuiOptions?.adapter === 'ink') {
+          await dynamicImport('@navios/commander-tui/adapters/ink')
         }
       } catch (error) {
         console.error(error)
@@ -237,7 +239,7 @@ export class CommanderFactory {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         theme: options.tuiOptions?.theme as any,
         useMouse: options.tuiOptions?.useMouse,
-        useOpenTUI: options.tuiOptions?.useOpenTUI,
+        useOpenTUI: options.tuiOptions?.useOpenTUI || options.tuiOptions?.adapter === 'ink',
       })
 
       return app
