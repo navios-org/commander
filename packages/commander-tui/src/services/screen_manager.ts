@@ -203,13 +203,14 @@ export class ScreenManagerInstance implements OnServiceDestroy {
       this.renderer.destroy()
     }
 
+    // Flush all completed screens to console (in order)
+    // Must happen before isBound = false so screens can check isTuiBound()
+    this.flushCompletedScreens()
+
+    this.isBound = false
     this.renderer = null
     this.root = null
     this.adapter = null
-    this.isBound = false
-
-    // Flush all completed screens to console (in order)
-    this.flushCompletedScreens()
   }
 
   /**
