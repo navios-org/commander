@@ -1,10 +1,11 @@
 import { TextAttributes } from '@opentui/core'
 import { createSignal, createEffect, createMemo, onCleanup, For, Show } from 'solid-js'
 
-import { SCREEN_EVENTS } from '@navios/commander-tui'
+import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
 import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
+import { useFilter } from '../content/filter_context.tsx'
 import { PromptRenderer } from '../prompt/index.ts'
 
 import { GroupRenderer } from './group_renderer.tsx'
@@ -13,12 +14,6 @@ import { MessageRenderer } from './message_renderer.tsx'
 export interface ScreenBridgeProps {
   screen: ScreenInstance
   focused: boolean
-  /** Pre-filtered messages (if filtering is active) */
-  filteredMessages?: MessageData[]
-  /** Whether any filter is currently active */
-  isFiltering?: boolean
-  /** Total message count (before filtering) */
-  totalMessages?: number
 }
 
 // Helper to process messages and organize them into groups
@@ -72,16 +67,14 @@ function processMessagesIntoGroups(messages: MessageData[]): ProcessedMessage[] 
 
 /**
  * Screen content renderer.
- * Subscribes to screen events to ensure messages are displayed reactively.
+ * Subscribes to screen events and handles message filtering internally.
  */
 export function ScreenBridge(props: ScreenBridgeProps) {
   const theme = useTheme()
+  const filter = useFilter()
   const [messageVersion, setMessageVersion] = createSignal(0)
 
   // Subscribe to screen events to trigger re-render when messages change
-  // This is necessary because Solid props are not automatically reactive -
-  // the parent's filteredMessages memo update doesn't propagate without
-  // an explicit signal dependency in this component.
   createEffect(() => {
     const handleUpdate = () => setMessageVersion((v) => v + 1)
 
@@ -96,22 +89,30 @@ export function ScreenBridge(props: ScreenBridgeProps) {
     })
   })
 
-  // Use filtered messages if provided, otherwise get from screen
-  // Track messageVersion to ensure reactivity when messages change
-  const messages = () => {
+  // Get all messages from screen
+  const allMessages = () => {
     messageVersion() // Track dependency for reactivity
-    return props.filteredMessages ?? props.screen.getMessages()
+    return props.screen.getMessages()
   }
+
+  // Filter messages based on current filter state
+  const filteredMessages = createMemo(() => {
+    return FilterEngine.filterMessages(allMessages(), filter())
+  })
+
+  const isFiltering = createMemo(() => hasActiveFilter(filter()))
+
   const activePrompt = () => {
     messageVersion() // Track dependency for prompt updates
     return props.screen.getActivePrompt()
   }
-  const processedMessages = createMemo(() => processMessagesIntoGroups(messages()))
+
+  const processedMessages = createMemo(() => processMessagesIntoGroups(filteredMessages()))
 
   // Calculate filter stats
-  const filteredCount = () => messages().length
-  const total = () => props.totalMessages ?? messages().length
-  const showFilterStatus = () => props.isFiltering && filteredCount() !== total()
+  const totalMessages = () => allMessages().length
+  const filteredCount = () => filteredMessages().length
+  const showFilterStatus = () => isFiltering() && filteredCount() !== totalMessages()
 
   return (
     <box flexDirection="column" flexGrow={1}>
@@ -130,7 +131,7 @@ export function ScreenBridge(props: ScreenBridgeProps) {
         </text>
         <Show when={showFilterStatus()}>
           <text fg={theme.sidebar.textDim}>
-            {filteredCount()}/{total()} messages
+            {filteredCount()}/{totalMessages()} messages
           </text>
         </Show>
       </box>
