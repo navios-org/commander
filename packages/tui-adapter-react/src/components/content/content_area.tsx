@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 
-import { CONTENT_MANAGER_EVENTS, FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
+import { CONTENT_MANAGER_EVENTS, FilterEngine, SCREEN_EVENTS } from '@navios/commander-tui'
 import type { ScreenManagerInstance } from '@navios/commander-tui'
 
 import { FilterBar } from '../filter/filter_bar.tsx'
@@ -13,7 +13,7 @@ export interface ContentAreaProps {
 
 /**
  * Container component for the main content area.
- * Manages active screen subscriptions and filter rendering.
+ * Manages active screen subscriptions and filter bar rendering.
  * Filter state is provided via FilterContext.
  */
 export function ContentArea({ manager }: ContentAreaProps) {
@@ -38,7 +38,7 @@ export function ContentArea({ manager }: ContentAreaProps) {
 
   const activeScreen = manager.getActiveScreen()
 
-  // Subscribe to active screen events for filter calculations
+  // Subscribe to active screen events for level counts calculation
   useEffect(() => {
     if (!activeScreen) return
 
@@ -72,16 +72,6 @@ export function ContentArea({ manager }: ContentAreaProps) {
     return FilterEngine.countByLevel(activeScreen.getMessages())
   }, [screenVersion, activeScreen])
 
-  // Filter messages for the active screen
-  const filteredMessages = useMemo(() => {
-    // Reference screenVersion to ensure recalculation
-    void screenVersion
-    if (!activeScreen) return []
-    return FilterEngine.filterMessages(activeScreen.getMessages(), filter)
-  }, [screenVersion, activeScreen, filter])
-
-  const isFiltering = useMemo(() => hasActiveFilter(filter), [filter])
-
   const focused = manager.focusArea === 'content'
 
   return (
@@ -91,14 +81,7 @@ export function ContentArea({ manager }: ContentAreaProps) {
 
       {/* Screen content */}
       {activeScreen && (
-        <ScreenBridge
-          key={activeScreen.getId()}
-          screen={activeScreen}
-          focused={focused}
-          filteredMessages={filteredMessages}
-          isFiltering={isFiltering}
-          totalMessages={activeScreen.getMessages().length}
-        />
+        <ScreenBridge key={activeScreen.getId()} screen={activeScreen} focused={focused} />
       )}
     </box>
   )

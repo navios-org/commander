@@ -1,10 +1,12 @@
 import { Box, Text } from 'ink'
-import { useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+
+import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
+import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
+import { useFilter } from '../content/filter_context.tsx'
 import { PromptRenderer } from '../prompt/index.ts'
-
-import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
 import { GroupRenderer } from './group_renderer.tsx'
 import { MessageRenderer } from './message_renderer.tsx'
@@ -12,12 +14,6 @@ import { MessageRenderer } from './message_renderer.tsx'
 export interface ScreenBridgeProps {
   screen: ScreenInstance
   focused: boolean
-  /** Pre-filtered messages (if filtering is active) */
-  filteredMessages?: MessageData[]
-  /** Whether any filter is currently active */
-  isFiltering?: boolean
-  /** Total message count (before filtering) */
-  totalMessages?: number
 }
 
 // Helper to process messages and organize them into groups
@@ -71,27 +67,52 @@ function processMessagesIntoGroups(messages: MessageData[]): ProcessedMessage[] 
 
 /**
  * Screen content renderer.
- * This is a pure component that receives all data via props.
- * Parent (ContentArea) manages subscriptions and re-renders this when data changes.
+ * Subscribes to screen events and handles message filtering internally.
  */
-export function ScreenBridge({
-  screen,
-  focused,
-  filteredMessages,
-  isFiltering,
-  totalMessages,
-}: ScreenBridgeProps) {
+export function ScreenBridge({ screen, focused }: ScreenBridgeProps) {
   const theme = useTheme()
+  const filter = useFilter()
+  const [messageVersion, setMessageVersion] = useState(0)
 
-  // Use filtered messages if provided, otherwise get from screen
-  const messages = filteredMessages ?? screen.getMessages()
-  const activePrompt = screen.getActivePrompt()
-  const processedMessages = useMemo(() => processMessagesIntoGroups(messages), [messages])
+  // Subscribe to screen events to trigger re-render when messages change
+  useEffect(() => {
+    const handleUpdate = () => setMessageVersion((v) => v + 1)
+
+    for (const event of SCREEN_EVENTS) {
+      screen.on(event, handleUpdate)
+    }
+
+    return () => {
+      for (const event of SCREEN_EVENTS) {
+        screen.off(event, handleUpdate)
+      }
+    }
+  }, [screen])
+
+  // Get all messages from screen
+  const allMessages = useMemo(() => {
+    void messageVersion // Track dependency for re-render
+    return screen.getMessages()
+  }, [messageVersion, screen])
+
+  // Filter messages based on current filter state
+  const filteredMessages = useMemo(() => {
+    return FilterEngine.filterMessages(allMessages, filter)
+  }, [allMessages, filter])
+
+  const isFiltering = useMemo(() => hasActiveFilter(filter), [filter])
+
+  const activePrompt = useMemo(() => {
+    void messageVersion // Track dependency for re-render
+    return screen.getActivePrompt()
+  }, [messageVersion, screen])
+
+  const processedMessages = useMemo(() => processMessagesIntoGroups(filteredMessages), [filteredMessages])
 
   // Calculate filter stats
-  const filteredCount = messages.length
-  const total = totalMessages ?? messages.length
-  const showFilterStatus = isFiltering && filteredCount !== total
+  const totalMessages = allMessages.length
+  const filteredCount = filteredMessages.length
+  const showFilterStatus = isFiltering && filteredCount !== totalMessages
 
   return (
     <Box flexDirection="column" flexGrow={1}>
@@ -113,7 +134,7 @@ export function ScreenBridge({
         </Text>
         {showFilterStatus && (
           <Text color={theme.sidebar.textDim}>
-            {filteredCount}/{total} messages
+            {filteredCount}/{totalMessages} messages
           </Text>
         )}
       </Box>
