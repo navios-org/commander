@@ -1,8 +1,11 @@
+import { EventEmitter } from 'node:events'
+
 import type { LogLevel } from '@navios/core'
 
-import { printSingleMessage } from '../utils/index.ts'
+import { getPromptDefaultValue, printSingleMessage } from '../utils/index.ts'
 
 import type { ScreenOptions } from '../schemas/index.ts'
+import { RenderMode } from '../types/index.ts'
 import type {
   ChoicePromptData,
   ConfirmPromptData,
@@ -12,6 +15,7 @@ import type {
   MultiChoicePromptData,
   ProgressMessageData,
   PromptData,
+  ScreenEventMap,
   ScreenStatus,
 } from '../types/index.ts'
 
@@ -23,7 +27,7 @@ interface PendingPrompt {
   timeoutId?: ReturnType<typeof setTimeout>
 }
 
-export class ScreenInstance {
+export class ScreenInstance extends EventEmitter<ScreenEventMap> {
   private id: string
   private name: string
   private icon?: string
@@ -32,7 +36,6 @@ export class ScreenInstance {
   private hidden: boolean = false
   private messages: MessageData[] = []
   private manager: ScreenManagerInstance | null = null
-  private changeListeners: Set<() => void> = new Set()
   private printFn: ((messages: MessageData[], name: string, isError: boolean) => void) | null = null
   private hasPrinted: boolean = false
   private version: number = 0
@@ -42,6 +45,7 @@ export class ScreenInstance {
   private activePrompt: PendingPrompt | null = null
 
   constructor(id: string, options: ScreenOptions) {
+    super()
     this.id = id
     this.name = options.name
     this.icon = options.icon
@@ -92,7 +96,7 @@ export class ScreenInstance {
 
   setBadgeCount(count: number): this {
     this.badgeCount = count
-    this.notifyChange()
+    this.emit('badge:changed', count)
     return this
   }
 
@@ -103,7 +107,7 @@ export class ScreenInstance {
   setHidden(hidden: boolean): this {
     this.hidden = hidden
     this.manager?.onScreenVisibilityChanged(this)
-    this.notifyChange()
+    this.emit('visibility:changed', hidden)
     return this
   }
 
@@ -131,7 +135,7 @@ export class ScreenInstance {
   }
 
   /**
-   * Set screen status. When success/fail and TUI is not bound, prints to stdout/stderr
+   * Set screen status. When success/fail and not in TUI mode, prints to stdout/stderr
    */
   setStatus(status: ScreenStatus): this {
     const wasComplete = this.status === 'success' || this.status === 'fail'
@@ -139,14 +143,15 @@ export class ScreenInstance {
 
     // When transitioning to complete state
     if (!wasComplete && (status === 'success' || status === 'fail')) {
-      // Only print if TUI is NOT bound (non-interactive mode)
-      if (!this.manager?.isTuiBound()) {
+      // Only print immediately if NOT in TUI mode
+      // In TUI mode, printing happens on unbind()
+      if (!this.manager?.hasTuiRenderer()) {
         this.printToConsole()
       }
       this.manager?.onScreenCompleted(this)
     }
 
-    this.notifyChange()
+    this.emit('status:changed', status)
     return this
   }
 
@@ -158,10 +163,20 @@ export class ScreenInstance {
   }
 
   /**
-   * Check if this screen has been printed to console
+   * Check if this screen has been printed to console.
+   * Static screens in non-TUI modes are considered printed as they print incrementally.
    */
   hasPrintedToConsole(): boolean {
-    return this.hasPrinted || (!this.manager?.isOpenTUIActive() && this.status === 'static')
+    // If already fully printed, return true
+    if (this.hasPrinted) return true
+
+    // Static screens in non-TUI modes print incrementally, so they're considered "printed"
+    // as their messages are output immediately when added
+    if (this.status === 'static' && !this.manager?.hasTuiRenderer()) {
+      return true
+    }
+
+    return false
   }
 
   /**
@@ -187,12 +202,12 @@ export class ScreenInstance {
     this.messages.push(message)
     this.incrementVersion()
 
-    // In stdout mode, static screens print messages immediately
-    if (this.status === 'static' && !this.manager?.isOpenTUIActive()) {
+    // In non-TUI modes, static screens print messages immediately
+    if (this.status === 'static' && !this.manager?.hasTuiRenderer()) {
       this.printSingleMessageToConsole(message)
     }
 
-    this.notifyChange()
+    this.emit('message:added', message.id)
   }
 
   /**
@@ -208,8 +223,8 @@ export class ScreenInstance {
       } as MessageData
       this.incrementVersion()
 
-      // In stdout mode for static screens, print when loading completes
-      if (this.status === 'static' && !this.manager?.isOpenTUIActive()) {
+      // In non-TUI modes for static screens, print when loading completes
+      if (this.status === 'static' && !this.manager?.hasTuiRenderer()) {
         const newMessage = this.messages[index] as LoadingMessageData
         // Only print when transitioning from 'loading' to 'success'/'fail'
         if (newMessage.status !== 'loading' && oldMessage.status === 'loading') {
@@ -217,7 +232,7 @@ export class ScreenInstance {
         }
       }
 
-      this.notifyChange()
+      this.emit('message:updated', id)
     }
   }
 
@@ -234,8 +249,8 @@ export class ScreenInstance {
       } as MessageData
       this.incrementVersion()
 
-      // In stdout mode for static screens, print when progress completes
-      if (this.status === 'static' && !this.manager?.isOpenTUIActive()) {
+      // In non-TUI modes for static screens, print when progress completes
+      if (this.status === 'static' && !this.manager?.hasTuiRenderer()) {
         const newMessage = this.messages[index] as ProgressMessageData
         if (
           (newMessage.status === 'complete' || newMessage.status === 'failed') &&
@@ -246,7 +261,7 @@ export class ScreenInstance {
         }
       }
 
-      this.notifyChange()
+      this.emit('message:updated', id)
     }
   }
 
@@ -256,7 +271,7 @@ export class ScreenInstance {
   clear(): this {
     this.messages = []
     this.incrementVersion()
-    this.notifyChange()
+    this.emit('messages:cleared')
     return this
   }
 
@@ -270,13 +285,22 @@ export class ScreenInstance {
    */
   _addPrompt(prompt: PromptData): Promise<string | boolean | string[]> {
     return new Promise((resolve) => {
-      const pending: PendingPrompt = { data: prompt, resolve }
+      const mode = this.manager?.getRenderMode() ?? RenderMode.UNBOUND
 
-      // If OpenTUI is not active (stdout mode), return default immediately
-      if (!this.manager?.isOpenTUIActive()) {
+      // UNBOUND mode: return defaults immediately (no interaction possible)
+      if (mode === RenderMode.UNBOUND) {
         this.resolvePromptWithDefault(prompt, resolve)
         return
       }
+
+      // STDOUT modes (STDOUT_INTERACTIVE, STDOUT_FALLBACK): use readline for interactive prompts
+      if (mode === RenderMode.STDOUT_INTERACTIVE || mode === RenderMode.STDOUT_FALLBACK) {
+        this.manager?.handleReadlinePrompt(prompt).then(resolve)
+        return
+      }
+
+      // TUI_ACTIVE mode: use TUI prompt queue system
+      const pending: PendingPrompt = { data: prompt, resolve }
 
       // Set up timeout if specified
       if (prompt.timeout && prompt.timeoutStarted) {
@@ -286,7 +310,7 @@ export class ScreenInstance {
             this.activePrompt = null
             this.activateNextPrompt()
             this.incrementVersion()
-            this.notifyChange()
+            this.emit('prompt:resolved')
           } else {
             // Remove from queue if not yet active
             const idx = this.promptQueue.indexOf(pending)
@@ -316,20 +340,7 @@ export class ScreenInstance {
     prompt: PromptData,
     resolve: (value: string | boolean | string[]) => void,
   ): void {
-    switch (prompt.type) {
-      case 'choice':
-        resolve(prompt.defaultChoice)
-        break
-      case 'confirm':
-        resolve(prompt.defaultValue)
-        break
-      case 'input':
-        resolve(prompt.defaultValue)
-        break
-      case 'multiChoice':
-        resolve(prompt.choices.filter((_, i) => prompt.selectedIndices.has(i)).map((c) => c.value))
-        break
-    }
+    resolve(getPromptDefaultValue(prompt))
   }
 
   /**
@@ -362,7 +373,7 @@ export class ScreenInstance {
     } else if (prompt.type === 'confirm') {
       ;(prompt as ConfirmPromptData).selectedValue = index === 0
     }
-    this.notifyChange()
+    this.emit('prompt:updated')
   }
 
   /**
@@ -405,7 +416,7 @@ export class ScreenInstance {
     const prompt = this.activePrompt.data
     if (prompt.type === 'confirm') {
       ;(prompt as ConfirmPromptData).selectedValue = true
-      this.notifyChange()
+      this.emit('prompt:updated')
     }
   }
 
@@ -414,7 +425,7 @@ export class ScreenInstance {
     const prompt = this.activePrompt.data
     if (prompt.type === 'confirm') {
       ;(prompt as ConfirmPromptData).selectedValue = false
-      this.notifyChange()
+      this.emit('prompt:updated')
     }
   }
 
@@ -431,7 +442,7 @@ export class ScreenInstance {
       } else if (p.selectedIndices.size < p.maxSelect) {
         p.selectedIndices.add(p.focusedIndex)
       }
-      this.notifyChange()
+      this.emit('prompt:updated')
     }
   }
 
@@ -447,7 +458,7 @@ export class ScreenInstance {
       const choice = prompt.choices[prompt.selectedIndex]
       if (choice?.input) {
         ;(prompt as ChoicePromptData).inputMode = true
-        this.notifyChange()
+        this.emit('prompt:updated')
         return true
       }
     } else if (prompt.type === 'input') {
@@ -466,7 +477,7 @@ export class ScreenInstance {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputMode = false
-      this.notifyChange()
+      this.emit('prompt:updated')
     }
     // Input prompts cannot exit input mode
   }
@@ -495,10 +506,10 @@ export class ScreenInstance {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputValue = value
-      this.notifyChange()
+      this.emit('prompt:updated')
     } else if (prompt.type === 'input') {
       ;(prompt as InputPromptData).value = value
-      this.notifyChange()
+      this.emit('prompt:updated')
     }
   }
 
@@ -511,10 +522,10 @@ export class ScreenInstance {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputValue += char
-      this.notifyChange()
+      this.emit('prompt:updated')
     } else if (prompt.type === 'input') {
       ;(prompt as InputPromptData).value += char
-      this.notifyChange()
+      this.emit('prompt:updated')
     }
   }
 
@@ -527,10 +538,10 @@ export class ScreenInstance {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputValue = prompt.inputValue.slice(0, -1)
-      this.notifyChange()
+      this.emit('prompt:updated')
     } else if (prompt.type === 'input') {
       ;(prompt as InputPromptData).value = prompt.value.slice(0, -1)
-      this.notifyChange()
+      this.emit('prompt:updated')
     }
   }
 
@@ -596,7 +607,7 @@ export class ScreenInstance {
     this.activePrompt = null
     this.activateNextPrompt()
     this.incrementVersion()
-    this.notifyChange()
+    this.emit('prompt:resolved')
   }
 
   /**
@@ -608,20 +619,8 @@ export class ScreenInstance {
       // Notify manager to focus this screen
       this.manager?.onScreenPromptActivated(this)
       this.incrementVersion()
-      this.notifyChange()
+      this.emit('prompt:activated')
     }
-  }
-
-  /**
-   * Register a change listener for re-renders
-   */
-  onChange(listener: () => void): () => void {
-    this.changeListeners.add(listener)
-    return () => this.changeListeners.delete(listener)
-  }
-
-  private notifyChange(): void {
-    this.changeListeners.forEach((listener) => listener())
   }
 
   /**

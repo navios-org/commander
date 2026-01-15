@@ -1,9 +1,3 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.base.json" },
-    { "path": "./tsconfig.react.json" },
-    { "path": "./tsconfig.solid.json" },
-    { "path": "./tsconfig.ink.json" }
-  ]
+  "extends": "./tsconfig.base.json"
 }

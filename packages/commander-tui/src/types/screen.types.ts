@@ -111,6 +111,25 @@ export interface LoggerContextValue {
 
 export type ScreenStatus = 'waiting' | 'pending' | 'success' | 'fail' | 'static'
 
+// ============================================
+// Render Mode Types
+// ============================================
+
+/**
+ * Render mode determines how the TUI operates.
+ * This is set during bind() and affects prompts, screen printing, and exit behavior.
+ */
+export enum RenderMode {
+  /** bind() never called - screens print on completion, prompts return defaults */
+  UNBOUND = 'unbound',
+  /** bind() called with useOpenTUI: false - stdout mode with readline prompts */
+  STDOUT_INTERACTIVE = 'stdout',
+  /** bind() called with useOpenTUI: true but adapter unavailable - fallback to stdout with warning */
+  STDOUT_FALLBACK = 'fallback',
+  /** Full TUI rendering active with adapter */
+  TUI_ACTIVE = 'tui',
+}
+
 export interface BindOptions {
   exitOnCtrlC?: boolean
   sidebarWidth?: number

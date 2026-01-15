@@ -20,3 +20,6 @@ export * from './keyboard.types.ts'
 
 // Filter types
 export * from './filter.types.ts'
+
+// Event types
+export * from './events.types.ts'

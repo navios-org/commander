@@ -1,3 +1,5 @@
+import { EventEmitter } from 'node:events'
+
 import { Container, Injectable, inject, type OnServiceDestroy } from '@navios/core'
 
 import type { LogLevel } from '@navios/core'
@@ -6,16 +8,28 @@ import type { CliRenderer } from '@opentui/core'
 import { getThemePreset } from '../themes/index.ts'
 import { Adapter } from '../tokens/adapter.ts'
 import { ScreenManager } from '../tokens/screen-manager.ts'
-import { dynamicImport, isBunRuntime, printMessagesToStdout } from '../utils/index.ts'
+import { dynamicImport, getPromptDefaultValue, isBunRuntime, printMessagesToStdout } from '../utils/index.ts'
 
 import type { AdapterInterface, AdapterRoot } from '../adapters/interface.ts'
 import type { ScreenOptions } from '../schemas/index.ts'
-import type { BindOptions, FocusArea, SetupOptions, Theme } from '../types/index.ts'
+import { RenderMode } from '../types/index.ts'
+import type {
+  BindOptions,
+  FocusArea,
+  PromptData,
+  ScreenManagerEventMap,
+  SetupOptions,
+  Theme,
+} from '../types/index.ts'
 
+import { ReadlinePromptService } from './readline_prompt.ts'
 import { ScreenInstance } from './screen.ts'
 
 @Injectable({ token: ScreenManager })
-export class ScreenManagerInstance implements OnServiceDestroy {
+export class ScreenManagerInstance
+  extends EventEmitter<ScreenManagerEventMap>
+  implements OnServiceDestroy
+{
   private screens: Map<string, ScreenInstance> = new Map()
   private screenOrder: string[] = []
   private activeScreenId: string | null = null
@@ -23,8 +37,8 @@ export class ScreenManagerInstance implements OnServiceDestroy {
   private root: AdapterRoot | null = null
   private adapter: AdapterInterface | null = null
   private container = inject(Container)
-  private isBound: boolean = false
-  private changeListeners: Set<() => void> = new Set()
+  private mode: RenderMode = RenderMode.UNBOUND
+  private readlinePromptService: ReadlinePromptService | null = null
   private bindOptions: BindOptions = {}
   private autoCloseTimer: ReturnType<typeof setTimeout> | null = null
   private theme: Theme | undefined
@@ -33,6 +47,10 @@ export class ScreenManagerInstance implements OnServiceDestroy {
   // Keyboard navigation state (exposed for bridge component)
   public focusArea: FocusArea = 'content'
   public selectedIndex: number = 0
+
+  constructor() {
+    super()
+  }
 
   /**
    * Create a new screen and return it
@@ -45,9 +63,6 @@ export class ScreenManagerInstance implements OnServiceDestroy {
     screen._setManager(this)
     screen._setPrintFn(printMessagesToStdout)
 
-    // Subscribe to screen changes
-    screen.onChange(() => this.notifyChange())
-
     this.screens.set(id, screen)
     this.screenOrder.push(id)
 
@@ -56,7 +71,8 @@ export class ScreenManagerInstance implements OnServiceDestroy {
       this.activeScreenId = id
     }
 
-    this.notifyChange()
+    this.checkAutoClose()
+    this.emit('screen:added', id)
     return screen
   }
 
@@ -81,22 +97,28 @@ export class ScreenManagerInstance implements OnServiceDestroy {
     if (this.activeScreenId === id) {
       const visibleScreens = this.getScreens()
       this.activeScreenId = visibleScreens[0]?.getId() ?? null
+      this.emit('activeScreen:changed', this.activeScreenId)
     }
 
     // Update selected index if out of bounds
     const visibleScreens = this.getScreens()
     if (this.selectedIndex >= visibleScreens.length) {
-      this.selectedIndex = Math.max(0, visibleScreens.length - 1)
+      const newIndex = Math.max(0, visibleScreens.length - 1)
+      if (newIndex !== this.selectedIndex) {
+        this.selectedIndex = newIndex
+        this.emit('sidebar:indexChanged', this.selectedIndex)
+      }
     }
 
-    this.notifyChange()
+    this.checkAutoClose()
+    this.emit('screen:removed', id)
   }
 
   /**
    * Non-blocking bind - starts TUI rendering in background
    */
   async bind(options?: BindOptions): Promise<void> {
-    if (this.isBound) return
+    if (this.mode !== RenderMode.UNBOUND) return
 
     this.bindOptions = options ?? {}
 
@@ -106,11 +128,24 @@ export class ScreenManagerInstance implements OnServiceDestroy {
     }
 
     // Determine useOpenTUI default: false for Bun (not supported), true for Node.js
-    const useOpenTUI = options?.useOpenTUI ?? isBunRuntime()
+    const useOpenTUI = options?.useOpenTUI ?? !isBunRuntime()
 
-    if (useOpenTUI) {
-      // Get adapter from container (React/Solid/Ink should already be registered)
+    if (!useOpenTUI) {
+      // Explicit stdout mode requested
+      this.mode = RenderMode.STDOUT_INTERACTIVE
+      this.readlinePromptService = new ReadlinePromptService()
+      this.emit('mode:changed', this.mode)
+      return
+    }
+
+    // Try to initialize TUI adapter
+    try {
       this.adapter = await this.container.get(Adapter)
+
+      // Check if adapter is the MissingAdapterOverride (has marker property)
+      if ((this.adapter as { isMissingAdapter?: boolean }).isMissingAdapter) {
+        throw new Error('No adapter registered')
+      }
 
       // Check if adapter handles its own rendering (e.g., Ink adapter)
       if (this.adapter.handlesOwnRenderer) {
@@ -131,13 +166,59 @@ export class ScreenManagerInstance implements OnServiceDestroy {
         this.root = await this.adapter.createRoot(this.renderer!)
       }
 
+      this.mode = RenderMode.TUI_ACTIVE
+      this.emit('mode:changed', this.mode)
+
       // Initial render
       this.render()
-    }
-    // When useOpenTUI is false: no renderer, no root, no adapter
-    // Static screens print immediately, others print on completion
+    } catch {
+      // Graceful fallback to stdout mode with warning
+      console.warn(
+        '[commander-tui] TUI adapter not available, falling back to stdout mode. ' +
+          'To enable TUI, import a TUI adapter: @navios/tui-adapter-react, @navios/tui-adapter-ink, or @navios/tui-adapter-solid',
+      )
 
-    this.isBound = true
+      this.mode = RenderMode.STDOUT_FALLBACK
+      this.readlinePromptService = new ReadlinePromptService()
+      this.adapter = null
+      this.renderer = null
+      this.root = null
+      this.emit('mode:changed', this.mode)
+    }
+  }
+
+  /**
+   * Get the current render mode
+   */
+  getRenderMode(): RenderMode {
+    return this.mode
+  }
+
+  /**
+   * Check if TUI is interactive (any mode except UNBOUND).
+   * In interactive modes, prompts can be handled via readline or TUI.
+   */
+  isInteractive(): boolean {
+    return this.mode !== RenderMode.UNBOUND
+  }
+
+  /**
+   * Check if TUI rendering is active (TUI_ACTIVE mode).
+   * When true, screens are rendered in the TUI and not printed to stdout.
+   */
+  hasTuiRenderer(): boolean {
+    return this.mode === RenderMode.TUI_ACTIVE
+  }
+
+  /**
+   * Handle a prompt via readline (for stdout modes)
+   */
+  handleReadlinePrompt(prompt: PromptData): Promise<string | boolean | string[]> {
+    if (!this.readlinePromptService) {
+      // This shouldn't happen, but return defaults as fallback
+      return Promise.resolve(getPromptDefaultValue(prompt))
+    }
+    return this.readlinePromptService.handlePrompt(prompt)
   }
 
   /**
@@ -186,10 +267,16 @@ export class ScreenManagerInstance implements OnServiceDestroy {
 
   /**
    * Stop TUI rendering and cleanup
-   * Flushes all completed screens to stdout/stderr
+   * Flushes screens to stdout/stderr based on mode
    */
   unbind(): void {
-    if (!this.isBound) return
+    if (this.mode === RenderMode.UNBOUND) {
+      // Even in unbound mode, flush any remaining screens on destroy
+      this.flushRemainingScreens()
+      return
+    }
+
+    const previousMode = this.mode
 
     // Clear any pending auto-close timer
     if (this.autoCloseTimer) {
@@ -197,37 +284,69 @@ export class ScreenManagerInstance implements OnServiceDestroy {
       this.autoCloseTimer = null
     }
 
-    // Only cleanup if OpenTUI was used
-    if (this.root) {
-      this.root.unmount()
-    }
-
-    // Explicitly disable mouse tracking before destroy to prevent escape sequence leakage
-    // Using type assertion to access private method as a safety measure
-    if (this.renderer) {
-      if ('disableMouse' in this.renderer) {
-        ;(this.renderer as unknown as { disableMouse: () => void }).disableMouse()
+    // Cleanup TUI if active
+    if (previousMode === RenderMode.TUI_ACTIVE) {
+      if (this.root) {
+        this.root.unmount()
       }
-      this.renderer.destroy()
+
+      // Explicitly disable mouse tracking before destroy to prevent escape sequence leakage
+      if (this.renderer) {
+        if ('disableMouse' in this.renderer) {
+          ;(this.renderer as unknown as { disableMouse: () => void }).disableMouse()
+        }
+        this.renderer.destroy()
+      }
     }
 
-    // Flush all completed screens to console (in order)
-    // Must happen before isBound = false so screens can check isTuiBound()
-    this.flushCompletedScreens()
+    // Cleanup readline if used
+    if (this.readlinePromptService) {
+      this.readlinePromptService.destroy()
+      this.readlinePromptService = null
+    }
 
-    this.isBound = false
+    // Flush screens based on previous mode
+    this.flushScreensOnExit(previousMode)
+
+    // Reset state
+    this.mode = RenderMode.UNBOUND
     this.renderer = null
     this.root = null
     this.adapter = null
+    this.emit('mode:changed', this.mode)
   }
 
   /**
-   * Print all completed screens that haven't been printed yet
+   * Flush screens on exit based on the mode we're exiting from
    */
-  private flushCompletedScreens(): void {
+  private flushScreensOnExit(previousMode: RenderMode): void {
     for (const id of this.screenOrder) {
       const screen = this.screens.get(id)
-      if (screen && !screen.hasPrintedToConsole()) {
+      if (!screen || screen.isHidden()) continue
+
+      if (previousMode === RenderMode.TUI_ACTIVE) {
+        // TUI mode: print EVERYTHING on exit (nothing printed during operation)
+        screen._flushToConsole(true)
+      } else {
+        // Stdout modes (stdout, fallback): print only what hasn't been printed yet
+        // Static screens already printed incrementally
+        if (!screen.hasPrintedToConsole()) {
+          screen._flushToConsole(true)
+        }
+      }
+    }
+  }
+
+  /**
+   * Flush any remaining non-hidden screens that haven't been printed.
+   * Called on destroy even in UNBOUND mode to handle forgotten completions.
+   */
+  private flushRemainingScreens(): void {
+    for (const id of this.screenOrder) {
+      const screen = this.screens.get(id)
+      if (!screen || screen.isHidden()) continue
+
+      if (!screen.hasPrintedToConsole()) {
         screen._flushToConsole(true)
       }
     }
@@ -235,26 +354,26 @@ export class ScreenManagerInstance implements OnServiceDestroy {
 
   /**
    * Check if TUI is currently bound
+   * @deprecated Use isInteractive() instead
    */
   isTuiBound(): boolean {
-    return this.isBound
+    return this.isInteractive()
   }
 
   /**
    * Check if TUI rendering is active (has renderer or self-rendering adapter).
-   * When false, stdout mode is used - prompts return defaults, static screens print immediately.
+   * @deprecated Use hasTuiRenderer() instead
    */
   isTuiRendererActive(): boolean {
-    return this.renderer !== null || (this.adapter?.handlesOwnRenderer ?? false)
+    return this.hasTuiRenderer()
   }
 
   /**
    * Check if OpenTUI rendering is active (has renderer).
-   * When false, stdout mode is used - prompts return defaults, static screens print immediately.
-   * @deprecated Use isTuiRendererActive() instead
+   * @deprecated Use hasTuiRenderer() instead
    */
   isOpenTUIActive(): boolean {
-    return this.renderer !== null
+    return this.hasTuiRenderer()
   }
 
   /**
@@ -262,9 +381,15 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    * Focuses the screen and switches to content area
    */
   onScreenPromptActivated(screen: ScreenInstance): void {
-    this.setActiveScreen(screen)
-    this.focusArea = 'content'
-    this.notifyChange()
+    const prevActiveId = this.activeScreenId
+    this.activeScreenId = screen.getId()
+    if (prevActiveId !== this.activeScreenId) {
+      this.emit('activeScreen:changed', this.activeScreenId)
+    }
+    if (this.focusArea !== 'content') {
+      this.focusArea = 'content'
+      this.emit('focus:changed', this.focusArea)
+    }
   }
 
   /**
@@ -301,15 +426,21 @@ export class ScreenManagerInstance implements OnServiceDestroy {
       const visibleScreens = this.getScreens()
       this.activeScreenId = visibleScreens[0]?.getId() ?? null
       this.selectedIndex = 0
+      this.emit('activeScreen:changed', this.activeScreenId)
+      this.emit('sidebar:indexChanged', this.selectedIndex)
     }
 
     // Update selected index if it's now out of bounds
     const visibleScreens = this.getScreens()
     if (this.selectedIndex >= visibleScreens.length) {
-      this.selectedIndex = Math.max(0, visibleScreens.length - 1)
+      const newIndex = Math.max(0, visibleScreens.length - 1)
+      if (newIndex !== this.selectedIndex) {
+        this.selectedIndex = newIndex
+        this.emit('sidebar:indexChanged', this.selectedIndex)
+      }
     }
 
-    this.notifyChange()
+    this.checkAutoClose()
   }
 
   /**
@@ -329,11 +460,16 @@ export class ScreenManagerInstance implements OnServiceDestroy {
       // Update selected index if needed (based on visible screens)
       const visibleScreens = this.getScreens()
       if (this.selectedIndex >= visibleScreens.length) {
-        this.selectedIndex = Math.max(0, visibleScreens.length - 1)
+        const newIndex = Math.max(0, visibleScreens.length - 1)
+        if (newIndex !== this.selectedIndex) {
+          this.selectedIndex = newIndex
+          this.emit('sidebar:indexChanged', this.selectedIndex)
+        }
       }
-    }
 
-    this.notifyChange()
+      this.checkAutoClose()
+      this.emit('screen:reordered')
+    }
   }
 
   /**
@@ -343,7 +479,7 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    */
   private checkAutoClose(): void {
     const autoClose = this.bindOptions.autoClose
-    if (!autoClose || !this.isBound) return
+    if (!autoClose || this.mode === RenderMode.UNBOUND) return
 
     // Clear any existing timer (will be restarted if conditions are met)
     if (this.autoCloseTimer) {
@@ -396,8 +532,11 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    * Set the active screen
    */
   setActiveScreen(screen: ScreenInstance): void {
+    const prevActiveId = this.activeScreenId
     this.activeScreenId = screen.getId()
-    this.notifyChange()
+    if (prevActiveId !== this.activeScreenId) {
+      this.emit('activeScreen:changed', this.activeScreenId)
+    }
   }
 
   /**
@@ -411,8 +550,10 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    * Set focus area (sidebar or content)
    */
   setFocusArea(area: FocusArea): void {
-    this.focusArea = area
-    this.notifyChange()
+    if (this.focusArea !== area) {
+      this.focusArea = area
+      this.emit('focus:changed', area)
+    }
   }
 
   /**
@@ -420,8 +561,11 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    */
   setSelectedIndex(index: number): void {
     const visibleScreens = this.getScreens()
-    this.selectedIndex = Math.max(0, Math.min(index, visibleScreens.length - 1))
-    this.notifyChange()
+    const newIndex = Math.max(0, Math.min(index, visibleScreens.length - 1))
+    if (this.selectedIndex !== newIndex) {
+      this.selectedIndex = newIndex
+      this.emit('sidebar:indexChanged', newIndex)
+    }
   }
 
   /**
@@ -454,23 +598,7 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    */
   toggleFocus(): void {
     this.focusArea = this.focusArea === 'sidebar' ? 'content' : 'sidebar'
-    this.notifyChange()
-  }
-
-  /**
-   * Register a change listener for re-renders
-   */
-  onChange(listener: () => void): () => void {
-    this.changeListeners.add(listener)
-    return () => this.changeListeners.delete(listener)
-  }
-
-  private notifyChange(): void {
-    // Check auto-close on every change (resets timer if activity occurs)
-    this.checkAutoClose()
-
-    // Notify listeners - React components will forceUpdate and re-render
-    this.changeListeners.forEach((listener) => listener())
+    this.emit('focus:changed', this.focusArea)
   }
 
   private render(): void {

@@ -12,3 +12,6 @@ export * from './format.ts'
 
 // Runtime detection
 export * from './runtime.ts'
+
+// Prompt utilities
+export * from './prompt.ts'

@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ScreenInstance } from '../../services/screen.ts'
+import { RenderMode } from '../../types/index.ts'
 import {
   createChoicePrompt,
   createConfirmPrompt,
@@ -9,7 +10,28 @@ import {
   createMultiChoicePrompt,
 } from '../utils/factories.ts'
 
-import type { ScreenManager } from '../../services/screen_manager.tsx'
+import type { ScreenManagerInstance } from '../../services/screen_manager.ts'
+
+/**
+ * Create a mock manager with TUI mode active (prompts go through TUI queue)
+ */
+function createMockManager(
+  overrides: Partial<ScreenManagerInstance> = {},
+): ScreenManagerInstance {
+  return {
+    onScreenCompleted: vi.fn(),
+    onScreenVisibilityChanged: vi.fn(),
+    onScreenPromptActivated: vi.fn(),
+    getRenderMode: vi.fn(() => RenderMode.TUI_ACTIVE),
+    hasTuiRenderer: vi.fn(() => true),
+    isInteractive: vi.fn(() => true),
+    handleReadlinePrompt: vi.fn(),
+    // Deprecated but keep for backwards compatibility
+    isTuiBound: vi.fn(() => true),
+    isOpenTUIActive: vi.fn(() => true),
+    ...overrides,
+  } as unknown as ScreenManagerInstance
+}
 
 describe('ScreenInstance', () => {
   let screen: ScreenInstance
@@ -70,13 +92,13 @@ describe('ScreenInstance', () => {
       expect(result).toBe(screen)
     })
 
-    it('should notify change listeners', () => {
+    it('should emit badge:changed event', () => {
       const listener = vi.fn()
-      screen.onChange(listener)
+      screen.on('badge:changed', listener)
 
       screen.setBadgeCount(3)
 
-      expect(listener).toHaveBeenCalled()
+      expect(listener).toHaveBeenCalledWith(3)
     })
   })
 
@@ -106,13 +128,13 @@ describe('ScreenInstance', () => {
       expect(screen.hide()).toBe(screen)
     })
 
-    it('should notify change listeners', () => {
+    it('should emit visibility:changed event', () => {
       const listener = vi.fn()
-      screen.onChange(listener)
+      screen.on('visibility:changed', listener)
 
       screen.setHidden(true)
 
-      expect(listener).toHaveBeenCalled()
+      expect(listener).toHaveBeenCalledWith(true)
     })
   })
 
@@ -130,23 +152,17 @@ describe('ScreenInstance', () => {
       expect(result).toBe(screen)
     })
 
-    it('should notify change listeners', () => {
+    it('should emit status:changed event', () => {
       const listener = vi.fn()
-      screen.onChange(listener)
+      screen.on('status:changed', listener)
 
       screen.setStatus('success')
 
-      expect(listener).toHaveBeenCalled()
+      expect(listener).toHaveBeenCalledWith('success')
     })
 
     it('should call manager.onScreenCompleted when transitioning to success', () => {
-      const mockManager = {
-        onScreenCompleted: vi.fn(),
-        onScreenVisibilityChanged: vi.fn(),
-        onScreenPromptActivated: vi.fn(),
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
 
       screen._setManager(mockManager)
       screen.setStatus('success')
@@ -155,13 +171,7 @@ describe('ScreenInstance', () => {
     })
 
     it('should call manager.onScreenCompleted when transitioning to fail', () => {
-      const mockManager = {
-        onScreenCompleted: vi.fn(),
-        onScreenVisibilityChanged: vi.fn(),
-        onScreenPromptActivated: vi.fn(),
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
 
       screen._setManager(mockManager)
       screen.setStatus('fail')
@@ -170,13 +180,7 @@ describe('ScreenInstance', () => {
     })
 
     it('should not call onScreenCompleted when already complete', () => {
-      const mockManager = {
-        onScreenCompleted: vi.fn(),
-        onScreenVisibilityChanged: vi.fn(),
-        onScreenPromptActivated: vi.fn(),
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
 
       screen._setManager(mockManager)
       screen.setStatus('success')
@@ -227,13 +231,14 @@ describe('ScreenInstance', () => {
       expect(messages1).toEqual(messages2)
     })
 
-    it('should notify change listeners when adding message', () => {
+    it('should emit message:added event when adding message', () => {
       const listener = vi.fn()
-      screen.onChange(listener)
+      screen.on('message:added', listener)
 
-      screen.addMessage(createLogMessage())
+      const message = createLogMessage({ id: 'msg-1' })
+      screen.addMessage(message)
 
-      expect(listener).toHaveBeenCalled()
+      expect(listener).toHaveBeenCalledWith('msg-1')
     })
 
     it('should update message by id', () => {
@@ -293,14 +298,10 @@ describe('ScreenInstance', () => {
   })
 
   describe('prompt queue system', () => {
-    let mockManager: ScreenManager
+    let mockManager: ScreenManagerInstance
 
     beforeEach(() => {
-      mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      mockManager = createMockManager()
     })
 
     it('should return Promise from _addPrompt', () => {
@@ -365,11 +366,7 @@ describe('ScreenInstance', () => {
           selectedIndex: 0,
         })
         // Need to mock manager to prevent immediate resolution
-        const mockManager = {
-          isTuiBound: vi.fn(() => true),
-          isOpenTUIActive: vi.fn(() => true),
-          onScreenPromptActivated: vi.fn(),
-        } as unknown as ScreenManager
+        const mockManager = createMockManager()
         screen._setManager(mockManager)
         screen._addPrompt(prompt)
       })
@@ -404,11 +401,7 @@ describe('ScreenInstance', () => {
     describe('confirm prompts', () => {
       beforeEach(() => {
         const prompt = createConfirmPrompt({ selectedValue: true })
-        const mockManager = {
-          isTuiBound: vi.fn(() => true),
-          isOpenTUIActive: vi.fn(() => true),
-          onScreenPromptActivated: vi.fn(),
-        } as unknown as ScreenManager
+        const mockManager = createMockManager()
         screen._setManager(mockManager)
         screen._addPrompt(prompt)
       })
@@ -440,11 +433,7 @@ describe('ScreenInstance', () => {
           focusedIndex: 0,
           maxSelect: 3,
         })
-        const mockManager = {
-          isTuiBound: vi.fn(() => true),
-          isOpenTUIActive: vi.fn(() => true),
-          onScreenPromptActivated: vi.fn(),
-        } as unknown as ScreenManager
+        const mockManager = createMockManager()
         screen._setManager(mockManager)
         screen._addPrompt(prompt)
       })
@@ -476,11 +465,7 @@ describe('ScreenInstance', () => {
         choices: [{ label: 'Other', value: 'other', input: true }],
         selectedIndex: 0,
       })
-      const mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
       screen._setManager(mockManager)
       screen._addPrompt(prompt)
 
@@ -495,11 +480,7 @@ describe('ScreenInstance', () => {
         choices: [{ label: 'Regular', value: 'regular' }],
         selectedIndex: 0,
       })
-      const mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
       screen._setManager(mockManager)
       screen._addPrompt(prompt)
 
@@ -510,11 +491,7 @@ describe('ScreenInstance', () => {
 
     it('should always be in input mode for input prompts', () => {
       const prompt = createInputPrompt()
-      const mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
       screen._setManager(mockManager)
       screen._addPrompt(prompt)
 
@@ -527,11 +504,7 @@ describe('ScreenInstance', () => {
         selectedIndex: 0,
         inputMode: true,
       })
-      const mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
       screen._setManager(mockManager)
       screen._addPrompt(prompt)
 
@@ -542,11 +515,7 @@ describe('ScreenInstance', () => {
 
     it('should update input value', () => {
       const prompt = createInputPrompt({ value: '' })
-      const mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
       screen._setManager(mockManager)
       screen._addPrompt(prompt)
 
@@ -557,11 +526,7 @@ describe('ScreenInstance', () => {
 
     it('should append to input value', () => {
       const prompt = createInputPrompt({ value: 'hel' })
-      const mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
       screen._setManager(mockManager)
       screen._addPrompt(prompt)
 
@@ -572,11 +537,7 @@ describe('ScreenInstance', () => {
 
     it('should delete last character from input', () => {
       const prompt = createInputPrompt({ value: 'hello' })
-      const mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      const mockManager = createMockManager()
       screen._setManager(mockManager)
       screen._addPrompt(prompt)
 
@@ -587,14 +548,10 @@ describe('ScreenInstance', () => {
   })
 
   describe('promptSubmit', () => {
-    let mockManager: ScreenManager
+    let mockManager: ScreenManagerInstance
 
     beforeEach(() => {
-      mockManager = {
-        isTuiBound: vi.fn(() => true),
-        isOpenTUIActive: vi.fn(() => true),
-        onScreenPromptActivated: vi.fn(),
-      } as unknown as ScreenManager
+      mockManager = createMockManager()
       screen._setManager(mockManager)
     })
 
@@ -700,37 +657,76 @@ describe('ScreenInstance', () => {
     })
   })
 
-  describe('change listeners', () => {
-    it('should register listener with onChange', () => {
+  describe('event emitter', () => {
+    it('should register listener with on()', () => {
       const listener = vi.fn()
-      screen.onChange(listener)
+      screen.on('message:added', listener)
 
-      screen.addMessage(createLogMessage())
+      screen.addMessage(createLogMessage({ id: 'test-msg' }))
 
-      expect(listener).toHaveBeenCalled()
+      expect(listener).toHaveBeenCalledWith('test-msg')
     })
 
-    it('should return unsubscribe function', () => {
+    it('should unsubscribe listener with off()', () => {
       const listener = vi.fn()
-      const unsubscribe = screen.onChange(listener)
+      screen.on('message:added', listener)
 
-      unsubscribe()
+      screen.off('message:added', listener)
       screen.addMessage(createLogMessage())
 
       expect(listener).not.toHaveBeenCalled()
     })
 
-    it('should notify all listeners', () => {
+    it('should notify all listeners for an event', () => {
       const listener1 = vi.fn()
       const listener2 = vi.fn()
 
-      screen.onChange(listener1)
-      screen.onChange(listener2)
+      screen.on('message:added', listener1)
+      screen.on('message:added', listener2)
+
+      screen.addMessage(createLogMessage({ id: 'test-msg' }))
+
+      expect(listener1).toHaveBeenCalledWith('test-msg')
+      expect(listener2).toHaveBeenCalledWith('test-msg')
+    })
+
+    it('should emit message:updated event', () => {
+      const listener = vi.fn()
+      screen.on('message:updated', listener)
+
+      const message = createLogMessage({ id: 'msg-1', content: 'Original' })
+      screen.addMessage(message)
+      screen.updateMessage('msg-1', { content: 'Updated' } as any)
+
+      expect(listener).toHaveBeenCalledWith('msg-1')
+    })
+
+    it('should emit messages:cleared event', () => {
+      const listener = vi.fn()
+      screen.on('messages:cleared', listener)
 
       screen.addMessage(createLogMessage())
+      screen.clear()
 
-      expect(listener1).toHaveBeenCalled()
-      expect(listener2).toHaveBeenCalled()
+      expect(listener).toHaveBeenCalled()
+    })
+
+    it('should emit prompt events', () => {
+      const activatedListener = vi.fn()
+      const resolvedListener = vi.fn()
+
+      screen.on('prompt:activated', activatedListener)
+      screen.on('prompt:resolved', resolvedListener)
+
+      const mockManager = createMockManager()
+      screen._setManager(mockManager)
+      screen._addPrompt(createChoicePrompt())
+
+      expect(activatedListener).toHaveBeenCalled()
+
+      screen.promptSubmit()
+
+      expect(resolvedListener).toHaveBeenCalled()
     })
   })
 })

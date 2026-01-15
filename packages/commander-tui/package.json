@@ -1,6 +1,6 @@
 {
   "name": "@navios/commander-tui",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -25,56 +25,10 @@
         "types": "./lib/index.d.cts",
         "default": "./lib/index.cjs"
       }
-    },
-    "./adapters/react": {
-      "import": {
-        "types": "./lib/adapters/react/index.d.mts",
-        "default": "./lib/adapters/react/index.mjs"
-      },
-      "require": {
-        "types": "./lib/adapters/react/index.d.cts",
-        "default": "./lib/adapters/react/index.cjs"
-      }
-    },
-    "./adapters/solid": {
-      "import": {
-        "types": "./lib/adapters/solid/index.d.mts",
-        "default": "./lib/adapters/solid/index.mjs"
-      },
-      "require": {
-        "types": "./lib/adapters/solid/index.d.cts",
-        "default": "./lib/adapters/solid/index.cjs"
-      }
-    },
-    "./adapters/ink": {
-      "import": {
-        "types": "./lib/adapters/ink/index.d.mts",
-        "default": "./lib/adapters/ink/index.mjs"
-      },
-      "require": {
-        "types": "./lib/adapters/ink/index.d.cts",
-        "default": "./lib/adapters/ink/index.cjs"
-      }
     }
   },
-  "dependencies": {
-    "@opentui/core": "^0.1.69",
-    "@opentui/react": "^0.1.69",
-    "react": "^19.0.0"
-  },
-  "optionalDependencies": {
-    "fullscreen-ink": "^0.1.0",
-    "ink": "^6.0.0",
-    "ink-syntax-highlight": "^2.0.2",
-    "ink-virtual-list": "^0.2.3"
-  },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.28.6",
     "@navios/core": "^1.0.0",
-    "@opentui/solid": "^0.1.69",
-    "@types/react": "^19.0.0",
-    "rolldown-plugin-solid": "^0.2.1",
-    "solid-js": "^1.9.0",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {

@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-01-15
+
+### Added
+
+- **Event Types** - New `events.types.ts` module with typed event definitions for screen and prompt interactions
+- **Readline Prompt Service** - New `ReadlinePromptService` for handling interactive prompts in non-TUI environments
+- **Prompt Utilities** - New `prompt.ts` utility module for prompt-related helper functions
+
+### Changed
+
+- **Adapter Extraction** - UI framework adapters moved to dedicated packages:
+  - `@navios/tui-adapter-ink` - Ink/React terminal adapter (new)
+  - `@navios/tui-adapter-react` - OpenTUI React web adapter (new)
+  - `@navios/tui-adapter-solid` - OpenTUI Solid.js web adapter (new)
+- **Screen Manager** - Refactored to support external adapter packages via `TuiAdapterInterface`
+- **Screen Service** - Enhanced with new event handling and state management
+- **Build Configuration** - Simplified to single TypeScript config, removed framework-specific configs
+- **Package Dependencies** - Removed direct UI framework dependencies (now in adapter packages)
+
+### Removed
+
+- **Built-in Adapters** - Removed `src/adapters/` directory (moved to separate packages)
+- **Framework-specific Configs** - Removed `tsconfig.ink.json`, `tsconfig.react.json`, `tsconfig.solid.json`
+- **Component Tests** - Removed component-level tests (moved to adapter packages)
+
 ## [1.3.0] - 2026-01-13
 
 ### Added
