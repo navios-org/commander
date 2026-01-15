@@ -1,0 +1,4 @@
+preload = ["@opentui/solid/preload", "./bun-plugin.mts"]
+
+[test]
+preload = ["@opentui/solid/preload", "./src/__tests__/setup.ts"]
