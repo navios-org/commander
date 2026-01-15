@@ -42,6 +42,7 @@ export class ScreenLoggerInstance implements LoggerService {
       typeof options.screen === 'string'
         ? {
             name: options.screen,
+            static: true,
           }
         : options.screen,
     )
@@ -51,7 +52,12 @@ export class ScreenLoggerInstance implements LoggerService {
   }
 
   private isLevelEnabled(level: LogLevel): boolean {
-    return this.enabledLevels.has(level)
+    // Check local logger levels first
+    if (!this.enabledLevels.has(level)) {
+      return false
+    }
+    // Then check global levels via ScreenManager
+    return this.screen.isLogLevelEnabled(level)
   }
 
   // ============================================

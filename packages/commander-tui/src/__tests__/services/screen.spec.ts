@@ -145,6 +145,7 @@ describe('ScreenInstance', () => {
         onScreenVisibilityChanged: vi.fn(),
         onScreenPromptActivated: vi.fn(),
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
       } as unknown as ScreenManager
 
       screen._setManager(mockManager)
@@ -159,6 +160,7 @@ describe('ScreenInstance', () => {
         onScreenVisibilityChanged: vi.fn(),
         onScreenPromptActivated: vi.fn(),
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
       } as unknown as ScreenManager
 
       screen._setManager(mockManager)
@@ -173,6 +175,7 @@ describe('ScreenInstance', () => {
         onScreenVisibilityChanged: vi.fn(),
         onScreenPromptActivated: vi.fn(),
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
       } as unknown as ScreenManager
 
       screen._setManager(mockManager)
@@ -295,6 +298,7 @@ describe('ScreenInstance', () => {
     beforeEach(() => {
       mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
     })
@@ -363,6 +367,7 @@ describe('ScreenInstance', () => {
         // Need to mock manager to prevent immediate resolution
         const mockManager = {
           isTuiBound: vi.fn(() => true),
+          isOpenTUIActive: vi.fn(() => true),
           onScreenPromptActivated: vi.fn(),
         } as unknown as ScreenManager
         screen._setManager(mockManager)
@@ -401,6 +406,7 @@ describe('ScreenInstance', () => {
         const prompt = createConfirmPrompt({ selectedValue: true })
         const mockManager = {
           isTuiBound: vi.fn(() => true),
+          isOpenTUIActive: vi.fn(() => true),
           onScreenPromptActivated: vi.fn(),
         } as unknown as ScreenManager
         screen._setManager(mockManager)
@@ -436,6 +442,7 @@ describe('ScreenInstance', () => {
         })
         const mockManager = {
           isTuiBound: vi.fn(() => true),
+          isOpenTUIActive: vi.fn(() => true),
           onScreenPromptActivated: vi.fn(),
         } as unknown as ScreenManager
         screen._setManager(mockManager)
@@ -471,6 +478,7 @@ describe('ScreenInstance', () => {
       })
       const mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)
@@ -489,6 +497,7 @@ describe('ScreenInstance', () => {
       })
       const mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)
@@ -503,6 +512,7 @@ describe('ScreenInstance', () => {
       const prompt = createInputPrompt()
       const mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)
@@ -519,6 +529,7 @@ describe('ScreenInstance', () => {
       })
       const mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)
@@ -533,6 +544,7 @@ describe('ScreenInstance', () => {
       const prompt = createInputPrompt({ value: '' })
       const mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)
@@ -547,6 +559,7 @@ describe('ScreenInstance', () => {
       const prompt = createInputPrompt({ value: 'hel' })
       const mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)
@@ -561,6 +574,7 @@ describe('ScreenInstance', () => {
       const prompt = createInputPrompt({ value: 'hello' })
       const mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)
@@ -578,6 +592,7 @@ describe('ScreenInstance', () => {
     beforeEach(() => {
       mockManager = {
         isTuiBound: vi.fn(() => true),
+        isOpenTUIActive: vi.fn(() => true),
         onScreenPromptActivated: vi.fn(),
       } as unknown as ScreenManager
       screen._setManager(mockManager)

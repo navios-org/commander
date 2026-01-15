@@ -1,5 +1,6 @@
-import { Command, type CommandHandler } from '@navios/commander'
+import { CommandHandler } from '@navios/commander'
 import { ScreenLogger } from '@navios/commander-tui'
+import { Command } from '@navios/commander/legacy-compat'
 import { inject } from '@navios/core'
 import { z } from 'zod'
 

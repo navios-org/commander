@@ -11,6 +11,7 @@
     "moduleResolution": "bundler",
     "declaration": false,
     "declarationMap": false,
+    "experimentalDecorators": true,
     "composite": false,
     "emitDeclarationOnly": false,
     "verbatimModuleSyntax": false

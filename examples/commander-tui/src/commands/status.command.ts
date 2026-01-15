@@ -1,5 +1,6 @@
-import { Command, type CommandHandler } from '@navios/commander'
+import { CommandHandler } from '@navios/commander'
 import { ScreenLogger } from '@navios/commander-tui'
+import { Command } from '@navios/commander/legacy-compat'
 import { inject } from '@navios/core'
 
 import { delay } from '../utils/index.js'
@@ -9,7 +10,10 @@ import { delay } from '../utils/index.js'
   description: 'Show system status',
 })
 export class StatusCommand implements CommandHandler {
-  private readonly logger = inject(ScreenLogger, { screen: { name: 'Status' }, context: 'Status' })
+  private readonly logger = inject(ScreenLogger, {
+    screen: { name: 'Status', static: true },
+    context: 'Status',
+  })
 
   async execute(): Promise<void> {
     this.logger.log('Fetching system status...')

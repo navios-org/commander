@@ -3,6 +3,7 @@ import { ConsoleLogger, NaviosFactory } from '@navios/core'
 import type { ClassTypeWithInstance, LogLevel, NaviosApplication, NaviosModule } from '@navios/core'
 
 import { defineCliEnvironment } from './define-environment.mjs'
+import { dynamicImport } from './utils/index.mjs'
 
 import type { CliEnvironment } from './interfaces/environment.interface.mjs'
 
@@ -64,9 +65,9 @@ export interface CommanderTuiOptions {
   exitOnCtrlC?: boolean
   /**
    * Adapter to use for the TUI.
-   * @default 'react'
+   * @default 'none'
    */
-  adapter?: 'react' | 'solid'
+  adapter?: 'react' | 'solid' | 'none'
   /**
    * Sidebar width in columns.
    */
@@ -98,6 +99,13 @@ export interface CommanderTuiOptions {
    * @default false
    */
   hideDefaultScreen?: boolean
+  /**
+   * Use OpenTUI for terminal rendering.
+   * When true: Full TUI with sidebar, scrolling, interactive prompts.
+   * When false: Stdout mode - static screens print immediately, others on completion.
+   * @default true for Node.js, false for Bun (OpenTUI not supported)
+   */
+  useOpenTUI?: boolean
 }
 
 /**
@@ -183,16 +191,20 @@ export class CommanderFactory {
     options: CommanderFactoryOptions = {},
   ): Promise<NaviosApplication<CliEnvironment>> {
     if (options.enableTUI) {
-      if (options.tuiOptions?.adapter === 'solid') {
-        await import('@navios/commander-tui/adapters/solid')
-      } else {
-        await import('@navios/commander-tui/adapters/react')
-      }
       // Dynamic import to keep commander-tui as optional peer dependency
       let tuiModule: typeof import('@navios/commander-tui')
       try {
-        tuiModule = await import('@navios/commander-tui')
-      } catch {
+        // Dynamic imports using Function constructor to bypass bundler static analysis
+        tuiModule =
+          await dynamicImport<typeof import('@navios/commander-tui')>('@navios/commander-tui')
+        const isBun = tuiModule.isBunRuntime()
+        if (options.tuiOptions?.adapter === 'solid' && isBun) {
+          await dynamicImport('@navios/commander-tui/adapters/solid')
+        } else if (options.tuiOptions?.adapter === 'react' && isBun) {
+          await dynamicImport('@navios/commander-tui/adapters/react')
+        }
+      } catch (error) {
+        console.error(error)
         throw new Error(
           'TUI mode requires @navios/commander-tui package. ' +
             'Install it with: npm install @navios/commander-tui',
@@ -225,6 +237,7 @@ export class CommanderFactory {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         theme: options.tuiOptions?.theme as any,
         useMouse: options.tuiOptions?.useMouse,
+        useOpenTUI: options.tuiOptions?.useOpenTUI,
       })
 
       return app

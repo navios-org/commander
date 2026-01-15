@@ -1,4 +1,4 @@
-import { CliModule } from '@navios/commander'
+import { CliModule } from '@navios/commander/legacy-compat'
 
 import { BuildCommand, DeployCommand, StatusCommand } from './commands/index.js'
 

@@ -1,14 +1,16 @@
-import { Injectable, inject, type OnServiceDestroy } from '@navios/core'
-import { createCliRenderer, type CliRenderer } from '@opentui/core'
+import { Container, Injectable, inject, type OnServiceDestroy } from '@navios/core'
+
+import type { LogLevel } from '@navios/core'
+import type { CliRenderer } from '@opentui/core'
 
 import { getThemePreset } from '../themes/index.ts'
 import { Adapter } from '../tokens/adapter.ts'
 import { ScreenManager } from '../tokens/screen-manager.ts'
-import { printMessagesToStdout } from '../utils/index.ts'
+import { dynamicImport, isBunRuntime, printMessagesToStdout } from '../utils/index.ts'
 
 import type { AdapterInterface, AdapterRoot } from '../adapters/interface.ts'
 import type { ScreenOptions } from '../schemas/index.ts'
-import type { BindOptions, FocusArea, Theme } from '../types/index.ts'
+import type { BindOptions, FocusArea, SetupOptions, Theme } from '../types/index.ts'
 
 import { ScreenInstance } from './screen.ts'
 
@@ -19,12 +21,14 @@ export class ScreenManagerInstance implements OnServiceDestroy {
   private activeScreenId: string | null = null
   private renderer: CliRenderer | null = null
   private root: AdapterRoot | null = null
-  private adapter: AdapterInterface = inject(Adapter)
+  private adapter: AdapterInterface | null = null
+  private container = inject(Container)
   private isBound: boolean = false
   private changeListeners: Set<() => void> = new Set()
   private bindOptions: BindOptions = {}
   private autoCloseTimer: ReturnType<typeof setTimeout> | null = null
   private theme: Theme | undefined
+  private globalLogLevels: Set<LogLevel> | null = null
 
   // Keyboard navigation state (exposed for bridge component)
   public focusArea: FocusArea = 'content'
@@ -94,8 +98,6 @@ export class ScreenManagerInstance implements OnServiceDestroy {
   async bind(options?: BindOptions): Promise<void> {
     if (this.isBound) return
 
-    // Get adapter from DI - will throw if not registered
-
     this.bindOptions = options ?? {}
 
     // Resolve theme from options
@@ -103,17 +105,31 @@ export class ScreenManagerInstance implements OnServiceDestroy {
       this.theme = typeof options.theme === 'string' ? getThemePreset(options.theme) : options.theme
     }
 
-    this.renderer = await createCliRenderer({
-      exitOnCtrlC: options?.exitOnCtrlC ?? true,
-      useAlternateScreen: true,
-      useMouse: options?.useMouse ?? true,
-    })
+    // Determine useOpenTUI default: false for Bun (not supported), true for Node.js
+    const useOpenTUI = options?.useOpenTUI ?? isBunRuntime()
 
-    this.root = await this.adapter.createRoot(this.renderer)
+    if (useOpenTUI) {
+      // Dynamic import of OpenTUI using Function constructor to bypass bundler static analysis
+      const { createCliRenderer } =
+        await dynamicImport<typeof import('@opentui/core')>('@opentui/core')
+
+      this.renderer = await createCliRenderer({
+        exitOnCtrlC: options?.exitOnCtrlC ?? true,
+        useAlternateScreen: true,
+        useMouse: options?.useMouse ?? true,
+      })
+
+      // Get adapter from container (React/Solid should already be registered)
+      this.adapter = await this.container.get(Adapter)
+      this.root = await this.adapter.createRoot(this.renderer!)
+
+      // Initial render
+      this.render()
+    }
+    // When useOpenTUI is false: no renderer, no root, no adapter
+    // Static screens print immediately, others print on completion
+
     this.isBound = true
-
-    // Initial render
-    this.render()
   }
 
   /**
@@ -121,6 +137,39 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    */
   getTheme(): Theme | undefined {
     return this.theme
+  }
+
+  /**
+   * Setup global configuration for the screen manager.
+   * Can be called before or after bind() to configure theme and log levels.
+   */
+  setup(options: SetupOptions): void {
+    if (options.theme) {
+      this.theme = typeof options.theme === 'string' ? getThemePreset(options.theme) : options.theme
+    }
+
+    if (options.logLevels) {
+      this.globalLogLevels = new Set(options.logLevels)
+    }
+  }
+
+  /**
+   * Check if a log level is enabled globally.
+   * Returns true if no global filter is set, or if the level is in the allowed set.
+   */
+  isLogLevelEnabled(level: LogLevel): boolean {
+    if (this.globalLogLevels === null) {
+      return true
+    }
+    return this.globalLogLevels.has(level)
+  }
+
+  /**
+   * Get the current global log levels filter.
+   * Returns null if no filter is set (all levels allowed).
+   */
+  getGlobalLogLevels(): LogLevel[] | null {
+    return this.globalLogLevels ? Array.from(this.globalLogLevels) : null
   }
 
   onServiceDestroy(): void {
@@ -140,18 +189,23 @@ export class ScreenManagerInstance implements OnServiceDestroy {
       this.autoCloseTimer = null
     }
 
-    this.root?.unmount()
+    // Only cleanup if OpenTUI was used
+    if (this.root) {
+      this.root.unmount()
+    }
 
     // Explicitly disable mouse tracking before destroy to prevent escape sequence leakage
     // Using type assertion to access private method as a safety measure
-    if (this.renderer && 'disableMouse' in this.renderer) {
-      ;(this.renderer as unknown as { disableMouse: () => void }).disableMouse()
+    if (this.renderer) {
+      if ('disableMouse' in this.renderer) {
+        ;(this.renderer as unknown as { disableMouse: () => void }).disableMouse()
+      }
+      this.renderer.destroy()
     }
-
-    this.renderer?.destroy()
 
     this.renderer = null
     this.root = null
+    this.adapter = null
     this.isBound = false
 
     // Flush all completed screens to console (in order)
@@ -175,6 +229,14 @@ export class ScreenManagerInstance implements OnServiceDestroy {
    */
   isTuiBound(): boolean {
     return this.isBound
+  }
+
+  /**
+   * Check if OpenTUI rendering is active (has renderer).
+   * When false, stdout mode is used - prompts return defaults, static screens print immediately.
+   */
+  isOpenTUIActive(): boolean {
+    return this.renderer !== null
   }
 
   /**
@@ -394,7 +456,7 @@ export class ScreenManagerInstance implements OnServiceDestroy {
   }
 
   private render(): void {
-    if (!this.root) return
+    if (!this.root || !this.adapter) return
 
     // Adapter owns the bridge component - no React import here
     this.adapter.renderToRoot(this.root, {

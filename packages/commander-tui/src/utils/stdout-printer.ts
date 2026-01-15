@@ -232,13 +232,24 @@ function printMessage(message: MessageData, stream: NodeJS.WriteStream): void {
 }
 
 /**
+ * Print a single message to stdout with optional screen name prefix.
+ * Used for immediate output in stdout mode (when OpenTUI is not active).
+ */
+export function printSingleMessage(message: MessageData, screenName?: string, isError: boolean = false): void {
+  const stream = isError ? process.stderr : process.stdout
+
+  // Add screen name prefix for context (dimmed)
+  if (screenName) {
+    stream.write(`${DIM}[${screenName}]${RESET} `)
+  }
+
+  printMessage(message, stream)
+}
+
+/**
  * Print all messages to stdout (or stderr if isError)
  */
-export function printMessagesToStdout(
-  messages: MessageData[],
-  screenName: string,
-  isError: boolean = false,
-): void {
+export function printMessagesToStdout(messages: MessageData[], screenName: string, isError: boolean = false): void {
   const stream = isError ? process.stderr : process.stdout
 
   // Print screen header

@@ -1,3 +1,4 @@
+import type { LogLevel } from '@navios/core'
 import type { RGBA, SyntaxStyle, TreeSitterClient } from '@opentui/core'
 import type { ReactNode } from 'react'
 
@@ -121,4 +122,18 @@ export interface BindOptions {
   theme?: Theme | ThemePreset
   /** Enable mouse support (default: true) */
   useMouse?: boolean
+  /**
+   * Use OpenTUI for terminal rendering.
+   * When true: Full TUI with sidebar, scrolling, interactive prompts.
+   * When false: Stdout mode - static screens print immediately, others on completion.
+   * Default: true for Node.js, false for Bun (OpenTUI not supported).
+   */
+  useOpenTUI?: boolean
+}
+
+export interface SetupOptions {
+  /** Theme to use for the TUI (theme object or preset name) */
+  theme?: Theme | ThemePreset
+  /** Global log levels filter - only these levels will be displayed across all loggers */
+  logLevels?: LogLevel[]
 }

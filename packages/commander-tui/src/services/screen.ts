@@ -1,3 +1,7 @@
+import type { LogLevel } from '@navios/core'
+
+import { printSingleMessage } from '../utils/index.ts'
+
 import type { ScreenOptions } from '../schemas/index.ts'
 import type {
   ChoicePromptData,
@@ -116,6 +120,17 @@ export class ScreenInstance {
   }
 
   /**
+   * Check if a log level is enabled globally via the ScreenManager.
+   * Returns true if no manager is set or if the level is allowed.
+   */
+  isLogLevelEnabled(level: LogLevel): boolean {
+    if (!this.manager) {
+      return true
+    }
+    return this.manager.isLogLevelEnabled(level)
+  }
+
+  /**
    * Set screen status. When success/fail and TUI is not bound, prints to stdout/stderr
    */
   setStatus(status: ScreenStatus): this {
@@ -146,7 +161,7 @@ export class ScreenInstance {
    * Check if this screen has been printed to console
    */
   hasPrintedToConsole(): boolean {
-    return this.hasPrinted
+    return this.hasPrinted || (!this.manager?.isOpenTUIActive() && this.status === 'static')
   }
 
   /**
@@ -171,6 +186,12 @@ export class ScreenInstance {
   addMessage(message: MessageData): void {
     this.messages.push(message)
     this.incrementVersion()
+
+    // In stdout mode, static screens print messages immediately
+    if (this.status === 'static' && !this.manager?.isOpenTUIActive()) {
+      this.printSingleMessageToConsole(message)
+    }
+
     this.notifyChange()
   }
 
@@ -180,11 +201,22 @@ export class ScreenInstance {
   updateMessage(id: string, updates: Partial<LoadingMessageData>): void {
     const index = this.messages.findIndex((m) => m.id === id)
     if (index !== -1) {
+      const oldMessage = this.messages[index] as LoadingMessageData
       this.messages[index] = {
         ...this.messages[index],
         ...updates,
       } as MessageData
       this.incrementVersion()
+
+      // In stdout mode for static screens, print when loading completes
+      if (this.status === 'static' && !this.manager?.isOpenTUIActive()) {
+        const newMessage = this.messages[index] as LoadingMessageData
+        // Only print when transitioning from 'loading' to 'success'/'fail'
+        if (newMessage.status !== 'loading' && oldMessage.status === 'loading') {
+          this.printSingleMessageToConsole(newMessage)
+        }
+      }
+
       this.notifyChange()
     }
   }
@@ -195,11 +227,25 @@ export class ScreenInstance {
   updateProgressMessage(id: string, updates: Partial<ProgressMessageData>): void {
     const index = this.messages.findIndex((m) => m.id === id)
     if (index !== -1) {
+      const oldMessage = this.messages[index] as ProgressMessageData
       this.messages[index] = {
         ...this.messages[index],
         ...updates,
       } as MessageData
       this.incrementVersion()
+
+      // In stdout mode for static screens, print when progress completes
+      if (this.status === 'static' && !this.manager?.isOpenTUIActive()) {
+        const newMessage = this.messages[index] as ProgressMessageData
+        if (
+          (newMessage.status === 'complete' || newMessage.status === 'failed') &&
+          oldMessage.status !== 'complete' &&
+          oldMessage.status !== 'failed'
+        ) {
+          this.printSingleMessageToConsole(newMessage)
+        }
+      }
+
       this.notifyChange()
     }
   }
@@ -226,8 +272,8 @@ export class ScreenInstance {
     return new Promise((resolve) => {
       const pending: PendingPrompt = { data: prompt, resolve }
 
-      // If TUI is not bound (non-interactive mode), return default immediately
-      if (!this.manager?.isTuiBound()) {
+      // If OpenTUI is not active (stdout mode), return default immediately
+      if (!this.manager?.isOpenTUIActive()) {
         this.resolvePromptWithDefault(prompt, resolve)
         return
       }
@@ -576,6 +622,13 @@ export class ScreenInstance {
 
   private notifyChange(): void {
     this.changeListeners.forEach((listener) => listener())
+  }
+
+  /**
+   * Print a single message immediately to stdout (for static screens in stdout mode)
+   */
+  private printSingleMessageToConsole(message: MessageData): void {
+    printSingleMessage(message, this.name, false)
   }
 
   /**

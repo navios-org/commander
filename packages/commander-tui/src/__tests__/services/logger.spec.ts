@@ -194,6 +194,38 @@ describe('ScreenLoggerInstance', () => {
         expect.objectContaining({ level: 'error' }),
       )
     })
+
+    it('should respect global log level filter from screen', async () => {
+      // Configure mock screen to disallow 'log' level globally
+      mockScreen.isLogLevelEnabled.mockImplementation((level: LogLevel) => level !== 'log')
+      const logger = await createLogger({ enabledLevels: ALL_LEVELS })
+
+      logger.log('Should not appear due to global filter')
+      logger.error('Should appear')
+
+      expect(mockScreen.addMessage).toHaveBeenCalledTimes(1)
+      expect(mockScreen.addMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ level: 'error' }),
+      )
+    })
+
+    it('should filter when both local and global levels restrict', async () => {
+      // Local allows only error, fatal; Global allows only warn, error
+      // Only 'error' should pass both filters
+      mockScreen.isLogLevelEnabled.mockImplementation(
+        (level: LogLevel) => level === 'warn' || level === 'error',
+      )
+      const logger = await createLogger({ enabledLevels: ['error', 'fatal'] })
+
+      logger.warn('Should not appear - not in local filter')
+      logger.fatal('Should not appear - not in global filter')
+      logger.error('Should appear - passes both filters')
+
+      expect(mockScreen.addMessage).toHaveBeenCalledTimes(1)
+      expect(mockScreen.addMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ level: 'error' }),
+      )
+    })
   })
 
   describe('setLogLevels', () => {

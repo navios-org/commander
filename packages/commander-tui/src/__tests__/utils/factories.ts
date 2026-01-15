@@ -268,6 +268,7 @@ export interface MockScreenInstance {
   setStatus: ReturnType<typeof vi.fn>
   isComplete: ReturnType<typeof vi.fn>
   hasPrintedToConsole: ReturnType<typeof vi.fn>
+  isLogLevelEnabled: ReturnType<typeof vi.fn>
   getMessages: ReturnType<typeof vi.fn>
   addMessage: ReturnType<typeof vi.fn>
   updateMessage: ReturnType<typeof vi.fn>
@@ -313,6 +314,7 @@ export function createMockScreenInstance(
     setStatus: vi.fn().mockReturnThis(),
     isComplete: vi.fn(() => false),
     hasPrintedToConsole: vi.fn(() => false),
+    isLogLevelEnabled: vi.fn(() => true),
     getMessages: vi.fn(() => []),
     addMessage: vi.fn(),
     updateMessage: vi.fn(),
