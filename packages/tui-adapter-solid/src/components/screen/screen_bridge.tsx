@@ -1,10 +1,11 @@
 import { TextAttributes } from '@opentui/core'
-import { createMemo, For, Show } from 'solid-js'
+import { createSignal, createEffect, createMemo, onCleanup, For, Show } from 'solid-js'
+
+import { SCREEN_EVENTS } from '@navios/commander-tui'
+import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
 import { PromptRenderer } from '../prompt/index.ts'
-
-import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
 import { GroupRenderer } from './group_renderer.tsx'
 import { MessageRenderer } from './message_renderer.tsx'
@@ -71,15 +72,40 @@ function processMessagesIntoGroups(messages: MessageData[]): ProcessedMessage[] 
 
 /**
  * Screen content renderer.
- * This is a pure component that receives all data via props.
- * Parent (ContentArea) manages subscriptions and re-renders this when data changes.
+ * Subscribes to screen events to ensure messages are displayed reactively.
  */
 export function ScreenBridge(props: ScreenBridgeProps) {
   const theme = useTheme()
+  const [messageVersion, setMessageVersion] = createSignal(0)
+
+  // Subscribe to screen events to trigger re-render when messages change
+  // This is necessary because Solid props are not automatically reactive -
+  // the parent's filteredMessages memo update doesn't propagate without
+  // an explicit signal dependency in this component.
+  createEffect(() => {
+    const handleUpdate = () => setMessageVersion((v) => v + 1)
+
+    for (const event of SCREEN_EVENTS) {
+      props.screen.on(event, handleUpdate)
+    }
+
+    onCleanup(() => {
+      for (const event of SCREEN_EVENTS) {
+        props.screen.off(event, handleUpdate)
+      }
+    })
+  })
 
   // Use filtered messages if provided, otherwise get from screen
-  const messages = () => props.filteredMessages ?? props.screen.getMessages()
-  const activePrompt = () => props.screen.getActivePrompt()
+  // Track messageVersion to ensure reactivity when messages change
+  const messages = () => {
+    messageVersion() // Track dependency for reactivity
+    return props.filteredMessages ?? props.screen.getMessages()
+  }
+  const activePrompt = () => {
+    messageVersion() // Track dependency for prompt updates
+    return props.screen.getActivePrompt()
+  }
   const processedMessages = createMemo(() => processMessagesIntoGroups(messages()))
 
   // Calculate filter stats
