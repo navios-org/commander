@@ -1,6 +1,6 @@
 import { Box, Text } from 'ink'
 
-import type { MessageData, GroupMessageData } from '@navios/commander-tui'
+import type { MessageData, GroupMessageData, ScreenInstance } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
 
@@ -9,9 +9,10 @@ import { MessageRenderer } from './message_renderer.tsx'
 export interface GroupRendererProps {
   label: string
   messages: MessageData[]
+  screen: ScreenInstance
 }
 
-export function GroupRenderer({ label, messages }: GroupRendererProps) {
+export function GroupRenderer({ label, messages, screen }: GroupRendererProps) {
   const theme = useTheme()
 
   return (
@@ -32,7 +33,7 @@ export function GroupRenderer({ label, messages }: GroupRendererProps) {
         {/* Group content */}
         <Box flexDirection="column" gap={1}>
           {messages.map((msg) => (
-            <MessageRenderer key={msg.id} message={msg} />
+            <MessageRenderer key={msg.id} message={msg} screen={screen} />
           ))}
         </Box>
       </Box>

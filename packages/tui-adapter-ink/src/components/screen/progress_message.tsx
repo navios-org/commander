@@ -1,14 +1,37 @@
 import { Box, Text } from 'ink'
 
-import type { ProgressMessageData } from '@navios/commander-tui'
+import type { ProgressMessageData, ScreenInstance } from '@navios/commander-tui'
 
-import { useTheme } from '../../hooks/index.ts'
+import { useTheme, useProgressMessageUpdate } from '../../hooks/index.ts'
 
 export interface ProgressMessageProps {
   message: ProgressMessageData
+  screen: ScreenInstance
 }
 
-export function ProgressMessage({ message }: ProgressMessageProps) {
+function getStatusColor(
+  status: ProgressMessageData['status'],
+  theme: { complete: string; failed: string; border: string; barFilled: string },
+  defaultKey: 'border' | 'barFilled',
+): string {
+  switch (status) {
+    case 'complete':
+      return theme.complete
+    case 'failed':
+      return theme.failed
+    default:
+      return theme[defaultKey]
+  }
+}
+
+/**
+ * Progress message component that subscribes to its own update events.
+ * This allows it to re-render only when this specific message is updated.
+ */
+export function ProgressMessage({ message: initialMessage, screen }: ProgressMessageProps) {
+  // Subscribe to updates for this specific message
+  const message = useProgressMessageUpdate(screen, initialMessage.id, initialMessage)
+
   const theme = useTheme()
   const percent = Math.round((message.current / message.total) * 100)
   const barWidth = 20
@@ -18,21 +41,8 @@ export function ProgressMessage({ message }: ProgressMessageProps) {
   const barFilled = '█'.repeat(filled)
   const barEmpty = '░'.repeat(empty)
 
-  // Determine colors based on status
-  const borderColor =
-    message.status === 'complete'
-      ? theme.progress.complete
-      : message.status === 'failed'
-        ? theme.progress.failed
-        : theme.progress.border
-
-  const barColor =
-    message.status === 'complete'
-      ? theme.progress.complete
-      : message.status === 'failed'
-        ? theme.progress.failed
-        : theme.progress.barFilled
-
+  const borderColor = getStatusColor(message.status, theme.progress, 'border')
+  const barColor = getStatusColor(message.status, theme.progress, 'barFilled')
   const displayLabel = message.resolvedContent ?? message.label
 
   return (

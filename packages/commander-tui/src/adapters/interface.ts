@@ -15,8 +15,9 @@ export interface AdapterRoot {
 
   /**
    * Unmount and cleanup the root.
+   * Can be async to allow waiting for cleanup to complete.
    */
-  unmount(): void
+  unmount(): void | Promise<void>
 }
 
 /**

@@ -10,7 +10,7 @@ export const ScreenOptionsSchema = z.object({
   /** Whether the screen is hidden */
   hidden: z.boolean().optional().default(false),
   /** Whether the screen is static (ignored in auto-close calculations) */
-  static: z.boolean().optional().default(false),
+  static: z.boolean().optional().default(true),
 })
 
 export type ScreenOptions = z.infer<typeof ScreenOptionsSchema>

@@ -74,6 +74,8 @@ export class ScreenManagerInstance
     // Set first visible screen as active by default
     if (!this.activeScreenId && !screen.isHidden()) {
       this.activeScreenId = id
+      // Emit activeScreen:changed so subscribers know about the new active screen
+      this.emit('activeScreen:changed', id)
     }
 
     this.checkAutoClose()
@@ -266,15 +268,15 @@ export class ScreenManagerInstance
     return this.globalLogLevels ? Array.from(this.globalLogLevels) : null
   }
 
-  onServiceDestroy(): void {
-    this.unbind()
+  async onServiceDestroy(): Promise<void> {
+    await this.unbind()
   }
 
   /**
    * Stop TUI rendering and cleanup
    * Flushes screens to stdout/stderr based on mode
    */
-  unbind(): void {
+  async unbind(): Promise<void> {
     if (this.mode === RenderMode.UNBOUND) {
       // Even in unbound mode, flush any remaining screens on destroy
       this.flushRemainingScreens()
@@ -292,7 +294,7 @@ export class ScreenManagerInstance
     // Cleanup TUI if active
     if (previousMode === RenderMode.TUI_ACTIVE) {
       if (this.root) {
-        this.root.unmount()
+        await this.root.unmount()
       }
 
       // Explicitly disable mouse tracking before destroy to prevent escape sequence leakage
@@ -504,7 +506,7 @@ export class ScreenManagerInstance
     // Start auto-close timer (either all non-static screens succeeded, or only static screens exist)
     const delay = typeof autoClose === 'number' ? autoClose : 5000
     this.autoCloseTimer = setTimeout(() => {
-      this.unbind()
+      void this.unbind()
     }, delay)
   }
 

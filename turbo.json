@@ -27,11 +27,13 @@
     },
     "publish:pkg": {
       "dependsOn": ["build"],
-      "cache": false
+      "cache": false,
+      "env": ["NPM_AUTH_TOKEN"]
     },
     "publish:next": {
       "dependsOn": ["build"],
-      "cache": false
+      "cache": false,
+      "env": ["NPM_AUTH_TOKEN"]
     }
   }
 }

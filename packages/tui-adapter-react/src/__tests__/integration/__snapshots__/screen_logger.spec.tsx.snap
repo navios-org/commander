@@ -1,0 +1,1429 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`ScreenLogger Integration log methods should render log messages from logger 1`] = `
+" App                                                                            
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ Application started                                                          
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Debug info                                                                   
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Warning message                                                              
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Error occurred                                                               
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration log methods should render success message 1`] = `
+" App                                                                            
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ Operation completed successfully                                             
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration log methods should render messages with labels 1`] = `
+" App                                                                            
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM [BUILD]                                                          
+ │ Starting build                                                               
+                                                                                
+ │ 12:00:00 AM [DEPRECATION]                                                    
+ │ Deprecated API usage                                                         
+                                                                                
+ │ 12:00:00 AM [NETWORK]                                                        
+ │ Connection failed                                                            
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration log methods should respect log level filtering 1`] = `
+" Screens                │ App                                                   
+────────────────────────│───────────────────────────────────────────────────────
+ > ● App               █│                                                       
+ > ● ErrorOnly         █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenLogger Integration loading handle should render loading state 1`] = `
+" Tasks                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ ⠋ Fetching data from server...                                               
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration loading handle should render loading success state 1`] = `
+" Tasks                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ Connected!                                                                   
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration loading handle should render loading fail state 1`] = `
+" Tasks                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ Authentication failed                                                        
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration progress handle should render progress bar 1`] = `
+" Progress                                                                       
+────────────────────────────────────────────────────────────────────────────────
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Downloading files                                 
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration progress handle should render progress update 1`] = `
+" Progress                                                                       
+────────────────────────────────────────────────────────────────────────────────
+ │ [██████████ ░░░░░░░░░░] 50% Installing packages                              
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration progress handle should render progress with updated label 1`] = `
+" Progress                                                                       
+────────────────────────────────────────────────────────────────────────────────
+ │ [███████████████ ░░░░░] 75% Almost done                                      
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration progress handle should render completed progress 1`] = `
+" Progress                                                                       
+────────────────────────────────────────────────────────────────────────────────
+ │ [████████████████████ ] 100% Build finished!                                 
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration progress handle should render failed progress 1`] = `
+" Progress                                                                       
+────────────────────────────────────────────────────────────────────────────────
+ │ [██████████ ░░░░░░░░░░] 50% Compilation error                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration groups should render message groups 1`] = `
+" Grouped                                                                        
+────────────────────────────────────────────────────────────────────────────────
+ │ ▼ Build Phase                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling TypeScript                                                       
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Bundling assets                                                            
+                                                                                
+ │ ▼ Test Phase                                                                 
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Running unit tests                                                        █
+ │                                                                             █
+ │ │ 12:00:00 AM                                                               █
+ │ │ Running integration tests                                                 █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration table should render table data 1`] = `
+" Tables                                                                         
+────────────────────────────────────────────────────────────────────────────────
+ │ name    │ role      │ status                                                 
+ │ ────────┼───────────┼───────                                                 
+ │ Alice   │ Developer │ Active                                                 
+ │ Bob     │ Designer  │ Active                                                 
+ │ Charlie │ Manager   │ Away                                                   
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration table should render table with title 1`] = `
+" Tables                                                                         
+────────────────────────────────────────────────────────────────────────────────
+ │ Dependencies                                                                 
+ │ package    │ version │ size                                                  
+ │ ───────────┼─────────┼──────                                                 
+ │ react      │ 19.0.0  │ 2.5kb                                                 
+ │ typescript │ 5.0.0   │ 15kb                                                  
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration multiple loggers should render messages from multiple loggers to different screens 1`] = `
+" Screens                │ Build                                                 
+────────────────────────│───────────────────────────────────────────────────────
+ > ● Build             █│ │ 12:00:00 AM                                         
+ > ● Tests             █│ │ Compiling source files...                           
+                       █│                                                       
+                       █│ │ 12:00:00 AM                                         
+                       █│ │ Build completed                                     
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenLogger Integration multiple loggers should switch between screens with different logger outputs 1`] = `
+" Screens                │ Tests                                                 
+────────────────────────│───────────────────────────────────────────────────────
+ > ● Build             █│ │ 12:00:00 AM                                         
+ > ● Tests             █│ │ Test output here                                    
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively render log messages as they are added 1`] = `
+" Build                                                                          
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively render log messages as they are added 2`] = `
+" Build                                                                          
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Starting build process...                                                    
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively render log messages as they are added 3`] = `
+" Build                                                                          
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Starting build process...                                                    
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Compiling TypeScript files...                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively render log messages as they are added 4`] = `
+" Build                                                                          
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Starting build process...                                                    
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Compiling TypeScript files...                                                
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Deprecated API detected in src/legacy.ts                                     
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively render log messages as they are added 5`] = `
+" Build                                                                          
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Starting build process...                                                    
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Compiling TypeScript files...                                                
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Deprecated API detected in src/legacy.ts                                     
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Build completed successfully!                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update loading state 1`] = `
+" Deploy                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ ⠋ Deploying to production...                                                 
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update loading state 2`] = `
+" Deploy                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Deployment complete!                                                         
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update loading state 3`] = `
+" Deploy                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Deployment complete!                                                         
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ ⠋ Running post-deploy checks...                                              
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update loading state 4`] = `
+" Deploy                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Deployment complete!                                                         
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Health check failed                                                          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update progress bar 1`] = `
+" Install                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Installing dependencies                           
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update progress bar 2`] = `
+" Install                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [█████ ░░░░░░░░░░░░░░░] 25% Installing lodash...                             
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update progress bar 3`] = `
+" Install                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [██████████ ░░░░░░░░░░] 50% Installing react...                              
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update progress bar 4`] = `
+" Install                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [███████████████ ░░░░░] 75% Installing typescript...                         
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively update progress bar 5`] = `
+" Install                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [████████████████████ ] 100% All dependencies installed!                     
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 1`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 2`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling sources...                                                       
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 3`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling sources...                                                       
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Build passed                                                               
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 4`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling sources...                                                       
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Build passed                                                               
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 5`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling sources...                                                       
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Build passed                                                               
+                                                                                
+ │ ▼ Test Stage                                                                 
+ │                                                                              
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 6`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling sources...                                                       
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Build passed                                                               
+                                                                                
+ │ ▼ Test Stage                                                                 
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Running unit tests...                                                      
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 7`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling sources...                                                       
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Build passed                                                               
+                                                                                
+ │ ▼ Test Stage                                                                 
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Running unit tests...                                                      
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Running integration tests...                                               
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should progressively build grouped messages 8`] = `
+" Pipeline                                                                       
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ ▼ Build Stage                                                                
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Compiling sources...                                                       
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Build passed                                                               
+                                                                                
+ │ ▼ Test Stage                                                                 
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Running unit tests...                                                      
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ Running integration tests...                                               
+ │                                                                              
+ │ │ 12:00:00 AM                                                                
+ │ │ All tests passed                                                           
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle mixed message types progressively 1`] = `
+" CI                                                                             
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ CI Pipeline started                                                          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle mixed message types progressively 2`] = `
+" CI                                                                             
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ CI Pipeline started                                                          
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ ⠋ Checking out code...                                                       
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle mixed message types progressively 3`] = `
+" CI                                                                             
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ CI Pipeline started                                                          
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Code checked out                                                             
+                                                                                
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Building project                                  
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle mixed message types progressively 4`] = `
+" CI                                                                             
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ CI Pipeline started                                                          
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Code checked out                                                             
+                                                                                
+ │ [██████████ ░░░░░░░░░░] 50% Compiling...                                     
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle mixed message types progressively 5`] = `
+" CI                                                                             
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ CI Pipeline started                                                          
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Code checked out                                                             
+                                                                                
+ │ [████████████████████ ] 100% Build successful                                
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Pipeline completed!                                                          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle loading failure progression 1`] = `
+" Network                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ ⠋ Connecting to server...                                                    
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle loading failure progression 2`] = `
+" Network                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Connection refused                                                           
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle loading failure progression 3`] = `
+" Network                                                                        
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Connection refused                                                           
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Failed to connect to api.example.com:443                                     
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle progress failure progression 1`] = `
+" Upload                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Uploading files                                   
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle progress failure progression 2`] = `
+" Upload                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [██████ ░░░░░░░░░░░░░░] 30% Uploading image1.png...                          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle progress failure progression 3`] = `
+" Upload                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [████████████ ░░░░░░░░] 60% Uploading image2.png...                          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;
+
+exports[`ScreenLogger Integration progressive rendering should handle progress failure progression 4`] = `
+" Upload                                                                         
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+ │ [████████████ ░░░░░░░░] 60% Upload failed: Network error                     
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+"
+`;

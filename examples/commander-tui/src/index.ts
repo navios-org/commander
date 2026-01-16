@@ -23,8 +23,8 @@ async function bootstrap() {
     enableTUI: true,
     tuiOptions: {
       sidebarTitle: 'Commander TUI Demo',
-      autoClose: 50000, // Auto close 5 seconds after all screens complete
-      hideDefaultScreen: false,
+      autoClose: 5000, // Auto close 5 seconds after all screens complete
+      hideDefaultScreen: true,
       adapter: 'ink',
     },
   })
@@ -33,7 +33,6 @@ async function bootstrap() {
 
   const adapter = app.getAdapter()
   await adapter.run(process.argv)
-
   await app.close()
   console.log('App closed')
 }

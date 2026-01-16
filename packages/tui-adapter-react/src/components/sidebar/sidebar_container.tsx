@@ -1,7 +1,6 @@
-import { SIDEBAR_EVENTS } from '@navios/commander-tui'
-import { useState, useEffect, useMemo } from 'react'
-
 import type { ScreenManagerInstance } from '@navios/commander-tui'
+
+import { useScreenList, useSidebarIndex, useFocusArea, useActiveScreen } from '../../hooks/index.ts'
 
 import { Sidebar } from './sidebar.tsx'
 
@@ -13,48 +12,28 @@ export interface SidebarContainerProps {
 
 /**
  * Container component that manages sidebar subscriptions.
- * Only re-renders when sidebar-relevant events fire.
+ * Uses useSyncExternalStore-based hooks for proper React 18 concurrent mode support.
  */
 export function SidebarContainer({ manager, width, title }: SidebarContainerProps) {
-  const [, forceUpdate] = useState({})
+  const screens = useScreenList(manager)
+  const sidebarIndex = useSidebarIndex(manager)
+  const focusArea = useFocusArea(manager)
+  const activeScreen = useActiveScreen(manager)
 
-  // Subscribe only to events that affect sidebar rendering
-  useEffect(() => {
-    const handleUpdate = () => forceUpdate({})
-
-    for (const event of SIDEBAR_EVENTS) {
-      manager.on(event, handleUpdate)
-    }
-
-    return () => {
-      for (const event of SIDEBAR_EVENTS) {
-        manager.off(event, handleUpdate)
-      }
-    }
-  }, [manager])
-
-  // Derive sidebar state from manager
-  const screens = manager.getScreens()
-  const activeScreen = manager.getActiveScreen()
-  const activeScreenId = activeScreen?.getId() ?? screens[0]?.getId() ?? ''
-  const hasSidebar = screens.length > 1
-
-  // Memoize sidebar props to prevent unnecessary child re-renders
-  const sidebarProps = useMemo(
-    () => ({
-      screens,
-      selectedIndex: manager.selectedIndex,
-      activeScreenId,
-      focused: manager.focusArea === 'sidebar',
-      width,
-      title,
-    }),
-    [screens, manager.selectedIndex, activeScreenId, manager.focusArea, width, title],
-  )
-
-  if (!hasSidebar) {
+  if (screens.length <= 1) {
     return null
   }
 
-  return <Sidebar {...sidebarProps} />
+  const activeScreenId = activeScreen?.getId() ?? screens[0]?.getId() ?? ''
+
+  return (
+    <Sidebar
+      screens={screens}
+      selectedIndex={sidebarIndex}
+      activeScreenId={activeScreenId}
+      focused={focusArea === 'sidebar'}
+      width={width}
+      title={title}
+    />
+  )
 }

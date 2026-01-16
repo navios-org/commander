@@ -1,16 +1,25 @@
 import { useState, useEffect, useRef } from 'react'
 
-import type { LoadingMessageData, LogMessageVariant } from '@navios/commander-tui'
+import type { LoadingMessageData, LogMessageVariant, ScreenInstance } from '@navios/commander-tui'
 
+import { useLoadingMessageUpdate } from '../../hooks/index.ts'
 import { LogMessage } from '../log/index.ts'
 
 const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 
 export interface LoadingMessageProps {
   message: LoadingMessageData
+  screen: ScreenInstance
 }
 
-export function LoadingMessage({ message }: LoadingMessageProps) {
+/**
+ * Loading message component that subscribes to its own update events.
+ * This allows it to re-render only when this specific message is updated.
+ */
+export function LoadingMessage({ message: initialMessage, screen }: LoadingMessageProps) {
+  // Subscribe to updates for this specific message
+  const message = useLoadingMessageUpdate(screen, initialMessage.id, initialMessage)
+
   const [frameIndex, setFrameIndex] = useState(0)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 

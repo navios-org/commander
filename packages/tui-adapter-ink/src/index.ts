@@ -1,16 +1,18 @@
 import { Adapter } from '@navios/commander-tui'
 import { Injectable } from '@navios/core'
-import { withFullScreen } from 'fullscreen-ink'
 import { createElement } from 'react'
 
 import type { AdapterInterface, AdapterRoot, AdapterRenderProps } from '@navios/commander-tui'
 
 import { ScreenManagerBridge } from './components/screen_manager_bridge.tsx'
+import { withFullScreen } from './fullscreen/index.ts'
+
+import type { WithFullScreen } from './fullscreen/index.ts'
 
 /**
  * Ink adapter for TUI rendering.
  * Uses Ink's native rendering system instead of OpenTUI.
- * Uses fullscreen-ink for alternate screen buffer and fullscreen support.
+ * Uses internal fullscreen utilities for alternate screen buffer and fullscreen support.
  * Automatically registers to DI when this module is imported.
  */
 @Injectable({ token: Adapter })
@@ -21,7 +23,7 @@ export class InkAdapter implements AdapterInterface {
   readonly handlesOwnRenderer = true
 
   createRoot(): AdapterRoot {
-    let ink: ReturnType<typeof withFullScreen> | null = null
+    let ink: WithFullScreen | null = null
 
     return {
       render(element: unknown): void {
@@ -37,9 +39,11 @@ export class InkAdapter implements AdapterInterface {
           ink.start()
         }
       },
-      unmount(): void {
+      async unmount(): Promise<void> {
         if (ink) {
           ink.instance.unmount()
+          // Wait for fullscreen to properly exit and cleanup
+          await ink.waitUntilExit()
           ink = null
         }
       },

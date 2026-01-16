@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-01-16
+
+### Added
+
+- **Screen Context** - New `ScreenContext` for sharing screen state across components
+- **Fullscreen Support** - New fullscreen module with `FullscreenBox`, `useScreenSize`, and `withFullscreen` HOC
+- **Store Hooks** - New reactive hooks for state management:
+  - `useScreenStore` - Subscribe to screen state changes
+  - `useManagerStore` - Subscribe to screen manager state changes
+  - `useMessageUpdate` - Subscribe to message updates with auto-refresh
+- **Integration Tests** - Comprehensive integration tests for screen logger and screen manager
+
+### Changed
+
+- **Component Simplification** - Simplified progress message color logic with helper functions
+- **Sidebar Container** - Removed unnecessary `useMemo`, improved early return pattern
+- **Screen Bridge** - Enhanced with new context integration
+- **Group Renderer** - Updated for improved message rendering
+- **Loading Message** - Refined loading indicator behavior
+- **Message Renderer** - Improved message display logic
+- **Content Area** - Enhanced content rendering
+- **Help Overlay** - Updated help overlay styling
+
 ## [1.1.0] - 2026-01-16
 
 ### Changed

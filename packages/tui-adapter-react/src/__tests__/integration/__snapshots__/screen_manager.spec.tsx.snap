@@ -1,0 +1,337 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`ScreenManager Integration with single screen should render empty screen 1`] = `
+" Main                                                                           
+────────────────────────────────────────────────────────────────────────────────
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenManager Integration with single screen should render screen with log message 1`] = `
+" Main                                                                           
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ Hello World                                                                  
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenManager Integration with single screen should render screen with multiple log messages 1`] = `
+" Main                                                                           
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ First message                                                                
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Warning message                                                              
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ Error message                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenManager Integration with single screen should render screen with loading message 1`] = `
+" Main                                                                           
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ ⠋ Loading data...                                                            
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenManager Integration with single screen should render screen with progress message 1`] = `
+" Main                                                                           
+────────────────────────────────────────────────────────────────────────────────
+ │ [█████████ ░░░░░░░░░░░] 45% Processing files                                 
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenManager Integration with single screen should render screen with mixed message types 1`] = `
+" Main                                                                           
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ Starting process...                                                          
+                                                                                
+ │ 12:00:00 AM                                                                  
+ │ ⠋ Fetching data                                                              
+                                                                                
+ │ [██████ ░░░░░░░░░░░░░░] 30% Downloading                                      
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`ScreenManager Integration with multiple screens should render sidebar with multiple screens 1`] = `
+" Screens                │ Build                                                 
+────────────────────────│───────────────────────────────────────────────────────
+ > ● Build             █│                                                       
+ > ● Tests             █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenManager Integration with multiple screens should show first screen as active by default 1`] = `
+" Screens                │ Build                                                 
+────────────────────────│───────────────────────────────────────────────────────
+ > ● Build             █│ │ 12:00:00 AM                                         
+ > ● Tests             █│ │ Build output                                        
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenManager Integration with multiple screens should render second screen when set as active 1`] = `
+" Screens                │ Tests                                                 
+────────────────────────│───────────────────────────────────────────────────────
+ > ● Build             █│ │ 12:00:00 AM                                         
+ > ● Tests             █│ │ Test output                                         
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenManager Integration with multiple screens should highlight selected screen in sidebar 1`] = `
+" Screens                │ Build                                                 
+────────────────────────│───────────────────────────────────────────────────────
+ > ● Build             █│                                                       
+ > ● Tests             █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenManager Integration with multiple screens should handle screen with icon and badge 1`] = `
+" Screens                │ Build                                                 
+────────────────────────│───────────────────────────────────────────────────────
+ > ● Build             █│                                                       
+ > ● Tests             █│                                                       
+ > ● Errors         3  █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                       █│                                                       
+                        │                                                       
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+                        │                                                      █
+────────────────────────│                                                      █
+ q: exit | Tab: focus   │                                                      █
+"
+`;
+
+exports[`ScreenManager Integration render tracking should capture non-empty frame 1`] = `
+" Main                                                                           
+────────────────────────────────────────────────────────────────────────────────
+ │ 12:00:00 AM                                                                  
+ │ Test message                                                                 
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;

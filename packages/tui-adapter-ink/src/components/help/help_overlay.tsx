@@ -1,9 +1,9 @@
 import { formatKeyBinding } from '@navios/commander-tui'
-import { useScreenSize } from 'fullscreen-ink'
 import { Box, Text } from 'ink'
 
 import type { KeyBinding, KeyBindingCategory } from '@navios/commander-tui'
 
+import { useScreenSize } from '../../fullscreen/index.ts'
 import { useTheme } from '../../hooks/index.ts'
 
 export interface HelpOverlayProps {

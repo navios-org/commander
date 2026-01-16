@@ -1,0 +1,281 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`File Messages Integration FileMessage (full file) should render file with content 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/components/Button.tsx                                                   
+ │────────────────────────────────────────────────────────────────────────────  
+ │import React from 'react'                                                     
+ │                                                                              
+ │export function Button({ children }) {                                        
+ │  return <button>{children}</button>                                          
+ │}                                                                             
+ │                                                                              
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration FileMessage (full file) should render TypeScript file 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/utils/helpers.ts                                                        
+ │────────────────────────────────────────────────────────────────────────────  
+ │export function add(a: number, b: number): number {                           
+ │  return a + b                                                                
+ │}                                                                             
+ │                                                                              
+ │export const multiply = (x: number, y: number) => x * y                       
+ │                                                                              
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration FileMessage (full file) should render JSON file 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /package.json                                                                
+ │────────────────────────────────────────────────────────────────────────────  
+ │{                                                                             
+ │  "name": "my-app",                                                           
+ │  "version": "1.0.0",                                                         
+ │  "dependencies": {                                                           
+ │    "react": "^19.0.0"                                                        
+ │  }                                                                           
+ │}                                                                             
+ │                                                                              
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration DiffMessage should render unified diff 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/config.ts                                                               
+ │────────────────────────────────────────────────────────────────────────────  
+ │Error parsing diff: Added line count did not match for hunk at line 3         
+ │                                                                              
+ │--- a/src/config.ts                                                           
+ │+++ b/src/config.ts                                                           
+ │@@ -1,5 +1,6 @@                                                               
+ │ export const config = {                                                      
+ │   port: 3000,                                                                
+ │-  host: 'localhost',                                                         
+ │+  host: '0.0.0.0',                                                           
+ │+  debug: true,                                                              █
+ │ }                                                                           █
+ │                                                                             █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration DiffMessage should render diff with additions only 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/index.ts                                                                
+ │────────────────────────────────────────────────────────────────────────────  
+ │ 1   import { app } from './app'                                              
+ │ 2 + import { logger } from './logger'                                        
+ │ 3 + import { config } from './config'                                        
+ │ 2 - app.listen(3000)                                                         
+ │ 4 + logger.info('Starting server...')                                        
+ │ 5 + app.listen(config.port)                                                  
+ │ 6 + logger.info('Server started')                                            
+ │                                                                              
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration DiffMessage should render diff with deletions only 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/deprecated.ts                                                           
+ │────────────────────────────────────────────────────────────────────────────  
+ │Error parsing diff: Removed line count did not match for hunk at line 3       
+ │                                                                              
+ │--- a/src/deprecated.ts                                                       
+ │+++ b/src/deprecated.ts                                                       
+ │@@ -1,8 +1,3 @@                                                               
+ │ export function main() {                                                     
+ │-  // Old implementation                                                      
+ │-  console.log('deprecated')                                                  
+ │-  legacyInit()                                                               
+ │-}                                                                           █
+ │-                                                                            █
+ │-function legacyInit() {                                                     █
+ │-  // Remove this                                                            █
+ │+  // New implementation                                                     █
+ │ }                                                                           █
+ │                                                                             █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration FileErrorMessage (partial file with error highlighting) should render file excerpt with single error line 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/api.ts                                                                  
+ │────────────────────────────────────────────────────────────────────────────  
+ │ 10  async function fetchData() {                                             
+ │ 11    const response = await fetch(url)                                      
+ ││ 12    const data = response.json() // Missing await                         
+ │ 13    return data                                                            
+ │ 14  }                                                                        
+ │                                                                              
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration FileErrorMessage (partial file with error highlighting) should render file excerpt with multiple error lines 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/validation.ts                                                           
+ │────────────────────────────────────────────────────────────────────────────  
+ │  5  function validate(input: unknown) {                                      
+ ││  6    if (input = null) { // Assignment instead of comparison               
+ │  7      return false                                                         
+ │  8    }                                                                      
+ ││  9    if (typeof input == 'string') { // Should use ===                     
+ │ 10      return true                                                          
+ │ 11    }                                                                      
+ │ 12    return false                                                           
+ │ 13  }                                                                        
+ │                                                                             █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration FileErrorMessage (partial file with error highlighting) should render file excerpt starting from line 1 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/broken.ts                                                               
+ │────────────────────────────────────────────────────────────────────────────  
+ ││  1  import { missing } from 'nonexistent'                                   
+ ││  2  import { also } from 'missing-package'                                  
+ │  3                                                                           
+ │  4  export const value = missing()                                           
+ │                                                                              
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;
+
+exports[`File Messages Integration mixed file messages should render multiple file messages together 1`] = `
+" Files                                                                          
+────────────────────────────────────────────────────────────────────────────────
+ │ /src/types.ts                                                                
+ │────────────────────────────────────────────────────────────────────────────  
+ │export interface User {                                                       
+ │  id: string                                                                  
+ │  name: string                                                                
+ │}                                                                             
+ │                                                                              
+                                                                                
+ │ /src/types.ts                                                                
+ │────────────────────────────────────────────────────────────────────────────  
+ │ 1   export interface User {                                                  
+ │ 2     id: string                                                            █
+ │ 3     name: string                                                          █
+ │ 4 +   email: string                                                         █
+ │ 5   }                                                                       █
+ │                                                                             █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+"
+`;

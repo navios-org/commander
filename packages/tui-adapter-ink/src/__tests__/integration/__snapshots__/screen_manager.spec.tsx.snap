@@ -1,0 +1,298 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ScreenManager Integration > render tracking > should capture non-empty frame 1`] = `
+" Main
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Test message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenManager Integration > with multiple screens > should handle screen with icon and badge 1`] = `
+"┌───────────────────────┐ Build
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │
+│   ● Tests             │
+│   ● Errors         3  │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenManager Integration > with multiple screens > should render second screen when set as active 1`] = `
+"┌───────────────────────┐ Tests
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │ │ 2:00:00 AM
+│   ● Tests             │ │ Test output
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenManager Integration > with multiple screens > should render sidebar with multiple screens 1`] = `
+"┌───────────────────────┐ Build
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │
+│   ● Tests             │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenManager Integration > with multiple screens > should show first screen as active by default 1`] = `
+"┌───────────────────────┐ Build
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │ │ 2:00:00 AM
+│   ● Tests             │ │ Build output
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenManager Integration > with single screen > should render empty screen 1`] = `
+" Main
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenManager Integration > with single screen > should render screen with loading message 1`] = `
+" Main
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ ⠋ Loading data...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenManager Integration > with single screen > should render screen with log message 1`] = `
+" Main
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Hello World
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenManager Integration > with single screen > should render screen with mixed message types 1`] = `
+" Main
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Starting process...
+
+ │ 2:00:00 AM
+ │ ⠋ Fetching data
+
+ │ [██████ ░░░░░░░░░░░░░░] 30% Downloading
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenManager Integration > with single screen > should render screen with multiple log messages 1`] = `
+" Main
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ First message
+
+ │ 2:00:00 AM
+ │ Warning message
+
+ │ 2:00:00 AM
+ │ Error message
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenManager Integration > with single screen > should render screen with progress message 1`] = `
+" Main
+────────────────────────────────────────────────────────────────────────────────
+ │ [█████████ ░░░░░░░░░░░] 45% Processing files
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;

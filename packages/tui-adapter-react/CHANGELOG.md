@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-01-16
+
+### Added
+
+- **Store Hooks** - New reactive hooks for state management:
+  - `useScreenStore` - Subscribe to screen state changes
+  - `useManagerStore` - Subscribe to screen manager state changes
+  - `useMessageUpdate` - Subscribe to message updates with auto-refresh
+- **Integration Tests** - Comprehensive integration tests for:
+  - Screen logger functionality
+  - Screen manager behavior
+  - File message rendering
+  - Interactive prompts
+
+### Changed
+
+- **Component Simplification** - Simplified progress message color logic with helper functions
+- **Sidebar Container** - Removed unnecessary `useMemo`, improved early return pattern
+- **Screen Bridge** - Enhanced screen bridge component
+- **Group Renderer** - Updated for improved message rendering
+- **Loading Message** - Refined loading indicator behavior
+- **Message Renderer** - Improved message display logic
+- **Content Area** - Enhanced content rendering
+
 ## [1.1.0] - 2026-01-16
 
 ### Changed

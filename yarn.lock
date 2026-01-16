@@ -1180,6 +1180,7 @@ __metadata:
     ink-virtual-list: "npm:^0.2.3"
     react: "npm:^19.2.3"
     react-dom: "npm:^19.2.3"
+    strip-ansi: "npm:^7.1.0"
     typescript: "npm:^5.9.3"
     unplugin-swc: "npm:^1.5.9"
     vitest: "npm:^4.0.17"

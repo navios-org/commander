@@ -4,6 +4,7 @@ import type {
   ProgressMessageData,
   GroupMessageData,
   TableMessageData,
+  ScreenInstance,
 } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
@@ -17,9 +18,10 @@ import { TableMessage } from './table_message.tsx'
 
 export interface MessageRendererProps {
   message: MessageData
+  screen: ScreenInstance
 }
 
-export function MessageRenderer({ message }: MessageRendererProps) {
+export function MessageRenderer({ message, screen }: MessageRendererProps) {
   const theme = useTheme()
 
   switch (message.type) {
@@ -91,10 +93,10 @@ export function MessageRenderer({ message }: MessageRendererProps) {
       )
 
     case 'loading':
-      return <LoadingMessage message={message as LoadingMessageData} />
+      return <LoadingMessage message={message as LoadingMessageData} screen={screen} />
 
     case 'progress':
-      return <ProgressMessage message={message as ProgressMessageData} />
+      return <ProgressMessage message={message as ProgressMessageData} screen={screen} />
 
     case 'group':
       return <GroupMessageRenderer message={message as GroupMessageData} />

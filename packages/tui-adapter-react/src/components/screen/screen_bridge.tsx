@@ -1,10 +1,10 @@
-import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
+import { FilterEngine, hasActiveFilter } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
-import { useTheme } from '../../hooks/index.ts'
+import { useTheme, useScreenMessages, useActivePrompt } from '../../hooks/index.ts'
 import { useFilter } from '../content/filter_context.tsx'
 import { PromptRenderer } from '../prompt/index.ts'
 
@@ -67,33 +67,15 @@ function processMessagesIntoGroups(messages: MessageData[]): ProcessedMessage[] 
 
 /**
  * Screen content renderer.
- * Subscribes to screen events and handles message filtering internally.
+ * Uses useSyncExternalStore-based hooks for proper React 18 concurrent mode support.
  */
 export function ScreenBridge({ screen, focused }: ScreenBridgeProps) {
   const theme = useTheme()
   const filter = useFilter()
-  const [messageVersion, setMessageVersion] = useState(0)
 
-  // Subscribe to screen events to trigger re-render when messages change
-  useEffect(() => {
-    const handleUpdate = () => setMessageVersion((v) => v + 1)
-
-    for (const event of SCREEN_EVENTS) {
-      screen.on(event, handleUpdate)
-    }
-
-    return () => {
-      for (const event of SCREEN_EVENTS) {
-        screen.off(event, handleUpdate)
-      }
-    }
-  }, [screen])
-
-  // Get all messages from screen
-  const allMessages = useMemo(() => {
-    void messageVersion // Track dependency for re-render
-    return screen.getMessages()
-  }, [messageVersion, screen])
+  // Use new hooks that properly subscribe to screen events
+  const allMessages = useScreenMessages(screen)
+  const activePrompt = useActivePrompt(screen)
 
   // Filter messages based on current filter state
   const filteredMessages = useMemo(() => {
@@ -101,11 +83,6 @@ export function ScreenBridge({ screen, focused }: ScreenBridgeProps) {
   }, [allMessages, filter])
 
   const isFiltering = useMemo(() => hasActiveFilter(filter), [filter])
-
-  const activePrompt = useMemo(() => {
-    void messageVersion // Track dependency for re-render
-    return screen.getActivePrompt()
-  }, [messageVersion, screen])
 
   const processedMessages = useMemo(
     () => processMessagesIntoGroups(filteredMessages),
@@ -156,10 +133,17 @@ export function ScreenBridge({ screen, focused }: ScreenBridgeProps) {
         {processedMessages.map((item, index) => {
           if (item.type === 'group') {
             return (
-              <GroupRenderer key={`group-${index}`} label={item.label!} messages={item.messages!} />
+              <GroupRenderer
+                key={`group-${index}`}
+                label={item.label!}
+                messages={item.messages!}
+                screen={screen}
+              />
             )
           } else {
-            return <MessageRenderer key={item.message!.id} message={item.message!} />
+            return (
+              <MessageRenderer key={item.message!.id} message={item.message!} screen={screen} />
+            )
           }
         })}
 

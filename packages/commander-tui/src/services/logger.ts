@@ -42,7 +42,6 @@ export class ScreenLoggerInstance implements LoggerService {
       typeof options.screen === 'string'
         ? {
             name: options.screen,
-            static: true,
           }
         : options.screen,
     )

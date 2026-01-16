@@ -1,9 +1,10 @@
-import { CONTENT_MANAGER_EVENTS, FilterEngine, SCREEN_EVENTS } from '@navios/commander-tui'
+import { FilterEngine } from '@navios/commander-tui'
 import { Box } from 'ink'
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import type { ScreenManagerInstance } from '@navios/commander-tui'
 
+import { useActiveScreen, useFocusArea, useScreenMessages } from '../../hooks/index.ts'
 import { FilterBar } from '../filter/filter_bar.tsx'
 import { ScreenBridge } from '../screen/screen_bridge.tsx'
 
@@ -13,68 +14,38 @@ export interface ContentAreaProps {
   manager: ScreenManagerInstance
 }
 
+const EMPTY_LEVEL_COUNTS = {
+  verbose: 0,
+  debug: 0,
+  log: 0,
+  warn: 0,
+  error: 0,
+  fatal: 0,
+}
+
 /**
  * Container component for the main content area.
- * Manages active screen subscriptions and filter bar rendering.
- * Filter state is provided via FilterContext.
+ * Uses useSyncExternalStore-based hooks for proper React 18 concurrent mode support.
  */
 export function ContentArea({ manager }: ContentAreaProps) {
-  const [, forceUpdate] = useState({})
-  const [screenVersion, setScreenVersion] = useState(0)
   const filter = useFilter()
 
-  // Subscribe to manager events that affect content area
-  useEffect(() => {
-    const handleUpdate = () => forceUpdate({})
+  // Use granular hooks for specific state subscriptions
+  const activeScreen = useActiveScreen(manager)
+  const focusArea = useFocusArea(manager)
 
-    for (const event of CONTENT_MANAGER_EVENTS) {
-      manager.on(event, handleUpdate)
-    }
+  // Get messages for level counts calculation
+  const messages = useScreenMessages(activeScreen)
 
-    return () => {
-      for (const event of CONTENT_MANAGER_EVENTS) {
-        manager.off(event, handleUpdate)
-      }
-    }
-  }, [manager])
-
-  const activeScreen = manager.getActiveScreen()
-
-  // Subscribe to active screen events for level counts calculation
-  useEffect(() => {
-    if (!activeScreen) return
-
-    const handleScreenUpdate = () => setScreenVersion((v) => v + 1)
-
-    for (const event of SCREEN_EVENTS) {
-      activeScreen.on(event, handleScreenUpdate)
-    }
-
-    return () => {
-      for (const event of SCREEN_EVENTS) {
-        activeScreen.off(event, handleScreenUpdate)
-      }
-    }
-  }, [activeScreen])
-
-  // Get level counts for filter bar (depends on screen version)
+  // Get level counts for filter bar
   const levelCounts = useMemo(() => {
-    // Reference screenVersion to ensure recalculation
-    void screenVersion
     if (!activeScreen) {
-      return {
-        verbose: 0,
-        debug: 0,
-        log: 0,
-        warn: 0,
-        error: 0,
-        fatal: 0,
-      }
+      return EMPTY_LEVEL_COUNTS
     }
-    return FilterEngine.countByLevel(activeScreen.getMessages())
-  }, [screenVersion, activeScreen])
+    return FilterEngine.countByLevel(messages)
+  }, [messages, activeScreen])
 
-  const focused = manager.focusArea === 'content'
+  const focused = focusArea === 'content'
 
   return (
     <Box flexDirection="column" flexGrow={1}>

@@ -1,0 +1,1405 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create multiple screens dynamically after render 1`] = `
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create multiple screens dynamically after render 2`] = `
+" Build
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Build started
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create multiple screens dynamically after render 3`] = `
+"┌───────────────────────┐ Build
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │ │ 2:00:00 AM
+│   ● Tests             │ │ Build started
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create multiple screens dynamically after render 4`] = `
+"┌───────────────────────┐ Build
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │ │ 2:00:00 AM
+│   ● Tests             │ │ Build started
+│   ● Deploy            │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create screen dynamically after render and display content 1`] = `
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create screen dynamically after render and display content 2`] = `
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create screen dynamically after render and display content 3`] = `
+" DynamicApp
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ First dynamic message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should create screen dynamically after render and display content 4`] = `
+" DynamicApp
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ First dynamic message
+
+ │ 2:00:00 AM
+ │ Dynamic screen is working!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should handle loading and progress on dynamically created screen 1`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ ⠋ Resolving dependencies...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should handle loading and progress on dynamically created screen 2`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Dependencies resolved
+
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Installing packages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should handle loading and progress on dynamically created screen 3`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Dependencies resolved
+
+ │ [██████████ ░░░░░░░░░░] 50% Installing react...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should handle loading and progress on dynamically created screen 4`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Dependencies resolved
+
+ │ [████████████████████ ] 100% All packages installed!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should switch between dynamically created screens 1`] = `
+"┌───────────────────────┐ Frontend
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Frontend          │ │ 2:00:00 AM
+│   ● Backend           │ │ Frontend: Building React app...
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should switch between dynamically created screens 2`] = `
+"┌───────────────────────┐ Backend
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Frontend          │ │ 2:00:00 AM
+│   ● Backend           │ │ Backend: Starting Node server...
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should update dynamically created screen with groups 1`] = `
+" CI Pipeline
+────────────────────────────────────────────────────────────────────────────────
+ │ ▼ Setup
+
+   │ 2:00:00 AM
+   │ Cloning repository
+
+   │ 2:00:00 AM
+   │ Installing dependencies
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > dynamic screen creation > should update dynamically created screen with groups 2`] = `
+" CI Pipeline
+────────────────────────────────────────────────────────────────────────────────
+ │ ▼ Setup
+
+   │ 2:00:00 AM
+   │ Cloning repository
+
+   │ 2:00:00 AM
+   │ Installing dependencies
+
+ │ ▼ Build
+
+   │ 2:00:00 AM
+   │ Compiling TypeScript
+
+   │ 2:00:00 AM
+   │ Bundling assets
+
+   │ 2:00:00 AM
+   │ Build complete
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > groups > should render message groups 1`] = `
+" Grouped
+────────────────────────────────────────────────────────────────────────────────
+ │ ▼ Build Phase
+
+   │ 2:00:00 AM
+   │ Compiling TypeScript
+
+   │ 2:00:00 AM
+   │ Bundling assets
+
+ │ ▼ Test Phase
+
+   │ 2:00:00 AM
+   │ Running unit tests
+
+   │ 2:00:00 AM
+   │ Running integration tests
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > loading handle > should render loading fail state 1`] = `
+" Tasks
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Authentication failed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > loading handle > should render loading state 1`] = `
+" Tasks
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ ⠋ Fetching data from server...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > loading handle > should render loading success state 1`] = `
+" Tasks
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Connected!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > log methods > should render log messages from logger 1`] = `
+" App
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Application started
+
+ │ 2:00:00 AM
+ │ Debug info
+
+ │ 2:00:00 AM
+ │ Warning message
+
+ │ 2:00:00 AM
+ │ Error occurred
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > log methods > should render messages with labels 1`] = `
+" App
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM [BUILD]
+ │ Starting build
+
+ │ 2:00:00 AM [DEPRECATION]
+ │ Deprecated API usage
+
+ │ 2:00:00 AM [NETWORK]
+ │ Connection failed
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > log methods > should render success message 1`] = `
+" App
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Operation completed successfully
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > log methods > should respect log level filtering 1`] = `
+"┌───────────────────────┐ App
+│ Screens               │───────────────────────────────────────────────────────
+│   ● App               │
+│   ● ErrorOnly         │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenLogger Integration > multiple loggers > should render messages from multiple loggers to different screens 1`] = `
+"┌───────────────────────┐ Build
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │ │ 2:00:00 AM
+│   ● Tests             │ │ Compiling source files...
+│                       │
+│                       │ │ 2:00:00 AM
+│                       │ │ Build completed
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenLogger Integration > multiple loggers > should switch between screens with different logger outputs 1`] = `
+"┌───────────────────────┐ Tests
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Build             │ │ 2:00:00 AM
+│   ● Tests             │ │ Test output here
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+│───────────────────────│
+│ q: exit | Tab: focus  │
+│ | ?: help             │
+└───────────────────────┘"
+`;
+
+exports[`ScreenLogger Integration > progress handle > should render completed progress 1`] = `
+" Progress
+────────────────────────────────────────────────────────────────────────────────
+ │ [████████████████████ ] 100% Build finished!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progress handle > should render failed progress 1`] = `
+" Progress
+────────────────────────────────────────────────────────────────────────────────
+ │ [██████████ ░░░░░░░░░░] 50% Compilation error
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progress handle > should render progress bar 1`] = `
+" Progress
+────────────────────────────────────────────────────────────────────────────────
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Downloading files
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progress handle > should render progress update 1`] = `
+" Progress
+────────────────────────────────────────────────────────────────────────────────
+ │ [██████████ ░░░░░░░░░░] 50% Installing packages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progress handle > should render progress with updated label 1`] = `
+" Progress
+────────────────────────────────────────────────────────────────────────────────
+ │ [███████████████ ░░░░░] 75% Almost done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should handle mixed message types progressively 1`] = `
+" CI
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ CI Pipeline started
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should handle mixed message types progressively 2`] = `
+" CI
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ CI Pipeline started
+
+ │ 2:00:00 AM
+ │ ⠋ Checking out code...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should handle mixed message types progressively 3`] = `
+" CI
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ CI Pipeline started
+
+ │ 2:00:00 AM
+ │ Code checked out
+
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Building project
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should handle mixed message types progressively 4`] = `
+" CI
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ CI Pipeline started
+
+ │ 2:00:00 AM
+ │ Code checked out
+
+ │ [██████████ ░░░░░░░░░░] 50% Compiling...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should handle mixed message types progressively 5`] = `
+" CI
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ CI Pipeline started
+
+ │ 2:00:00 AM
+ │ Code checked out
+
+ │ [████████████████████ ] 100% Build successful
+
+ │ 2:00:00 AM
+ │ Pipeline completed!
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively render log messages as they are added 1`] = `
+" Build
+────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively render log messages as they are added 2`] = `
+" Build
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Starting build process...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively render log messages as they are added 3`] = `
+" Build
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Starting build process...
+
+ │ 2:00:00 AM
+ │ Compiling TypeScript files...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively render log messages as they are added 4`] = `
+" Build
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Starting build process...
+
+ │ 2:00:00 AM
+ │ Compiling TypeScript files...
+
+ │ 2:00:00 AM
+ │ Deprecated API detected in src/legacy.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively render log messages as they are added 5`] = `
+" Build
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Starting build process...
+
+ │ 2:00:00 AM
+ │ Compiling TypeScript files...
+
+ │ 2:00:00 AM
+ │ Deprecated API detected in src/legacy.ts
+
+ │ 2:00:00 AM
+ │ Build completed successfully!
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update loading state 1`] = `
+" Deploy
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ ⠋ Deploying to production...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update loading state 2`] = `
+" Deploy
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Deployment complete!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update loading state 3`] = `
+" Deploy
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Deployment complete!
+
+ │ 2:00:00 AM
+ │ ⠋ Running post-deploy checks...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update loading state 4`] = `
+" Deploy
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Deployment complete!
+
+ │ 2:00:00 AM
+ │ Health check failed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update progress bar 1`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Installing dependencies
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update progress bar 2`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ [█████ ░░░░░░░░░░░░░░░] 25% Installing lodash...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update progress bar 3`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ [██████████ ░░░░░░░░░░] 50% Installing react...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update progress bar 4`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ [███████████████ ░░░░░] 75% Installing typescript...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > progressive rendering > should progressively update progress bar 5`] = `
+" Install
+────────────────────────────────────────────────────────────────────────────────
+ │ [████████████████████ ] 100% All dependencies installed!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > table > should render table data 1`] = `
+" Tables
+────────────────────────────────────────────────────────────────────────────────
+ │ name    │ role      │ status
+   ────────┼───────────┼───────
+   Alice   │ Developer │ Active
+   Bob     │ Designer  │ Active
+   Charlie │ Manager   │ Away
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScreenLogger Integration > table > should render table with title 1`] = `
+" Tables
+────────────────────────────────────────────────────────────────────────────────
+ │ Dependencies
+   package    │ version │ size
+   ───────────┼─────────┼──────
+   react      │ 19.0.0  │ 2.5kb
+   typescript │ 5.0.0   │ 15kb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;

@@ -1,19 +1,22 @@
 /**
  * Vitest setup file for tui-adapter-ink tests.
  *
- * Mocks ink and fullscreen-ink to avoid terminal interactions during tests.
+ * Mocks ink and internal fullscreen utilities to avoid terminal interactions during tests.
  */
 import { vi } from 'vitest'
 
-// Mock fullscreen-ink
-vi.mock('fullscreen-ink', () => ({
+// Mock internal fullscreen utilities
+vi.mock('../fullscreen/index.ts', () => ({
   withFullScreen: vi.fn(() => ({
     instance: {
       rerender: vi.fn(),
       unmount: vi.fn(),
     },
     start: vi.fn(),
+    waitUntilExit: vi.fn(() => Promise.resolve()),
   })),
+  useScreenSize: vi.fn(() => ({ width: 80, height: 24 })),
+  FullScreenBox: ({ children }: { children?: React.ReactNode }) => children,
 }))
 
 // Mock ink

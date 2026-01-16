@@ -43,6 +43,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
   // Prompt queue system
   private promptQueue: PendingPrompt[] = []
   private activePrompt: PendingPrompt | null = null
+  private promptVersion: number = 0
 
   constructor(id: string, options: ScreenOptions) {
     super()
@@ -61,6 +62,14 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
 
   getVersion(): number {
     return this.version
+  }
+
+  private incrementPromptVersion(): void {
+    this.promptVersion++
+  }
+
+  getPromptVersion(): number {
+    return this.promptVersion
   }
 
   /**
@@ -343,10 +352,22 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
   }
 
   /**
-   * Get the currently active prompt (for rendering)
+   * Get the currently active prompt (for rendering).
+   * Returns a shallow clone to ensure React detects changes when prompt state mutates.
    */
   getActivePrompt(): PromptData | null {
-    return this.activePrompt?.data ?? null
+    if (!this.activePrompt?.data) return null
+    const prompt = this.activePrompt.data
+
+    // Clone with proper Set handling for multiChoice
+    if (prompt.type === 'multiChoice') {
+      return {
+        ...prompt,
+        selectedIndices: new Set(prompt.selectedIndices),
+      }
+    }
+
+    return { ...prompt }
   }
 
   /**
@@ -372,6 +393,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     } else if (prompt.type === 'confirm') {
       ;(prompt as ConfirmPromptData).selectedValue = index === 0
     }
+    this.incrementPromptVersion()
     this.emit('prompt:updated')
   }
 
@@ -415,6 +437,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     const prompt = this.activePrompt.data
     if (prompt.type === 'confirm') {
       ;(prompt as ConfirmPromptData).selectedValue = true
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     }
   }
@@ -424,6 +447,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     const prompt = this.activePrompt.data
     if (prompt.type === 'confirm') {
       ;(prompt as ConfirmPromptData).selectedValue = false
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     }
   }
@@ -441,6 +465,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
       } else if (p.selectedIndices.size < p.maxSelect) {
         p.selectedIndices.add(p.focusedIndex)
       }
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     }
   }
@@ -457,6 +482,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
       const choice = prompt.choices[prompt.selectedIndex]
       if (choice?.input) {
         ;(prompt as ChoicePromptData).inputMode = true
+        this.incrementPromptVersion()
         this.emit('prompt:updated')
         return true
       }
@@ -476,6 +502,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputMode = false
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     }
     // Input prompts cannot exit input mode
@@ -505,9 +532,11 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputValue = value
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     } else if (prompt.type === 'input') {
       ;(prompt as InputPromptData).value = value
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     }
   }
@@ -521,9 +550,11 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputValue += char
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     } else if (prompt.type === 'input') {
       ;(prompt as InputPromptData).value += char
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     }
   }
@@ -537,9 +568,11 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     const prompt = this.activePrompt.data
     if (prompt.type === 'choice' && prompt.inputMode) {
       ;(prompt as ChoicePromptData).inputValue = prompt.inputValue.slice(0, -1)
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     } else if (prompt.type === 'input') {
       ;(prompt as InputPromptData).value = prompt.value.slice(0, -1)
+      this.incrementPromptVersion()
       this.emit('prompt:updated')
     }
   }
@@ -606,6 +639,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     this.activePrompt = null
     this.activateNextPrompt()
     this.incrementVersion()
+    this.incrementPromptVersion()
     this.emit('prompt:resolved')
   }
 
@@ -618,6 +652,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
       // Notify manager to focus this screen
       this.manager?.onScreenPromptActivated(this)
       this.incrementVersion()
+      this.incrementPromptVersion()
       this.emit('prompt:activated')
     }
   }

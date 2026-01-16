@@ -45,6 +45,9 @@ function mapInkKeyToName(
   if (key.delete) return 'delete'
   if (key.tab) return 'tab'
 
+  // Map space character to 'space' key name
+  if (input === ' ') return 'space'
+
   // For regular characters
   return input
 }

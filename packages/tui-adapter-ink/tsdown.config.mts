@@ -13,7 +13,6 @@ export default defineConfig({
   target: 'es2022',
   external: [
     'ink',
-    'fullscreen-ink',
     'ink-syntax-highlight',
     'ink-virtual-list',
     'react',
