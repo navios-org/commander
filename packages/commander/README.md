@@ -5,16 +5,16 @@ A CLI command framework built on `@navios/core` that provides a decorator-based 
 ## Installation
 
 ```bash
-npm install @navios/commander zod
+npm install @navios/commander zod/v4
 ```
 
 ## Features
 
 - **Decorator-based**: Use `@Command` and `@CliModule` decorators to define commands and modules
 - **Dependency Injection**: Full DI support via `@navios/core` with request-scoped command execution
-- **Schema Validation**: Built-in support for Zod schemas to validate command options
+- **Schema Validation**: Built-in support for zod/v4 schemas to validate command options
 - **Modular Architecture**: Organize commands into modules with imports support
-- **Built-in Help**: Automatic `help` command and `--help` flag support with Zod meta descriptions
+- **Built-in Help**: Automatic `help` command and `--help` flag support with zod/v4 meta descriptions
 
 ## Usage
 
@@ -25,7 +25,7 @@ Commands are defined using the `@Command` decorator. Each command must implement
 ```typescript
 import { Command, CommandHandler } from '@navios/commander'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const greetOptionsSchema = z.object({
   name: z.string().meta({ description: 'Name of the person to greet' }),
@@ -95,15 +95,9 @@ node dist/cli.js greet --name World --greeting Hi
 ### Advanced Example with Dependency Injection
 
 ```typescript
-import {
-  CliModule,
-  Command,
-  CommandHandler,
-  inject,
-  Injectable,
-} from '@navios/commander'
+import { CliModule, Command, CommandHandler, inject, Injectable } from '@navios/commander'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 // Service
 @Injectable()
@@ -122,9 +116,7 @@ const userOptionsSchema = z.object({
   path: 'user:show',
   optionsSchema: userOptionsSchema,
 })
-export class ShowUserCommand implements CommandHandler<
-  z.infer<typeof userOptionsSchema>
-> {
+export class ShowUserCommand implements CommandHandler<z.infer<typeof userOptionsSchema>> {
   private userService = inject(UserService)
 
   async execute(options: { userId: string }) {
@@ -247,7 +239,7 @@ Defines a CLI command.
 
 - `path: string` - The command path (e.g., 'user:create', 'db:migrate')
 - `description?: string` - Optional description for help text
-- `optionsSchema?: ZodSchema` - Optional Zod schema for validating command options
+- `optionsSchema?: zod/v4Schema` - Optional zod/v4 schema for validating command options
 
 #### `@CliModule(options)`
 

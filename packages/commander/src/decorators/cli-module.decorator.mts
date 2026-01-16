@@ -1,11 +1,8 @@
-import type { ClassType, Registry } from '@navios/core'
-
 import { Module, getModuleMetadata, getModuleCustomEntry } from '@navios/core'
 
-import {
-  CommandEntryKey,
-  type CommandEntryValue,
-} from '../metadata/command-entry.metadata.mjs'
+import type { ClassType, Registry } from '@navios/core'
+
+import { CommandEntryKey, type CommandEntryValue } from '../metadata/command-entry.metadata.mjs'
 
 /**
  * Options for the `@CliModule` decorator.
@@ -108,9 +105,7 @@ export function CliModule(
 ) {
   return (target: ClassType, context: ClassDecoratorContext) => {
     if (context.kind !== 'class') {
-      throw new Error(
-        '[Navios Commander] @CliModule decorator can only be used on classes.',
-      )
+      throw new Error('[Navios Commander] @CliModule decorator can only be used on classes.')
     }
 
     // Apply standard @Module decorator first

@@ -1,6 +1,6 @@
-import type { ClassType } from '@navios/core'
-
 import { extractModuleMetadata } from '@navios/core'
+
+import type { ClassType } from '@navios/core'
 
 /**
  * Symbol key for storing commands in ModuleMetadata.customEntries.
@@ -34,8 +34,5 @@ export type CommandEntryValue = Set<ClassType>
  */
 export function extractModuleCommands(moduleClass: ClassType): Set<ClassType> {
   const metadata = extractModuleMetadata(moduleClass)
-  return (
-    (metadata.customEntries.get(CommandEntryKey) as CommandEntryValue) ??
-    new Set()
-  )
+  return (metadata.customEntries.get(CommandEntryKey) as CommandEntryValue) ?? new Set()
 }

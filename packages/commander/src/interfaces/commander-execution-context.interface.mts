@@ -54,7 +54,7 @@ export class CommanderExecutionContext {
   /**
    * Gets the validated command options.
    *
-   * Options are validated against the command's Zod schema if one was provided.
+   * Options are validated against the command's zod/v4 schema if one was provided.
    *
    * @returns The validated options object
    */

@@ -9,7 +9,7 @@
  * @example
  * ```typescript
  * import { Command, CommandHandler } from '@navios/commander'
- * import { z } from 'zod'
+ * import { z } from 'zod/v4'
  *
  * const optionsSchema = z.object({
  *   name: z.string()

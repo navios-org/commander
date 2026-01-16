@@ -1,6 +1,6 @@
-import type { ClassType } from '@navios/core'
-
 import { Injectable } from '@navios/core'
+
+import type { ClassType } from '@navios/core'
 
 import type { CommandMetadata } from '../metadata/index.mjs'
 
@@ -144,7 +144,7 @@ export class CommandRegistryService {
   }
 
   /**
-   * Gets a human-readable type name from a Zod schema.
+   * Gets a human-readable type name from a zod/v4 schema.
    */
   private getSchemaTypeName(schema: any): string {
     try {
@@ -186,8 +186,8 @@ export class CommandRegistryService {
   }
 
   /**
-   * Gets metadata from a Zod schema, traversing innerType if needed.
-   * Zod v4 stores meta at the outermost layer when .meta() is called last,
+   * Gets metadata from a zod/v4 schema, traversing innerType if needed.
+   * zod/v4 v4 stores meta at the outermost layer when .meta() is called last,
    * or in innerType when .meta() is called before .optional()/.default().
    */
   private getSchemaMeta(schema: any): Record<string, unknown> | undefined {

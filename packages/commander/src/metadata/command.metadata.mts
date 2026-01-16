@@ -1,5 +1,5 @@
 import type { ClassType } from '@navios/core'
-import type { ZodObject } from 'zod'
+import type { z } from 'zod/v4'
 
 /**
  * @internal
@@ -22,9 +22,9 @@ export interface CommandMetadata {
    */
   description?: string
   /**
-   * Optional Zod schema for validating command options.
+   * Optional zod/v4 schema for validating command options.
    */
-  optionsSchema?: ZodObject
+  optionsSchema?: z.ZodObject
   /**
    * Map of custom attributes that can be attached to the command.
    */
@@ -39,7 +39,7 @@ export interface CommandMetadata {
  * @param context - The decorator context
  * @param path - The command path
  * @param description - Optional description for help text
- * @param optionsSchema - Optional Zod schema
+ * @param optionsSchema - Optional zod/v4 schema
  * @returns The command metadata
  */
 export function getCommandMetadata(
@@ -47,12 +47,10 @@ export function getCommandMetadata(
   context: ClassDecoratorContext,
   path: string,
   description?: string,
-  optionsSchema?: ZodObject,
+  optionsSchema?: z.ZodObject,
 ): CommandMetadata {
   if (context.metadata) {
-    const metadata = context.metadata[CommandMetadataKey] as
-      | CommandMetadata
-      | undefined
+    const metadata = context.metadata[CommandMetadataKey] as CommandMetadata | undefined
     if (metadata) {
       return metadata
     } else {

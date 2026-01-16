@@ -1,28 +1,19 @@
 {
   "name": "@navios/commander",
-  "version": "1.5.0",
+  "version": "1.5.1",
+  "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
     "email": "alex@granted.name"
   },
   "repository": {
-    "directory": "packages/commander",
     "type": "git",
-    "url": "https://github.com/navios-org/commander.git"
+    "url": "https://github.com/navios-org/commander.git",
+    "directory": "packages/commander"
   },
-  "license": "MIT",
-  "peerDependencies": {
-    "@navios/commander-tui": "^1.0.0",
-    "zod": "^4.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@navios/commander-tui": {
-      "optional": true
-    }
-  },
-  "typings": "./lib/index.d.mts",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
+  "typings": "./lib/index.d.mts",
   "exports": {
     ".": {
       "import": {
@@ -45,13 +36,32 @@
       }
     }
   },
+  "scripts": {
+    "check": "yarn run -T tsgo -b",
+    "lint": "yarn run -T oxlint --fix && yarn run -T oxfmt",
+    "test": "vitest",
+    "test:ci": "vitest run",
+    "build": "yarn run -T tsdown",
+    "publish:pkg": "yarn npm publish --access public",
+    "publish:next": "yarn npm publish --access public --tag next"
+  },
+  "dependencies": {
+    "@navios/core": "^1.0.0"
+  },
   "devDependencies": {
     "@navios/builder": "^1.0.0",
+    "@navios/commander-tui": "workspace:*",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "zod": "^4.3.5"
   },
-  "dependencies": {
-    "@navios/core": "^1.0.0"
+  "peerDependencies": {
+    "@navios/commander-tui": "^1.0.0",
+    "zod": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@navios/commander-tui": {
+      "optional": true
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { inject, Logger } from '@navios/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { Command } from '../decorators/command.decorator.mjs'
 import { CommandRegistryService } from '../services/command-registry.service.mjs'

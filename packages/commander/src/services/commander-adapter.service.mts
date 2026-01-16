@@ -1,26 +1,18 @@
+import { Container, inject, Injectable, InjectionToken, Logger } from '@navios/core'
+
 import type { ClassType, ModuleMetadata } from '@navios/core'
 
-import {
-  Container,
-  inject,
-  Injectable,
-  InjectionToken,
-  Logger,
-} from '@navios/core'
+import { HelpCommand } from '../commands/help.command.mjs'
+import { CommanderExecutionContext } from '../interfaces/commander-execution-context.interface.mjs'
+import { CommandEntryKey } from '../metadata/command-entry.metadata.mjs'
+import { extractCommandMetadata, hasCommandMetadata } from '../metadata/index.mjs'
+import { CommandExecutionContext } from '../tokens/index.mjs'
 
 import type { AbstractCliAdapterInterface } from '../interfaces/abstract-cli-adapter.interface.mjs'
 import type { CommandHandler } from '../interfaces/command-handler.interface.mjs'
 import type { CliAdapterOptions } from '../interfaces/environment.interface.mjs'
 import type { CommandEntryValue } from '../metadata/command-entry.metadata.mjs'
 
-import { HelpCommand } from '../commands/help.command.mjs'
-import { CommanderExecutionContext } from '../interfaces/commander-execution-context.interface.mjs'
-import { CommandEntryKey } from '../metadata/command-entry.metadata.mjs'
-import {
-  extractCommandMetadata,
-  hasCommandMetadata,
-} from '../metadata/index.mjs'
-import { CommandExecutionContext } from '../tokens/index.mjs'
 import { CliParserService } from './cli-parser.service.mjs'
 import { CommandRegistryService } from './command-registry.service.mjs'
 
@@ -57,9 +49,7 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
     this.registerBuiltInCommands()
 
     for (const [moduleName, metadata] of modules) {
-      const commands = metadata.customEntries.get(CommandEntryKey) as
-        | CommandEntryValue
-        | undefined
+      const commands = metadata.customEntries.get(CommandEntryKey) as CommandEntryValue | undefined
       if (!commands) continue
 
       for (const commandClass of commands) {
@@ -156,10 +146,7 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
   /**
    * Execute a command programmatically with the provided options.
    */
-  async executeCommand(
-    path: string,
-    options: Record<string, unknown> = {},
-  ): Promise<void> {
+  async executeCommand(path: string, options: Record<string, unknown> = {}): Promise<void> {
     const command = this.commandRegistry.getByPath(path)
     if (!command) {
       throw new Error(`[Navios Commander] Command not found: ${path}`)
@@ -174,11 +161,7 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
     }
 
     // Create execution context
-    const executionContext = new CommanderExecutionContext(
-      metadata,
-      path,
-      validatedOptions,
-    )
+    const executionContext = new CommanderExecutionContext(metadata, path, validatedOptions)
 
     // Begin request scope
     const requestId = `cmd-${Date.now()}-${Math.random().toString(36).substring(7)}`

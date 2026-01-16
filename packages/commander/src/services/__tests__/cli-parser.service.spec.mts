@@ -1,7 +1,6 @@
 import { Container } from '@navios/core'
-
 import { beforeEach, describe, expect, it } from 'vitest'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { CliParserService } from '../cli-parser.service.mjs'
 
@@ -34,13 +33,7 @@ describe('CliParserService', () => {
     })
 
     it('should parse command with long options and values', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--config',
-        'prod',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--config', 'prod'])
       expect(result.command).toBe('test')
       expect(result.options).toEqual({ config: 'prod' })
     })
@@ -71,16 +64,7 @@ describe('CliParserService', () => {
 
     it('should parse mixed options and positionals', () => {
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--verbose',
-          'file1',
-          '-c',
-          'prod',
-          'file2',
-        ],
+        ['node', 'script.js', 'test', '--verbose', 'file1', '-c', 'prod', 'file2'],
         z.object({
           verbose: z.boolean(),
           c: z.string(),
@@ -92,13 +76,7 @@ describe('CliParserService', () => {
     })
 
     it('should parse options with equal sign syntax', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--config=prod',
-        '--port=3000',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--config=prod', '--port=3000'])
       expect(result.command).toBe('test')
       expect(result.options).toEqual({ config: 'prod', port: 3000 })
     })
@@ -125,68 +103,32 @@ describe('CliParserService', () => {
     })
 
     it('should parse integer values', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--port',
-        '3000',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--port', '3000'])
       expect(result.options).toEqual({ port: 3000 })
     })
 
     it('should parse negative integer values', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--offset',
-        '"-10"',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--offset', '"-10"'])
       expect(result.options).toEqual({ offset: '"-10"' })
     })
 
     it('should parse float values', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--ratio',
-        '3.14',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--ratio', '3.14'])
       expect(result.options).toEqual({ ratio: 3.14 })
     })
 
     it('should parse null value', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--value',
-        'null',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--value', 'null'])
       expect(result.options).toEqual({ value: null })
     })
 
     it('should parse JSON object', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--data',
-        '{"key":"value"}',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--data', '{"key":"value"}'])
       expect(result.options).toEqual({ data: { key: 'value' } })
     })
 
     it('should parse JSON array', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--items',
-        '[1,2,3]',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--items', '[1,2,3]'])
       expect(result.options).toEqual({ items: [1, 2, 3] })
     })
   })
@@ -217,15 +159,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--verbose',
-          '--dry-run',
-          '--config',
-          'prod',
-        ],
+        ['node', 'script.js', 'test', '--verbose', '--dry-run', '--config', 'prod'],
         schema,
       )
 
@@ -262,15 +196,7 @@ describe('CliParserService', () => {
 
       // Without schema, --verbose would incorrectly consume '--debug' as its value
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--verbose',
-          '--debug',
-          '--config',
-          'prod',
-        ],
+        ['node', 'script.js', 'test', '--verbose', '--debug', '--config', 'prod'],
         schema,
       )
 
@@ -313,14 +239,7 @@ describe('CliParserService', () => {
     })
 
     it('should work without schema (fallback behavior)', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--verbose',
-        '--config',
-        'prod',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--verbose', '--config', 'prod'])
 
       // Without schema, parser uses heuristics
       expect(result.options).toEqual({
@@ -335,10 +254,7 @@ describe('CliParserService', () => {
         c: z.string(),
       })
 
-      const result = parser.parse(
-        ['node', 'script.js', 'test', '-v', '-c', 'prod'],
-        schema,
-      )
+      const result = parser.parse(['node', 'script.js', 'test', '-v', '-c', 'prod'], schema)
 
       expect(result.options).toEqual({
         v: true,
@@ -356,16 +272,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--verbose',
-          '--debug',
-          '--quiet',
-          '--config',
-          'production',
-        ],
+        ['node', 'script.js', 'test', '--verbose', '--debug', '--quiet', '--config', 'production'],
         schema,
       )
 
@@ -386,13 +293,7 @@ describe('CliParserService', () => {
     })
 
     it('should handle options with dashes in values', () => {
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--branch',
-        'feature-test',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--branch', 'feature-test'])
       expect(result.options).toEqual({ branch: 'feature-test' })
     })
 
@@ -409,17 +310,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--tags',
-          'foo',
-          '--tags',
-          'bar',
-          '--tags',
-          'baz',
-        ],
+        ['node', 'script.js', 'test', '--tags', 'foo', '--tags', 'bar', '--tags', 'baz'],
         schema,
       )
 
@@ -449,15 +340,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--exclude-paths',
-          'node_modules',
-          '--exclude-paths',
-          'dist',
-        ],
+        ['node', 'script.js', 'test', '--exclude-paths', 'node_modules', '--exclude-paths', 'dist'],
         schema,
       )
 
@@ -473,16 +356,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--tags',
-          'foo',
-          '--tags',
-          'bar',
-          '--verbose',
-        ],
+        ['node', 'script.js', 'test', '--tags', 'foo', '--tags', 'bar', '--verbose'],
         schema,
       )
 
@@ -548,10 +422,7 @@ describe('CliParserService', () => {
         t: z.array(z.string()),
       })
 
-      const result = parser.parse(
-        ['node', 'script.js', 'test', '-t', 'foo', '-t', 'bar'],
-        schema,
-      )
+      const result = parser.parse(['node', 'script.js', 'test', '-t', 'foo', '-t', 'bar'], schema)
 
       expect(result.options).toEqual({
         t: ['foo', 'bar'],
@@ -593,15 +464,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--items',
-          '[1,2,3]',
-          '--items',
-          '["a","b"]',
-        ],
+        ['node', 'script.js', 'test', '--items', '[1,2,3]', '--items', '["a","b"]'],
         schema,
       )
 
@@ -619,17 +482,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--tags',
-          'foo',
-          'file1.txt',
-          '--tags',
-          'bar',
-          'file2.txt',
-        ],
+        ['node', 'script.js', 'test', '--tags', 'foo', 'file1.txt', '--tags', 'bar', 'file2.txt'],
         schema,
       )
 
@@ -641,15 +494,7 @@ describe('CliParserService', () => {
 
     it('should not treat non-array options as arrays without schema', () => {
       // Without schema, multiple values should overwrite
-      const result = parser.parse([
-        'node',
-        'script.js',
-        'test',
-        '--tag',
-        'foo',
-        '--tag',
-        'bar',
-      ])
+      const result = parser.parse(['node', 'script.js', 'test', '--tag', 'foo', '--tag', 'bar'])
 
       expect(result.options).toEqual({
         tag: 'bar', // Last value wins without schema

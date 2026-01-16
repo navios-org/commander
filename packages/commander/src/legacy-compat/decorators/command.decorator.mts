@@ -1,5 +1,6 @@
+import { createClassContext } from '@navios/core/legacy-compat'
+
 import type { ClassType } from '@navios/core'
-import { createClassContext } from '@navios/di/legacy-compat'
 
 import {
   Command as OriginalCommand,
@@ -19,7 +20,7 @@ export type { CommandOptions }
  * @example
  * ```typescript
  * import { Command, CommandHandler } from '@navios/commander/legacy-compat'
- * import { z } from 'zod'
+ * import { z } from 'zod/v4'
  *
  * const optionsSchema = z.object({
  *   name: z.string(),

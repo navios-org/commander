@@ -1,6 +1,6 @@
-import type { ZodObject, ZodType } from 'zod'
-
 import { Injectable } from '@navios/core'
+
+import type { z } from 'zod/v4'
 
 /**
  * Result of parsing command-line arguments.
@@ -44,10 +44,10 @@ export class CliParserService {
    * Expected format: node script.js command [subcommand...] --flag value --boolean-flag positional1 positional2
    *
    * @param argv - Array of command-line arguments (typically process.argv)
-   * @param optionsSchema - Optional Zod schema to determine boolean flags and option types
+   * @param optionsSchema - Optional zod/v4 schema to determine boolean flags and option types
    * @returns Parsed command (space-separated if multi-word), options, and positional arguments
    */
-  parse(argv: string[], optionsSchema?: ZodObject): ParsedCliArgs {
+  parse(argv: string[], optionsSchema?: z.ZodObject): ParsedCliArgs {
     // Skip first two args (node and script path)
     const args = argv.slice(2)
 
@@ -59,9 +59,7 @@ export class CliParserService {
     const booleanFields = optionsSchema
       ? this.extractBooleanFields(optionsSchema)
       : new Set<string>()
-    const arrayFields = optionsSchema
-      ? this.extractArrayFields(optionsSchema)
-      : new Set<string>()
+    const arrayFields = optionsSchema ? this.extractArrayFields(optionsSchema) : new Set<string>()
 
     // Collect command words until we hit an argument that starts with '-' or '--'
     const commandParts: string[] = []
@@ -91,8 +89,7 @@ export class CliParserService {
           const optionName = key.slice(0, equalIndex)
           const optionValue = key.slice(equalIndex + 1)
           const camelCaseKey = this.camelCase(optionName)
-          const isArray =
-            arrayFields.has(camelCaseKey) || arrayFields.has(optionName)
+          const isArray = arrayFields.has(camelCaseKey) || arrayFields.has(optionName)
 
           if (isArray) {
             // For array fields, accumulate values
@@ -107,8 +104,7 @@ export class CliParserService {
         } else {
           // Format: --key value or --boolean-flag
           const camelCaseKey = this.camelCase(key)
-          const isBoolean =
-            booleanFields.has(camelCaseKey) || booleanFields.has(key)
+          const isBoolean = booleanFields.has(camelCaseKey) || booleanFields.has(key)
           const isArray = arrayFields.has(camelCaseKey) || arrayFields.has(key)
           const nextArg = args[i + 1]
 
@@ -227,18 +223,18 @@ export class CliParserService {
   }
 
   /**
-   * Extracts boolean field names from a Zod schema
-   * Handles ZodObject, ZodOptional, and ZodDefault wrappers
+   * Extracts boolean field names from a zod/v4 schema
+   * Handles z.ZodObject, zod/v4Optional, and zod/v4Default wrappers
    */
-  private extractBooleanFields(schema: ZodObject): Set<string> {
+  private extractBooleanFields(schema: z.ZodObject): Set<string> {
     const booleanFields = new Set<string>()
 
     try {
-      // Check if schema has _def.typeName (Zod schema structure)
+      // Check if schema has _def.typeName (zod/v4 schema structure)
       const typeName = schema.def.type
 
       if (typeName === 'object') {
-        // Extract shape from ZodObject
+        // Extract shape from z.ZodObject
         const shape = schema.def.shape
 
         if (shape && typeof shape === 'object') {
@@ -257,10 +253,10 @@ export class CliParserService {
   }
 
   /**
-   * Extracts array field names from a Zod schema
-   * Handles ZodObject, ZodOptional, and ZodDefault wrappers
+   * Extracts array field names from a zod/v4 schema
+   * Handles z.ZodObject, zod/v4Optional, and zod/v4Default wrappers
    */
-  private extractArrayFields(schema: ZodObject): Set<string> {
+  private extractArrayFields(schema: z.ZodObject): Set<string> {
     const arrayFields = new Set<string>()
 
     try {
@@ -285,15 +281,15 @@ export class CliParserService {
   }
 
   /**
-   * Checks if a Zod schema represents a boolean type
-   * Unwraps ZodOptional and ZodDefault using Zod v4 API
+   * Checks if a zod/v4 schema represents a boolean type
+   * Unwraps zod/v4Optional and zod/v4Default using zod/v4 v4 API
    */
-  private isSchemaBoolean(schema: ZodType): boolean {
+  private isSchemaBoolean(schema: z.ZodType): boolean {
     try {
       let currentSchema = schema
       let typeName = currentSchema.def.type
 
-      // Unwrap ZodOptional and ZodDefault using Zod v4's def.innerType
+      // Unwrap zod/v4Optional and zod/v4Default using zod/v4 v4's def.innerType
       while (typeName === 'optional' || typeName === 'default') {
         currentSchema = (currentSchema as any)?.def?.innerType || currentSchema
         typeName = currentSchema.def.type
@@ -306,15 +302,15 @@ export class CliParserService {
   }
 
   /**
-   * Checks if a Zod schema represents an array type
-   * Unwraps ZodOptional and ZodDefault using Zod v4 API
+   * Checks if a zod/v4 schema represents an array type
+   * Unwraps zod/v4Optional and zod/v4Default using zod/v4 v4 API
    */
-  private isSchemaArray(schema: ZodType): boolean {
+  private isSchemaArray(schema: z.ZodType): boolean {
     try {
       let currentSchema = schema
       let typeName = currentSchema.def.type
 
-      // Unwrap ZodOptional and ZodDefault using Zod v4's def.innerType
+      // Unwrap zod/v4Optional and zod/v4Default using zod/v4 v4's def.innerType
       while (typeName === 'optional' || typeName === 'default') {
         currentSchema = (currentSchema as any)?.def?.innerType || currentSchema
         typeName = currentSchema.def.type

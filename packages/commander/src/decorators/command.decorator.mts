@@ -1,7 +1,7 @@
 import { Injectable, InjectableScope, InjectionToken } from '@navios/core'
 
 import type { ClassType, ClassTypeWithInstance, Registry } from '@navios/core'
-import type { ZodObject } from 'zod'
+import type { z } from 'zod/v4'
 
 import { getCommandMetadata } from '../metadata/index.mjs'
 
@@ -29,10 +29,10 @@ export interface CommandOptions {
    */
   description?: string
   /**
-   * Optional Zod schema for validating command options.
+   * Optional zod/v4 schema for validating command options.
    * If provided, options will be validated and parsed according to this schema.
    */
-  optionsSchema?: ZodObject
+  optionsSchema?: z.ZodObject
   /**
    * Priority level for the command.
    * Higher priority commands will be loaded first.
@@ -57,7 +57,7 @@ export interface CommandOptions {
  * @example
  * ```typescript
  * import { Command, CommandHandler } from '@navios/commander'
- * import { z } from 'zod'
+ * import { z } from 'zod/v4'
  *
  * const optionsSchema = z.object({
  *   name: z.string(),

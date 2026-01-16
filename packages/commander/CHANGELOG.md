@@ -77,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Stable Release**: First stable release of @navios/commander
   - Production-ready CLI command framework for Navios
-  - Type-safe command definitions with Zod validation
+  - Type-safe command definitions with zod/v4 validation
   - Seamless integration with Navios dependency injection
 
 ## [1.0.0-alpha.4] - 2026-01-09
@@ -94,8 +94,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Descriptions displayed in `--help` output
 - **Built-in Help Command**: Automatic `help` command with `--help` flag support
   - Shows all available commands with descriptions
-  - Per-command help with option details from Zod schema metadata
-  - Supports `.meta({ description: '...' })` on Zod fields for option descriptions
+  - Per-command help with option details from zod/v4 schema metadata
+  - Supports `.meta({ description: '...' })` on zod/v4 fields for option descriptions
 - **Command Registry Service**: New `CommandRegistryService` for managing registered commands
   - Replaces module-level command tracking
   - Provides `register()`, `getByPath()`, `getAllAsArray()`, and `clear()` methods

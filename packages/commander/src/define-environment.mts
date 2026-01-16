@@ -1,10 +1,10 @@
-import type { AnyInjectableType, InjectionToken } from '@navios/core'
-
 import { AdapterToken } from '@navios/core'
 
-import { CommanderAdapterService } from './services/commander-adapter.service.mjs'
-import { CommandRegistryService } from './services/command-registry.service.mjs'
+import type { AnyInjectableType, InjectionToken } from '@navios/core'
+
 import { CliParserService } from './services/cli-parser.service.mjs'
+import { CommandRegistryService } from './services/command-registry.service.mjs'
+import { CommanderAdapterService } from './services/commander-adapter.service.mjs'
 
 /**
  * Defines the CLI environment configuration for use with NaviosFactory.

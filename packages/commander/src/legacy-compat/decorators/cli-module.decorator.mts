@@ -1,5 +1,6 @@
+import { createClassContext } from '@navios/core/legacy-compat'
+
 import type { ClassType } from '@navios/core'
-import { createClassContext } from '@navios/di/legacy-compat'
 
 import {
   CliModule as OriginalCliModule,
