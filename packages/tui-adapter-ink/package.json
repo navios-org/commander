@@ -1,6 +1,6 @@
 {
   "name": "@navios/tui-adapter-ink",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -33,21 +33,21 @@
   },
   "dependencies": {
     "fullscreen-ink": "^0.1.0",
-    "ink": "^6.0.0",
+    "ink": "^6.6.0",
     "ink-syntax-highlight": "^2.0.2",
     "ink-virtual-list": "^0.2.3",
-    "react": "^19.0.0"
+    "react": "^19.2.3"
   },
   "devDependencies": {
-    "@testing-library/react": "^16.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19",
-    "happy-dom": "^18.0.1",
+    "@testing-library/react": "^16.3.1",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "happy-dom": "^20.3.1",
     "ink-testing-library": "^4.0.0",
     "react-dom": "^19.2.3",
     "typescript": "^5.9.3",
-    "unplugin-swc": "^1.5.1",
-    "vitest": "^3.2.4"
+    "unplugin-swc": "^1.5.9",
+    "vitest": "^4.0.17"
   },
   "peerDependencies": {
     "@navios/commander-tui": "^1.3.0",
