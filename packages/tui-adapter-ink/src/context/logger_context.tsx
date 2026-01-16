@@ -1,8 +1,12 @@
+import { darkTheme, resolveTheme } from '@navios/commander-tui'
 import { createContext, useContext, useMemo, type ReactNode } from 'react'
 
-import { darkTheme, resolveTheme } from '@navios/commander-tui'
-
-import type { LoggerContextValue, LogLevelColorMap, Theme, ThemePreset } from '@navios/commander-tui'
+import type {
+  LoggerContextValue,
+  LogLevelColorMap,
+  Theme,
+  ThemePreset,
+} from '@navios/commander-tui'
 
 const LoggerContext = createContext<LoggerContextValue | null>(null)
 

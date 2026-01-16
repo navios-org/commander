@@ -1,9 +1,5 @@
 import { Box, Text } from 'ink'
 
-import { useTheme } from '../../hooks/index.ts'
-import { FileLog } from '../file/index.ts'
-import { LogMessage } from '../log/index.ts'
-
 import type {
   MessageData,
   LoadingMessageData,
@@ -11,6 +7,10 @@ import type {
   GroupMessageData,
   TableMessageData,
 } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
+import { FileLog } from '../file/index.ts'
+import { LogMessage } from '../log/index.ts'
 
 import { GroupMessageRenderer } from './group_renderer.tsx'
 import { LoadingMessage } from './loading_message.tsx'

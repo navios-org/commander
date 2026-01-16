@@ -1,6 +1,6 @@
+import { darkTheme } from '@navios/commander-tui'
 import { vi } from 'vitest'
 
-import type { LogLevel } from '@navios/core'
 import type {
   ChoicePromptData,
   ConfirmPromptData,
@@ -20,7 +20,7 @@ import type {
   TableMessageData,
   Theme,
 } from '@navios/commander-tui'
-import { darkTheme } from '@navios/commander-tui'
+import type { LogLevel } from '@navios/core'
 
 let idCounter = 0
 

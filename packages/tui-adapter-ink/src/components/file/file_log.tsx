@@ -118,11 +118,7 @@ function FileLogFull({ filePath, content, headerBackgroundColor }: FileLogFullPr
             <Text color={theme.colors.muted} dimColor>
               {String(i + 1).padStart(4)} │{' '}
             </Text>
-            {language ? (
-              <SyntaxHighlight language={language} code={line} />
-            ) : (
-              <Text>{line}</Text>
-            )}
+            {language ? <SyntaxHighlight language={language} code={line} /> : <Text>{line}</Text>}
           </Box>
         ))}
       </Box>

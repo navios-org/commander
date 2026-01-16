@@ -21,7 +21,7 @@ bun add @navios/commander-tui @navios/tui-adapter-ink
 
 - Node.js 18+ or Bun
 - `@navios/commander-tui` ^1.3.0
-- `@navios/core` *
+- `@navios/core` \*
 
 ## Usage
 

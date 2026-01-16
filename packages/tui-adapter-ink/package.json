@@ -1,6 +1,6 @@
 {
   "name": "@navios/tui-adapter-ink",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -28,8 +28,14 @@
     }
   },
   "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "check": "yarn run -T tsgo --build",
+    "lint": "yarn run -T oxlint --fix && yarn run -T oxfmt",
+    "test": "vitest",
+    "test:ci": "vitest run",
+    "test:watch": "vitest",
+    "build": "yarn run -T tsdown",
+    "publish:pkg": "yarn npm publish --access public",
+    "publish:next": "yarn npm publish --access public --tag next"
   },
   "dependencies": {
     "fullscreen-ink": "^0.1.0",
@@ -39,6 +45,7 @@
     "react": "^19.2.3"
   },
   "devDependencies": {
+    "@navios/commander-tui": "workspace:*",
     "@testing-library/react": "^16.3.1",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",

@@ -1,9 +1,13 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { createElement } from 'react'
+import { describe, it, expect, beforeEach } from 'vitest'
 
+import {
+  FilterProvider,
+  useFilter,
+  useFilterActions,
+} from '../../components/content/filter_context.tsx'
 import { useFilterState } from '../../hooks/use_filter_state.ts'
-import { FilterProvider, useFilter, useFilterActions } from '../../components/content/filter_context.tsx'
 
 // Helper to render hooks within FilterProvider
 function renderFilterHook<T>(hook: () => T) {

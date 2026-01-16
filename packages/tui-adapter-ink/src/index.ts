@@ -1,5 +1,5 @@
-import { Injectable } from '@navios/core'
 import { Adapter } from '@navios/commander-tui'
+import { Injectable } from '@navios/core'
 import { withFullScreen } from 'fullscreen-ink'
 import { createElement } from 'react'
 

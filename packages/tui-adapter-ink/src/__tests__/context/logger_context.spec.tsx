@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { darkTheme, lightTheme, highContrastTheme } from '@navios/commander-tui'
 import { renderHook } from '@testing-library/react'
 import { createElement } from 'react'
+import { describe, it, expect } from 'vitest'
 
-import { darkTheme, lightTheme, highContrastTheme } from '@navios/commander-tui'
 import { LoggerProvider, useLoggerContext } from '../../context/logger_context.tsx'
 
 describe('LoggerProvider', () => {
@@ -36,8 +36,7 @@ describe('LoggerProvider', () => {
       const customTheme = { ...darkTheme, name: 'My Custom Theme' }
 
       const { result } = renderHook(() => useLoggerContext(), {
-        wrapper: ({ children }) =>
-          createElement(LoggerProvider, { theme: customTheme }, children),
+        wrapper: ({ children }) => createElement(LoggerProvider, { theme: customTheme }, children),
       })
 
       expect(result.current.theme.name).toBe('My Custom Theme')
@@ -67,7 +66,11 @@ describe('LoggerProvider', () => {
 
       const { result } = renderHook(() => useLoggerContext(), {
         wrapper: ({ children }) =>
-          createElement(LoggerProvider, { theme: 'dark', levelColors: customLevelColors }, children),
+          createElement(
+            LoggerProvider,
+            { theme: 'dark', levelColors: customLevelColors },
+            children,
+          ),
       })
 
       expect(result.current.levelColors.log).toBe('#ff0000')

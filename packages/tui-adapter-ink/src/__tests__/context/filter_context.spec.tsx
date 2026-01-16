@@ -1,9 +1,13 @@
-import { describe, it, expect } from 'vitest'
+import { ALL_LOG_LEVELS } from '@navios/commander-tui'
 import { renderHook, act } from '@testing-library/react'
 import { createElement } from 'react'
+import { describe, it, expect } from 'vitest'
 
-import { ALL_LOG_LEVELS } from '@navios/commander-tui'
-import { FilterProvider, useFilter, useFilterActions } from '../../components/content/filter_context.tsx'
+import {
+  FilterProvider,
+  useFilter,
+  useFilterActions,
+} from '../../components/content/filter_context.tsx'
 
 // Helper to render hooks within FilterProvider
 function renderFilterHook<T>(hook: () => T) {

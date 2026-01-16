@@ -1,11 +1,10 @@
+import { ALL_LOG_LEVELS } from '@navios/commander-tui'
 import { Box, Text } from 'ink'
 
+import type { FilterState, LevelCounts } from '@navios/commander-tui'
 import type { LogLevel } from '@navios/core'
 
 import { useTheme } from '../../hooks/index.ts'
-import { ALL_LOG_LEVELS } from '@navios/commander-tui'
-
-import type { FilterState, LevelCounts } from '@navios/commander-tui'
 
 export interface FilterBarProps {
   filter: FilterState
@@ -74,7 +73,9 @@ export function FilterBar({ filter, levelCounts }: FilterBarProps) {
 
       {/* Hints */}
       <Box flexDirection="row">
-        <Text color={theme.filter.textDim}>Tab: switch fields | 1-7: toggle levels | Esc: close</Text>
+        <Text color={theme.filter.textDim}>
+          Tab: switch fields | 1-7: toggle levels | Esc: close
+        </Text>
       </Box>
     </Box>
   )

@@ -1,8 +1,8 @@
 import { Box, Text } from 'ink'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type { ScreenInstance } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 import { SidebarItem } from './sidebar_item.tsx'
 import { SidebarSeparator } from './sidebar_separator.tsx'
@@ -84,7 +84,16 @@ export function Sidebar({
       </Box>
 
       {/* Footer with keybindings hint */}
-      <Box paddingLeft={1} paddingRight={1} borderStyle="single" borderTop borderBottom={false} borderLeft={false} borderRight={false} borderColor={theme.sidebar.border}>
+      <Box
+        paddingLeft={1}
+        paddingRight={1}
+        borderStyle="single"
+        borderTop
+        borderBottom={false}
+        borderLeft={false}
+        borderRight={false}
+        borderColor={theme.sidebar.border}
+      >
         <Text color={theme.sidebar.text}>q: exit | Tab: focus | ?: help</Text>
       </Box>
     </Box>

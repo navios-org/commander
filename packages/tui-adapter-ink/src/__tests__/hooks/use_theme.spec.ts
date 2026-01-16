@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'vitest'
+import { darkTheme } from '@navios/commander-tui'
 import { renderHook } from '@testing-library/react'
 import { createElement } from 'react'
+import { describe, it, expect } from 'vitest'
 
-import { darkTheme } from '@navios/commander-tui'
-import { useTheme } from '../../hooks/use_theme.ts'
 import { LoggerProvider } from '../../context/logger_context.tsx'
+import { useTheme } from '../../hooks/use_theme.ts'
 
 describe('useTheme', () => {
   it('should return default dark theme when used outside LoggerProvider', () => {

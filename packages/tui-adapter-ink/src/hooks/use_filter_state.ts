@@ -1,6 +1,5 @@
-import { useState, useCallback } from 'react'
-
 import { ALL_LOG_LEVELS, createDefaultFilterState, type FilterState } from '@navios/commander-tui'
+import { useState, useCallback } from 'react'
 
 /**
  * Filter state actions returned by useFilterState hook

@@ -1,6 +1,6 @@
+import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import { useMemo, useCallback } from 'react'
 
-import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import type { KeyboardContext } from '@navios/commander-tui'
 import type { ScreenManagerInstance } from '@navios/commander-tui'
 

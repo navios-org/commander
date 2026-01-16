@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { withFullScreen } from 'fullscreen-ink'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 import { InkAdapter } from '../index.ts'
+
 import { createMockScreenManagerInstance, asMockManager } from './mocks/factories.ts'
 
 vi.mock('fullscreen-ink')

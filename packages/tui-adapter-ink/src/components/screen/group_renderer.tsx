@@ -1,8 +1,8 @@
 import { Box, Text } from 'ink'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type { MessageData, GroupMessageData } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 import { MessageRenderer } from './message_renderer.tsx'
 

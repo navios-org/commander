@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { renderHook, act } from '@testing-library/react'
-
 import { MANAGER_EVENTS } from '@navios/commander-tui'
+import { renderHook, act } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+
 import { useManagerSubscription } from '../../hooks/use_manager_subscription.ts'
 import { createMockScreenManagerInstance, asMockManager } from '../mocks/factories.ts'
 
@@ -96,10 +96,9 @@ describe('useManagerSubscription', () => {
     const mockManager1 = createMockScreenManagerInstance()
     const mockManager2 = createMockScreenManagerInstance()
 
-    const { rerender } = renderHook(
-      ({ manager }) => useManagerSubscription(manager),
-      { initialProps: { manager: asMockManager(mockManager1) } },
-    )
+    const { rerender } = renderHook(({ manager }) => useManagerSubscription(manager), {
+      initialProps: { manager: asMockManager(mockManager1) },
+    })
 
     // First manager should be subscribed
     expect(mockManager1.on).toHaveBeenCalled()

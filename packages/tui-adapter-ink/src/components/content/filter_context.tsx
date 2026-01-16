@@ -1,6 +1,6 @@
+import { ALL_LOG_LEVELS, createDefaultFilterState } from '@navios/commander-tui'
 import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react'
 
-import { ALL_LOG_LEVELS, createDefaultFilterState } from '@navios/commander-tui'
 import type { FilterState } from '@navios/commander-tui'
 
 export interface FilterActions {
@@ -88,7 +88,14 @@ export function FilterProvider({ children }: FilterProviderProps) {
       filterToggleLevel,
       filterCycleField,
     }),
-    [toggleFilter, closeFilter, filterAppendChar, filterDeleteChar, filterToggleLevel, filterCycleField],
+    [
+      toggleFilter,
+      closeFilter,
+      filterAppendChar,
+      filterDeleteChar,
+      filterToggleLevel,
+      filterCycleField,
+    ],
   )
 
   const value = useMemo(() => ({ filter, actions }), [filter, actions])

@@ -1,7 +1,5 @@
 import { Box, Text } from 'ink'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type {
   PromptData,
   ChoicePromptData,
@@ -10,6 +8,8 @@ import type {
   MultiChoicePromptData,
   PromptTheme,
 } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 export interface PromptRendererProps {
   prompt: PromptData
@@ -111,7 +111,10 @@ function ChoicePromptRenderer({ prompt, timeoutRemaining, colors }: ChoicePrompt
                 </Text>
 
                 {/* Choice label */}
-                <Text color={isSelected ? colors.optionText : colors.optionTextDim} bold={isSelected}>
+                <Text
+                  color={isSelected ? colors.optionText : colors.optionTextDim}
+                  bold={isSelected}
+                >
                   {choice.label}
                 </Text>
 

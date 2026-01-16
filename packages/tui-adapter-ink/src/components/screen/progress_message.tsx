@@ -1,8 +1,8 @@
 import { Box, Text } from 'ink'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type { ProgressMessageData } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 export interface ProgressMessageProps {
   message: ProgressMessageData

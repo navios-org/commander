@@ -1,6 +1,6 @@
+import { MANAGER_EVENTS } from '@navios/commander-tui'
 import { useState, useEffect } from 'react'
 
-import { MANAGER_EVENTS } from '@navios/commander-tui'
 import type { ScreenManagerInstance } from '@navios/commander-tui'
 
 /**

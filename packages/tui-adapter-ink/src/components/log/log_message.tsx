@@ -1,9 +1,9 @@
+import { VARIANT_COLORS } from '@navios/commander-tui'
 import { Box, Text } from 'ink'
 
-import { useTheme } from '../../hooks/index.ts'
-import { VARIANT_COLORS } from '@navios/commander-tui'
-
 import type { LogMessageProps } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 // Helper to convert RGBA or string to a string color (Ink only supports string colors)
 function toStringColor(color: string | { r: number; g: number; b: number; a?: number }): string {
