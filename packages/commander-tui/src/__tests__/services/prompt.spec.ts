@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { TestContainer } from '@navios/core/testing'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { PromptInstance } from '../../services/prompt.ts'
 import { Screen } from '../../tokens/index.ts'

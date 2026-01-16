@@ -128,6 +128,7 @@ class MyService {
 ```
 
 The `IsomorphicLoggerFactory` checks if the `ScreenManager` has an active TUI binding:
+
 - **TUI bound**: Returns a `ScreenLogger` instance with full TUI features
 - **TUI not bound**: Returns a standard `Logger` instance for console output
 
@@ -181,7 +182,7 @@ logger.table(
     { name: 'Alice', age: 30, role: 'Developer' },
     { name: 'Bob', age: 25, role: 'Designer' },
   ],
-  { title: 'Team Members' }
+  { title: 'Team Members' },
 )
 ```
 

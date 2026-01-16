@@ -2,9 +2,10 @@ import { TestContainer } from '@navios/core/testing'
 
 import { Screen, ScreenLogger, Prompt } from '../../tokens/index.ts'
 
+import type { ScreenInstance } from '../../services/index.ts'
+
 import { createMockScreenInstance } from './factories.ts'
 
-import type { ScreenInstance } from '../../services/index.ts'
 import type { MockScreenInstance } from './factories.ts'
 
 /**

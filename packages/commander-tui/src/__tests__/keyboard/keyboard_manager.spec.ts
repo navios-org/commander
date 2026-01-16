@@ -300,10 +300,7 @@ describe('KeyboardManager', () => {
       expect(result).toBe(false)
 
       // Correct focus area - should match
-      result = manager.handleKey(
-        { name: 'enter' },
-        createKeyboardContext({ focusArea: 'sidebar' }),
-      )
+      result = manager.handleKey({ name: 'enter' }, createKeyboardContext({ focusArea: 'sidebar' }))
       expect(result).toBe(true)
     })
 
@@ -344,10 +341,7 @@ describe('KeyboardManager', () => {
       expect(result).toBe(false)
 
       // Help visible - should match
-      result = manager.handleKey(
-        { name: 'escape' },
-        createKeyboardContext({ isHelpVisible: true }),
-      )
+      result = manager.handleKey({ name: 'escape' }, createKeyboardContext({ isHelpVisible: true }))
       expect(result).toBe(true)
     })
 

@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
+import type { LogLevel } from '@navios/core'
+
 import { FilterEngine } from '../../filter/filter_engine.ts'
 import {
   createDiffMessage,
@@ -13,7 +15,6 @@ import {
   resetIdCounter,
 } from '../utils/factories.ts'
 
-import type { LogLevel } from '@navios/core'
 import type { MessageData } from '../../types/index.ts'
 
 describe('FilterEngine', () => {

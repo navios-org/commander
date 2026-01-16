@@ -1,8 +1,9 @@
 import { vi } from 'vitest'
 
+import type { LogLevel } from '@navios/core'
+
 import { darkTheme } from '../../themes/index.ts'
 
-import type { LogLevel } from '@navios/core'
 import type {
   ChoicePromptData,
   ConfirmPromptData,

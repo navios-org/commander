@@ -139,7 +139,9 @@ export class ReadlinePromptService {
 
     // Display question and choices
     console.log(`\n${prompt.question}`)
-    console.log(`(Select ${prompt.minSelect}-${prompt.maxSelect} options, enter comma-separated numbers)`)
+    console.log(
+      `(Select ${prompt.minSelect}-${prompt.maxSelect} options, enter comma-separated numbers)`,
+    )
     prompt.choices.forEach((choice, index) => {
       const selected = prompt.selectedIndices.has(index) ? '[x]' : '[ ]'
       console.log(`  ${selected} ${index + 1}. ${choice.label}`)
@@ -171,7 +173,9 @@ export class ReadlinePromptService {
         }
 
         if (indices.length > prompt.maxSelect) {
-          console.log(`Maximum ${prompt.maxSelect} selections allowed. Taking first ${prompt.maxSelect}.`)
+          console.log(
+            `Maximum ${prompt.maxSelect} selections allowed. Taking first ${prompt.maxSelect}.`,
+          )
           indices.splice(prompt.maxSelect)
         }
 

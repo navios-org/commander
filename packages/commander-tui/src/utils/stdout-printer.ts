@@ -1,3 +1,5 @@
+import type { LogLevel } from '@navios/core'
+
 import type {
   GroupMessageData,
   LoadingMessageData,
@@ -7,9 +9,14 @@ import type {
   ProgressMessageData,
   TableMessageData,
 } from '../types/index.ts'
-import type { LogLevel } from '@navios/core'
 
-import { DEFAULT_LOG_LEVEL_COLORS, GROUP_COLORS, PROGRESS_COLORS, TABLE_COLORS, VARIANT_COLORS } from './colors/index.ts'
+import {
+  DEFAULT_LOG_LEVEL_COLORS,
+  GROUP_COLORS,
+  PROGRESS_COLORS,
+  TABLE_COLORS,
+  VARIANT_COLORS,
+} from './colors/index.ts'
 
 // ANSI escape codes
 const RESET = '\x1b[0m'
@@ -162,7 +169,9 @@ function printMessage(message: MessageData, stream: NodeJS.WriteStream): void {
       const percentStr = `${String(percentage).padStart(3)}%`
 
       if (statusIcon) {
-        stream.write(`${statusColor}${statusIcon}${RESET} ${displayLabel} [${progressBar}] ${percentStr}\n`)
+        stream.write(
+          `${statusColor}${statusIcon}${RESET} ${displayLabel} [${progressBar}] ${percentStr}\n`,
+        )
       } else {
         stream.write(`  ${displayLabel} [${progressBar}] ${percentStr} (${current}/${total})\n`)
       }
@@ -179,7 +188,9 @@ function printMessage(message: MessageData, stream: NodeJS.WriteStream): void {
         stream.write(`${groupColor}└─${RESET} ${DIM}end ${label}${RESET}\n`)
       } else {
         const icon = collapsed ? '▶' : '▼'
-        stream.write(`${groupColor}┌─${RESET} ${iconColor}${icon}${RESET} ${BOLD}${label}${RESET}\n`)
+        stream.write(
+          `${groupColor}┌─${RESET} ${iconColor}${icon}${RESET} ${BOLD}${label}${RESET}\n`,
+        )
       }
       break
     }
@@ -212,15 +223,21 @@ function printMessage(message: MessageData, stream: NodeJS.WriteStream): void {
       stream.write(`${topBorder}\n`)
 
       // Print headers
-      const headerRow = headers.map((h, i) => ` ${h.padEnd(colWidths[i])} `).join(`${tableColor}│${RESET}`)
-      stream.write(`${tableColor}│${RESET}${headerColor}${headerRow}${RESET}${tableColor}│${RESET}\n`)
+      const headerRow = headers
+        .map((h, i) => ` ${h.padEnd(colWidths[i])} `)
+        .join(`${tableColor}│${RESET}`)
+      stream.write(
+        `${tableColor}│${RESET}${headerColor}${headerRow}${RESET}${tableColor}│${RESET}\n`,
+      )
 
       // Print separator
       stream.write(`${separator}\n`)
 
       // Print rows
       for (const row of rows) {
-        const rowStr = headers.map((_, i) => ` ${(row[i] ?? '').padEnd(colWidths[i])} `).join(`${tableColor}│${RESET}`)
+        const rowStr = headers
+          .map((_, i) => ` ${(row[i] ?? '').padEnd(colWidths[i])} `)
+          .join(`${tableColor}│${RESET}`)
         stream.write(`${tableColor}│${RESET}${cellColor}${rowStr}${RESET}${tableColor}│${RESET}\n`)
       }
 
@@ -235,7 +252,11 @@ function printMessage(message: MessageData, stream: NodeJS.WriteStream): void {
  * Print a single message to stdout with optional screen name prefix.
  * Used for immediate output in stdout mode (when OpenTUI is not active).
  */
-export function printSingleMessage(message: MessageData, screenName?: string, isError: boolean = false): void {
+export function printSingleMessage(
+  message: MessageData,
+  screenName?: string,
+  isError: boolean = false,
+): void {
   const stream = isError ? process.stderr : process.stdout
 
   // Add screen name prefix for context (dimmed)
@@ -249,7 +270,11 @@ export function printSingleMessage(message: MessageData, screenName?: string, is
 /**
  * Print all messages to stdout (or stderr if isError)
  */
-export function printMessagesToStdout(messages: MessageData[], screenName: string, isError: boolean = false): void {
+export function printMessagesToStdout(
+  messages: MessageData[],
+  screenName: string,
+  isError: boolean = false,
+): void {
   const stream = isError ? process.stderr : process.stdout
 
   // Print screen header
