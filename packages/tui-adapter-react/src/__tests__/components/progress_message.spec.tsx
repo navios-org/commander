@@ -2,7 +2,6 @@ import { describe, it, expect } from 'bun:test'
 
 import { ProgressMessage } from '../../components/screen/progress_message.tsx'
 import { createProgressMessage } from '../mocks/factories.ts'
-
 // Import setup to apply mocks
 import '../setup.ts'
 

@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'bun:test'
-import { renderHook, act } from '@testing-library/react'
 
 import { ALL_LOG_LEVELS } from '@navios/commander-tui'
-import { useFilterState } from '../../hooks/use_filter_state.ts'
+import { renderHook, act } from '@testing-library/react'
 
+import { useFilterState } from '../../hooks/use_filter_state.ts'
 // Import setup to apply mocks
 import '../setup.ts'
 

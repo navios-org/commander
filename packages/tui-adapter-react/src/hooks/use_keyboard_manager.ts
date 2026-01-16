@@ -1,6 +1,6 @@
+import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import { useMemo, useCallback } from 'react'
 
-import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import type { KeyboardContext, ScreenManagerInstance } from '@navios/commander-tui'
 
 import type { FilterStateActions } from './use_filter_state.ts'

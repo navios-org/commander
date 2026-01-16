@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'bun:test'
+
+import { darkTheme, lightTheme, highContrastTheme } from '@navios/commander-tui'
 import { renderHook } from '@testing-library/react'
 import { createElement } from 'react'
 
-import { darkTheme, lightTheme, highContrastTheme } from '@navios/commander-tui'
 import { LoggerProvider } from '../../context/logger_context'
 import { useTheme } from '../../hooks/use_theme'
-
 // Import setup
 import '../setup.ts'
 

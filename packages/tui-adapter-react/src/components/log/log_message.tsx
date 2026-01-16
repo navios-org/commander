@@ -1,9 +1,9 @@
+import { VARIANT_COLORS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 
-import { useTheme } from '../../hooks/index.ts'
-import { VARIANT_COLORS } from '@navios/commander-tui'
-
 import type { LogMessageProps } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 /**
  * LogMessage - A chat-like styled log message with level-based coloring.

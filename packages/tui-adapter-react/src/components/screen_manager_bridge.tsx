@@ -1,9 +1,10 @@
+import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import { useKeyboard } from '@opentui/react'
 import { useState, useCallback, useMemo } from 'react'
 
-import { LoggerProvider } from '../context/index.ts'
-import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import type { KeyboardContext, Theme, ScreenManagerInstance } from '@navios/commander-tui'
+
+import { LoggerProvider } from '../context/index.ts'
 
 import { ContentArea, FilterProvider, useFilter, useFilterActions } from './content/index.ts'
 import { HelpOverlay } from './help/help_overlay.tsx'
@@ -82,7 +83,15 @@ function ScreenManagerBridgeInner({ manager, theme }: ScreenManagerBridgeProps) 
         filterCycleField: filterActions.filterCycleField,
       })
     },
-    [manager, keyboardManager, filter.isVisible, showHelp, getActiveScreen, toggleHelp, filterActions],
+    [
+      manager,
+      keyboardManager,
+      filter.isVisible,
+      showHelp,
+      getActiveScreen,
+      toggleHelp,
+      filterActions,
+    ],
   )
 
   // Handle keyboard input

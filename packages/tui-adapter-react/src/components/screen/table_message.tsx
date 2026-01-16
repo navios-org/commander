@@ -1,6 +1,5 @@
-import { TextAttributes } from '@opentui/core'
-
 import { TABLE_COLORS } from '@navios/commander-tui'
+import { TextAttributes } from '@opentui/core'
 
 import type { TableMessageData } from '@navios/commander-tui'
 
@@ -13,9 +12,7 @@ export function TableMessage({ message }: TableMessageProps) {
   const colWidths = message.headers.map((h, i) => {
     const headerLen = h.length
     const maxRowLen =
-      message.rows.length > 0
-        ? Math.max(...message.rows.map((r) => (r[i] ?? '').length))
-        : 0
+      message.rows.length > 0 ? Math.max(...message.rows.map((r) => (r[i] ?? '').length)) : 0
     return Math.max(headerLen, maxRowLen)
   })
 

@@ -1,6 +1,7 @@
 import { mock } from 'bun:test'
 
-import type { LogLevel } from '@navios/core'
+import { darkTheme } from '@navios/commander-tui'
+
 import type {
   ChoicePromptData,
   ConfirmPromptData,
@@ -20,7 +21,7 @@ import type {
   TableMessageData,
   Theme,
 } from '@navios/commander-tui'
-import { darkTheme } from '@navios/commander-tui'
+import type { LogLevel } from '@navios/core'
 
 let idCounter = 0
 

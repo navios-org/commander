@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'bun:test'
+
 import { createElement } from 'react'
 
 import { LogMessage } from '../../components/log/log_message.tsx'
-
 // Import setup to apply mocks
 import '../setup.ts'
 

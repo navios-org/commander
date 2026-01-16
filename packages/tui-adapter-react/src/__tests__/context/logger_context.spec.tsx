@@ -1,15 +1,18 @@
 import { describe, it, expect } from 'bun:test'
+
+import { darkTheme, lightTheme, highContrastTheme } from '@navios/commander-tui'
 import { renderHook } from '@testing-library/react'
 import { createElement } from 'react'
 
-import { darkTheme, lightTheme, highContrastTheme } from '@navios/commander-tui'
 import { LoggerProvider, useLoggerContext } from '../../context/logger_context'
-
 // Import setup
 import '../setup.ts'
 
 // Helper to render hooks within LoggerProvider
-function renderLoggerHook<T>(hook: () => T, props: Parameters<typeof LoggerProvider>[0] = { children: null }) {
+function renderLoggerHook<T>(
+  hook: () => T,
+  props: Parameters<typeof LoggerProvider>[0] = { children: null },
+) {
   return renderHook(hook, {
     wrapper: ({ children }) => createElement(LoggerProvider, { ...props, children }),
   })

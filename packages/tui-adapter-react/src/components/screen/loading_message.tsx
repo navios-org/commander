@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 
-import { LogMessage } from '../log/index.ts'
-
 import type { LoadingMessageData, LogMessageVariant } from '@navios/commander-tui'
+
+import { LogMessage } from '../log/index.ts'
 
 const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 
@@ -30,7 +30,8 @@ export function LoadingMessage({ message }: LoadingMessageProps) {
 
   // Map loading status to log level and variant for display
   const level = message.status === 'fail' ? 'error' : 'log'
-  const variant: LogMessageVariant | undefined = message.status === 'success' ? 'success' : undefined
+  const variant: LogMessageVariant | undefined =
+    message.status === 'success' ? 'success' : undefined
 
   const displayContent = message.resolvedContent ?? message.content
   const spinner = message.status === 'loading' ? SPINNER_FRAMES[frameIndex] + ' ' : ''

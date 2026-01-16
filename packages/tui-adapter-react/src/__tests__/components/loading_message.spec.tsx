@@ -2,7 +2,6 @@ import { describe, it, expect } from 'bun:test'
 
 import { LoadingMessage } from '../../components/screen/loading_message.tsx'
 import { createLoadingMessage } from '../mocks/factories.ts'
-
 // Import setup to apply mocks
 import '../setup.ts'
 

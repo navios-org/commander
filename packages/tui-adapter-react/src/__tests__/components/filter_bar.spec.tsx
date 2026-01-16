@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'bun:test'
 
-import { FilterBar } from '../../components/filter/filter_bar.tsx'
-import { createFilterState } from '../mocks/factories.ts'
-
 import type { LevelCounts } from '@navios/commander-tui'
 
+import { FilterBar } from '../../components/filter/filter_bar.tsx'
+import { createFilterState } from '../mocks/factories.ts'
 // Import setup to apply mocks
 import '../setup.ts'
 
@@ -62,8 +61,12 @@ describe('FilterBar', () => {
       const levelsFocused = createFilterState({ focusedField: 'levels' })
       const levelCounts = createLevelCounts()
 
-      expect((<FilterBar filter={searchFocused} levelCounts={levelCounts} />).props.filter.focusedField).toBe('search')
-      expect((<FilterBar filter={levelsFocused} levelCounts={levelCounts} />).props.filter.focusedField).toBe('levels')
+      expect(
+        (<FilterBar filter={searchFocused} levelCounts={levelCounts} />).props.filter.focusedField,
+      ).toBe('search')
+      expect(
+        (<FilterBar filter={levelsFocused} levelCounts={levelCounts} />).props.filter.focusedField,
+      ).toBe('levels')
     })
   })
 

@@ -1,9 +1,15 @@
 import { describe, it, expect, mock, beforeEach } from 'bun:test'
-import { renderHook, act } from '@testing-library/react'
 
 import { KeyboardManager } from '@navios/commander-tui'
+import { renderHook, act } from '@testing-library/react'
+
 import { useKeyboardManager } from '../../hooks/use_keyboard_manager.ts'
-import { createMockScreenManagerInstance, createMockScreenInstance, asMockManager, asMockScreen } from '../mocks/factories.ts'
+import {
+  createMockScreenManagerInstance,
+  createMockScreenInstance,
+  asMockManager,
+  asMockScreen,
+} from '../mocks/factories.ts'
 
 import type { FilterStateActions } from '../../hooks/use_filter_state.ts'
 

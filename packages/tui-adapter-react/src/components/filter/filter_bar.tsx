@@ -1,11 +1,10 @@
+import { ALL_LOG_LEVELS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 
+import type { FilterState, LevelCounts } from '@navios/commander-tui'
 import type { LogLevel } from '@navios/core'
 
 import { useTheme } from '../../hooks/index.ts'
-import { ALL_LOG_LEVELS } from '@navios/commander-tui'
-
-import type { FilterState, LevelCounts } from '@navios/commander-tui'
 
 export interface FilterBarProps {
   filter: FilterState

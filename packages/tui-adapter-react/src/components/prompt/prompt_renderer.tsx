@@ -1,7 +1,5 @@
 import { TextAttributes } from '@opentui/core'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type {
   PromptData,
   ChoicePromptData,
@@ -10,6 +8,8 @@ import type {
   MultiChoicePromptData,
   PromptTheme,
 } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 export interface PromptRendererProps {
   prompt: PromptData

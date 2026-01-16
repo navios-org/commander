@@ -1,11 +1,10 @@
 import { describe, it, expect, mock } from 'bun:test'
 
 import { Sidebar } from '../../components/sidebar/sidebar.tsx'
+import { SidebarContainer } from '../../components/sidebar/sidebar_container.tsx'
 import { SidebarItem } from '../../components/sidebar/sidebar_item.tsx'
 import { SidebarSeparator } from '../../components/sidebar/sidebar_separator.tsx'
-import { SidebarContainer } from '../../components/sidebar/sidebar_container.tsx'
 import { createMockScreenInstance, asMockScreen } from '../mocks/factories.ts'
-
 // Import setup to apply mocks
 import '../setup.ts'
 
@@ -49,11 +48,22 @@ describe('Sidebar', () => {
       const mockScreen3 = createMockScreenInstance()
 
       const emptyElement = (
-        <Sidebar screens={[]} selectedIndex={0} activeScreenId="" focused={true} width={25} title="Screens" />
+        <Sidebar
+          screens={[]}
+          selectedIndex={0}
+          activeScreenId=""
+          focused={true}
+          width={25}
+          title="Screens"
+        />
       )
       const multiElement = (
         <Sidebar
-          screens={[asMockScreen(mockScreen1), asMockScreen(mockScreen2), asMockScreen(mockScreen3)]}
+          screens={[
+            asMockScreen(mockScreen1),
+            asMockScreen(mockScreen2),
+            asMockScreen(mockScreen3),
+          ]}
           selectedIndex={1}
           activeScreenId="test-screen-id"
           focused={true}
@@ -126,7 +136,12 @@ describe('SidebarItem', () => {
     it('should accept all required props', () => {
       const mockScreen = createMockScreenInstance()
       const element = (
-        <SidebarItem screen={asMockScreen(mockScreen)} isSelected={true} isActive={true} focused={true} />
+        <SidebarItem
+          screen={asMockScreen(mockScreen)}
+          isSelected={true}
+          isActive={true}
+          focused={true}
+        />
       )
 
       expect(element.props.screen).toBeDefined()
@@ -141,10 +156,20 @@ describe('SidebarItem', () => {
       const mockScreen = createMockScreenInstance()
 
       const allTrue = (
-        <SidebarItem screen={asMockScreen(mockScreen)} isSelected={true} isActive={true} focused={true} />
+        <SidebarItem
+          screen={asMockScreen(mockScreen)}
+          isSelected={true}
+          isActive={true}
+          focused={true}
+        />
       )
       const allFalse = (
-        <SidebarItem screen={asMockScreen(mockScreen)} isSelected={false} isActive={false} focused={false} />
+        <SidebarItem
+          screen={asMockScreen(mockScreen)}
+          isSelected={false}
+          isActive={false}
+          focused={false}
+        />
       )
 
       expect(allTrue.props.isSelected).toBe(true)
@@ -164,7 +189,12 @@ describe('SidebarItem', () => {
         const mockScreen = createMockScreenInstance()
         mockScreen.getStatus = mock(() => status)
         const element = (
-          <SidebarItem screen={asMockScreen(mockScreen)} isSelected={false} isActive={false} focused={false} />
+          <SidebarItem
+            screen={asMockScreen(mockScreen)}
+            isSelected={false}
+            isActive={false}
+            focused={false}
+          />
         )
         expect(element.props.screen).toBeDefined()
       }
@@ -176,7 +206,12 @@ describe('SidebarItem', () => {
         const mockScreen = createMockScreenInstance()
         mockScreen.getBadgeCount = mock(() => count)
         const element = (
-          <SidebarItem screen={asMockScreen(mockScreen)} isSelected={false} isActive={false} focused={false} />
+          <SidebarItem
+            screen={asMockScreen(mockScreen)}
+            isSelected={false}
+            isActive={false}
+            focused={false}
+          />
         )
         expect(element.props.screen).toBeDefined()
       }

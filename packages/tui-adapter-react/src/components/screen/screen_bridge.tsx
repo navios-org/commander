@@ -1,7 +1,7 @@
+import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 import { useState, useEffect, useMemo } from 'react'
 
-import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
 import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
@@ -107,7 +107,10 @@ export function ScreenBridge({ screen, focused }: ScreenBridgeProps) {
     return screen.getActivePrompt()
   }, [messageVersion, screen])
 
-  const processedMessages = useMemo(() => processMessagesIntoGroups(filteredMessages), [filteredMessages])
+  const processedMessages = useMemo(
+    () => processMessagesIntoGroups(filteredMessages),
+    [filteredMessages],
+  )
 
   // Calculate filter stats
   const totalMessages = allMessages.length

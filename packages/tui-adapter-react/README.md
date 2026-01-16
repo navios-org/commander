@@ -14,7 +14,7 @@ bun add @navios/commander-tui @navios/tui-adapter-react
 
 - **Bun** runtime (Node.js is not supported)
 - `@navios/commander-tui` ^1.3.0
-- `@navios/core` *
+- `@navios/core` \*
 
 ## Usage
 

@@ -1,10 +1,10 @@
-import { Injectable } from '@navios/core'
 import { Adapter } from '@navios/commander-tui'
+import { Injectable } from '@navios/core'
 import { createRoot as reactCreateRoot } from '@opentui/react'
 import { createElement } from 'react'
 
-import type { CliRenderer } from '@opentui/core'
 import type { AdapterInterface, AdapterRoot, AdapterRenderProps } from '@navios/commander-tui'
+import type { CliRenderer } from '@opentui/core'
 
 import { ScreenManagerBridge } from './components/screen_manager_bridge.tsx'
 
