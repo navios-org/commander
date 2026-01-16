@@ -26,7 +26,7 @@
       "executor": "nx:run-commands",
       "inputs": ["^projectSources", "project"],
       "options": {
-        "command": "bun test run",
+        "command": "bun test",
         "cwd": "packages/tui-adapter-solid"
       }
     },

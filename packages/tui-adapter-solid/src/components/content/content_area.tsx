@@ -1,4 +1,4 @@
-import { createSignal, createEffect, createMemo, onCleanup, Show } from 'solid-js'
+import { createSignal, createEffect, createMemo, onCleanup, Show, untrack } from 'solid-js'
 
 import { CONTENT_MANAGER_EVENTS, FilterEngine, SCREEN_EVENTS } from '@navios/commander-tui'
 import type { ScreenManagerInstance } from '@navios/commander-tui'
@@ -21,17 +21,21 @@ export function ContentArea(props: ContentAreaProps) {
   const [screenVersion, setScreenVersion] = createSignal(0)
   const filter = useFilter()
 
+  // Capture manager reference once to avoid reactive dependency on props
+  const manager = untrack(() => props.manager)
+
   // Subscribe to manager events that affect content area
+  // Wrap in createEffect to ensure proper cleanup on re-runs
   createEffect(() => {
-    const handleUpdate = () => setVersion((v) => v + 1)
+    const handleManagerUpdate = () => setVersion((v) => v + 1)
 
     for (const event of CONTENT_MANAGER_EVENTS) {
-      props.manager.on(event, handleUpdate)
+      manager.on(event, handleManagerUpdate)
     }
 
     onCleanup(() => {
       for (const event of CONTENT_MANAGER_EVENTS) {
-        props.manager.off(event, handleUpdate)
+        manager.off(event, handleManagerUpdate)
       }
     })
   })
@@ -42,8 +46,11 @@ export function ContentArea(props: ContentAreaProps) {
   }
 
   // Subscribe to active screen events for level counts calculation
+  // This effect should only re-run when activeScreen changes (via version signal)
   createEffect(() => {
-    const screen = activeScreen()
+    // Only track version to know when active screen changes
+    version()
+    const screen = untrack(() => props.manager.getActiveScreen())
     if (screen) {
       const handleScreenUpdate = () => setScreenVersion((v) => v + 1)
 

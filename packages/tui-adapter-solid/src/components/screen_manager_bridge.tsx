@@ -1,5 +1,5 @@
 import { useKeyboard } from '@opentui/solid'
-import { createSignal, createMemo, Show } from 'solid-js'
+import { createSignal, createMemo, Show, untrack } from 'solid-js'
 
 import { LoggerProvider } from '../context/index.ts'
 import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
@@ -22,20 +22,23 @@ function ScreenManagerBridgeInner(props: ScreenManagerBridgeProps) {
   const filter = useFilter()
   const filterActions = useFilterActions()
 
-  const bindOptions = () => props.manager.getBindOptions()
+  // Capture manager reference once to avoid reactive tracking
+  const manager = untrack(() => props.manager)
+
+  const bindOptions = () => manager.getBindOptions()
 
   // Helper functions for keyboard bindings
-  const getActiveScreen = () => props.manager.getActiveScreen()
+  const getActiveScreen = () => manager.getActiveScreen()
 
   const toggleHelp = () => {
     setShowHelp((prev) => !prev)
   }
 
-  // Create keyboard manager with bindings
+  // Create keyboard manager with bindings - use captured manager to avoid re-creation
   const keyboardManager = createMemo(() => {
     const km = new KeyboardManager()
     const bindings = createDefaultBindings({
-      manager: props.manager,
+      manager,
       getActiveScreen,
       toggleHelp,
       toggleFilter: filterActions.toggleFilter,
@@ -51,12 +54,12 @@ function ScreenManagerBridgeInner(props: ScreenManagerBridgeProps) {
 
   // Keyboard handler
   const handleKeyboard = (key: { name: string; ctrl?: boolean; meta?: boolean; sequence?: string }) => {
-    const screens = props.manager.getScreens()
-    const activeScreen = props.manager.getActiveScreen()
+    const screens = manager.getScreens()
+    const activeScreen = manager.getActiveScreen()
 
     const context: KeyboardContext = {
       hasSidebar: screens.length > 1,
-      focusArea: props.manager.focusArea,
+      focusArea: manager.focusArea,
       hasPrompt: activeScreen?.hasActivePrompt() ?? false,
       inInputMode: activeScreen?.isPromptInInputMode() ?? false,
       isFilterActive: filter().isVisible,
@@ -70,7 +73,7 @@ function ScreenManagerBridgeInner(props: ScreenManagerBridgeProps) {
 
     // Handle printable characters (for input mode and filter)
     handlePrintableInput(key, context, {
-      manager: props.manager,
+      manager,
       getActiveScreen,
       toggleHelp,
       toggleFilter: filterActions.toggleFilter,
@@ -90,13 +93,13 @@ function ScreenManagerBridgeInner(props: ScreenManagerBridgeProps) {
       <box flexDirection="row" flexGrow={1}>
         {/* Sidebar - manages its own subscriptions */}
         <SidebarContainer
-          manager={props.manager}
+          manager={manager}
           width={bindOptions().sidebarWidth ?? 25}
           title={bindOptions().sidebarTitle ?? 'Screens'}
         />
 
         {/* Content area - manages its own subscriptions */}
-        <ContentArea manager={props.manager} />
+        <ContentArea manager={manager} />
 
         {/* Help overlay */}
         <Show when={showHelp()}>

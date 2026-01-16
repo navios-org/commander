@@ -1,6 +1,6 @@
 {
   "name": "@navios/tui-adapter-solid",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -31,14 +31,14 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@opentui/core": "^0.1.69",
-    "@opentui/solid": "^0.1.69",
-    "solid-js": "^1.9.0"
+    "@opentui/core": "^0.1.73",
+    "@opentui/solid": "^0.1.73",
+    "solid-js": "^1.9.10"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.6",
     "@solidjs/testing-library": "^0.8.10",
-    "@types/bun": "^1.2.18",
+    "@types/bun": "^1.3.6",
     "rolldown-plugin-solid": "^0.2.1",
     "typescript": "^5.9.3"
   },

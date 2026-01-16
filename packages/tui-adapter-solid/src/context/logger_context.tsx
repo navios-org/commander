@@ -66,14 +66,24 @@ export function LoggerProvider(props: LoggerProviderProps) {
     ...props.levelColors,
   }))
 
-  const value = createMemo<LoggerContextValue>(() => ({
-    syntaxStyle: syntaxStyle(),
-    treeSitterClient: props.treeSitterClient,
-    levelColors: levelColors(),
-    theme: theme(),
-  }))
+  // Create stable context value object with getter properties
+  // This ensures the object reference stays stable while values can update
+  const value: LoggerContextValue = {
+    get syntaxStyle() {
+      return syntaxStyle()
+    },
+    get treeSitterClient() {
+      return props.treeSitterClient
+    },
+    get levelColors() {
+      return levelColors()
+    },
+    get theme() {
+      return theme()
+    },
+  }
 
-  return <LoggerContext.Provider value={value()}>{props.children}</LoggerContext.Provider>
+  return <LoggerContext.Provider value={value}>{props.children}</LoggerContext.Provider>
 }
 
 /**

@@ -79,6 +79,7 @@ export function FilterProvider(props: FilterProviderProps) {
     }))
   }
 
+  // Create stable actions object (functions don't change)
   const actions: FilterActions = {
     toggleFilter,
     closeFilter,
@@ -88,9 +89,10 @@ export function FilterProvider(props: FilterProviderProps) {
     filterCycleField,
   }
 
-  return (
-    <FilterContext.Provider value={{ filter, actions }}>{props.children}</FilterContext.Provider>
-  )
+  // Create stable context value to prevent unnecessary re-renders
+  const value: FilterContextValue = { filter, actions }
+
+  return <FilterContext.Provider value={value}>{props.children}</FilterContext.Provider>
 }
 
 export function useFilter(): Accessor<FilterState> {

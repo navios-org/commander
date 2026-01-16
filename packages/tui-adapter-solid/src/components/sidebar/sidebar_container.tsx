@@ -1,4 +1,4 @@
-import { createSignal, createEffect, onCleanup, Show } from 'solid-js'
+import { createSignal, createEffect, createMemo, onCleanup, Show, untrack } from 'solid-js'
 
 import { SIDEBAR_EVENTS } from '@navios/commander-tui'
 import type { ScreenManagerInstance } from '@navios/commander-tui'
@@ -18,34 +18,38 @@ export interface SidebarContainerProps {
 export function SidebarContainer(props: SidebarContainerProps) {
   const [version, setVersion] = createSignal(0)
 
+  // Capture manager reference once to avoid reactive dependency on props
+  const manager = untrack(() => props.manager)
+
   // Subscribe only to events that affect sidebar rendering
+  // Wrap in createEffect to ensure proper cleanup on re-runs
   createEffect(() => {
     const handleUpdate = () => setVersion((v) => v + 1)
 
     for (const event of SIDEBAR_EVENTS) {
-      props.manager.on(event, handleUpdate)
+      manager.on(event, handleUpdate)
     }
 
     onCleanup(() => {
       for (const event of SIDEBAR_EVENTS) {
-        props.manager.off(event, handleUpdate)
+        manager.off(event, handleUpdate)
       }
     })
   })
 
-  // Derive sidebar state from manager
-  const screens = () => {
+  // Derive sidebar state from manager - memoize to prevent recalculation
+  const screens = createMemo(() => {
     version() // Track for reactivity
-    return props.manager.getScreens()
-  }
+    return manager.getScreens()
+  })
 
-  const activeScreen = () => {
+  const activeScreen = createMemo(() => {
     version() // Track for reactivity
-    return props.manager.getActiveScreen()
-  }
+    return manager.getActiveScreen()
+  })
 
-  const activeScreenId = () => activeScreen()?.getId() ?? screens()[0]?.getId() ?? ''
-  const hasSidebar = () => screens().length > 1
+  const activeScreenId = createMemo(() => activeScreen()?.getId() ?? screens()[0]?.getId() ?? '')
+  const hasSidebar = createMemo(() => screens().length > 1)
 
   return (
     <Show when={hasSidebar()}>

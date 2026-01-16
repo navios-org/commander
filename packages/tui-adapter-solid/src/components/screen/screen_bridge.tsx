@@ -1,5 +1,5 @@
 import { TextAttributes } from '@opentui/core'
-import { createSignal, createEffect, createMemo, onCleanup, For, Show } from 'solid-js'
+import { createSignal, createMemo, createEffect, onCleanup, For, Show, untrack } from 'solid-js'
 
 import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
 import type { ScreenInstance, MessageData } from '@navios/commander-tui'
@@ -74,9 +74,12 @@ export function ScreenBridge(props: ScreenBridgeProps) {
   const filter = useFilter()
   const [messageVersion, setMessageVersion] = createSignal(0)
 
+  // Capture screen reference once to avoid reactive dependency on props
+  const screen = untrack(() => props.screen)
+
   // Subscribe to screen events to trigger re-render when messages change
+  // Wrap in createEffect to ensure proper cleanup on re-runs
   createEffect(() => {
-    const screen = props.screen
     const handleUpdate = () => setMessageVersion((v) => v + 1)
 
     for (const event of SCREEN_EVENTS) {
@@ -93,7 +96,7 @@ export function ScreenBridge(props: ScreenBridgeProps) {
   // Get all messages from screen
   const allMessages = () => {
     messageVersion() // Track dependency for reactivity
-    return props.screen.getMessages()
+    return screen.getMessages()
   }
 
   // Filter messages based on current filter state
@@ -105,8 +108,11 @@ export function ScreenBridge(props: ScreenBridgeProps) {
 
   const activePrompt = () => {
     messageVersion() // Track dependency for prompt updates
-    return props.screen.getActivePrompt()
+    return screen.getActivePrompt()
   }
+
+  // Cache screen name to avoid reactive prop access in template
+  const screenName = screen.getName()
 
   const processedMessages = createMemo(() => processMessagesIntoGroups(filteredMessages()))
 
@@ -128,7 +134,7 @@ export function ScreenBridge(props: ScreenBridgeProps) {
         justifyContent="space-between"
       >
         <text fg={theme.header.text} attributes={TextAttributes.BOLD}>
-          {props.screen.getName()}
+          {screenName}
         </text>
         <Show when={showFilterStatus()}>
           <text fg={theme.sidebar.textDim}>

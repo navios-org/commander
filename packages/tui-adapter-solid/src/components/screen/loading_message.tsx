@@ -13,8 +13,11 @@ export interface LoadingMessageProps {
 export function LoadingMessage(props: LoadingMessageProps) {
   const [frameIndex, setFrameIndex] = createSignal(0)
 
+  // Track only the status to avoid re-running effect on other message property changes
+  const status = () => props.message.status
+
   createEffect(() => {
-    if (props.message.status === 'loading') {
+    if (status() === 'loading') {
       const interval = setInterval(() => {
         setFrameIndex((prev) => (prev + 1) % SPINNER_FRAMES.length)
       }, 80)
