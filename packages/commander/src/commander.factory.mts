@@ -245,7 +245,9 @@ export class CommanderFactory {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         theme: options.tuiOptions?.theme as any,
         useMouse: options.tuiOptions?.useMouse,
-        useOpenTUI: options.tuiOptions?.useOpenTUI || options.tuiOptions?.adapter === 'ink',
+        useOpenTUI:
+          options.tuiOptions?.useOpenTUI ??
+          (options.tuiOptions?.adapter === 'ink' ? true : undefined),
       })
 
       return app
