@@ -1,5 +1,7 @@
 # @navios/tui-adapter-solid
 
+> **Important**: This adapter right now doesn't work, cause Solid implementation would require to top component to make all needed subscriptions, which makes a problem with performance, cause even small change should come from the ScreenManagerBridge. This is not what I would think about for a really good idea. But maybe @opentui/solid would come up with some idea to make it more useful
+
 Solid.js adapter for `@navios/commander-tui` using OpenTUI renderer.
 
 > **Important**: This adapter only works with **Bun**. It is not compatible with Node.js due to OpenTUI's runtime requirements.

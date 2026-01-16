@@ -1,9 +1,10 @@
-import type { ProgressMessageData } from '@navios/commander-tui'
+import type { ProgressMessageData, ScreenInstance } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
 
 export interface ProgressMessageProps {
   message: ProgressMessageData
+  screen: ScreenInstance
 }
 
 export function ProgressMessage(props: ProgressMessageProps) {

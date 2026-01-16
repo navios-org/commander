@@ -1,6 +1,15 @@
 import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
-import { createSignal, createMemo, createEffect, onCleanup, For, Show, untrack } from 'solid-js'
+import {
+  createSignal,
+  createMemo,
+  createEffect,
+  onCleanup,
+  For,
+  Show,
+  untrack,
+  type Accessor,
+} from 'solid-js'
 
 import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
@@ -12,7 +21,7 @@ import { GroupRenderer } from './group_renderer.tsx'
 import { MessageRenderer } from './message_renderer.tsx'
 
 export interface ScreenBridgeProps {
-  screen: ScreenInstance
+  screen: Accessor<ScreenInstance>
   focused: boolean
 }
 
@@ -75,8 +84,7 @@ export function ScreenBridge(props: ScreenBridgeProps) {
   const [messageVersion, setMessageVersion] = createSignal(0)
 
   // Capture screen reference once to avoid reactive dependency on props
-  const screen = untrack(() => props.screen)
-
+  const screen = props.screen()
   // Subscribe to screen events to trigger re-render when messages change
   // Wrap in createEffect to ensure proper cleanup on re-runs
   createEffect(() => {
@@ -133,9 +141,6 @@ export function ScreenBridge(props: ScreenBridgeProps) {
         flexDirection="row"
         justifyContent="space-between"
       >
-        <text fg={theme.header.text} attributes={TextAttributes.BOLD}>
-          {screenName}
-        </text>
         <Show when={showFilterStatus()}>
           <text fg={theme.sidebar.textDim}>
             {filteredCount()}/{totalMessages()} messages
@@ -161,9 +166,9 @@ export function ScreenBridge(props: ScreenBridgeProps) {
           {(item) => (
             <Show
               when={item.type === 'group'}
-              fallback={<MessageRenderer message={item.message!} />}
+              fallback={<MessageRenderer message={item.message!} screen={screen} />}
             >
-              <GroupRenderer label={item.label!} messages={item.messages!} />
+              <GroupRenderer label={item.label!} messages={item.messages!} screen={screen} />
             </Show>
           )}
         </For>

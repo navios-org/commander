@@ -1,7 +1,15 @@
 import { CONTENT_MANAGER_EVENTS, FilterEngine, SCREEN_EVENTS } from '@navios/commander-tui'
-import { createSignal, createEffect, createMemo, onCleanup, Show, untrack } from 'solid-js'
+import {
+  createSignal,
+  createEffect,
+  createMemo,
+  onCleanup,
+  Show,
+  untrack,
+  type Accessor,
+} from 'solid-js'
 
-import type { ScreenManagerInstance } from '@navios/commander-tui'
+import type { ScreenInstance, ScreenManagerInstance } from '@navios/commander-tui'
 
 import { FilterBar } from '../filter/filter_bar.tsx'
 import { ScreenBridge } from '../screen/screen_bridge.tsx'
@@ -49,9 +57,9 @@ export function ContentArea(props: ContentAreaProps) {
   // Subscribe to active screen events for level counts calculation
   // This effect should only re-run when activeScreen changes (via version signal)
   createEffect(() => {
-    // Only track version to know when active screen changes
     version()
-    const screen = untrack(() => props.manager.getActiveScreen())
+    // Only track version to know when active screen changes
+    const screen = manager.getActiveScreen()
     if (screen) {
       const handleScreenUpdate = () => setScreenVersion((v) => v + 1)
 
@@ -98,7 +106,7 @@ export function ContentArea(props: ContentAreaProps) {
 
       {/* Screen content */}
       <Show when={activeScreen()}>
-        <ScreenBridge screen={activeScreen()!} focused={focused()} />
+        <ScreenBridge screen={activeScreen as Accessor<ScreenInstance>} focused={focused()} />
       </Show>
     </box>
   )

@@ -1,7 +1,7 @@
 import { TextAttributes } from '@opentui/core'
 import { For, Show } from 'solid-js'
 
-import type { MessageData, GroupMessageData } from '@navios/commander-tui'
+import type { MessageData, GroupMessageData, ScreenInstance } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
 
@@ -10,6 +10,7 @@ import { MessageRenderer } from './message_renderer.tsx'
 export interface GroupRendererProps {
   label: string
   messages: MessageData[]
+  screen: ScreenInstance
 }
 
 export function GroupRenderer(props: GroupRendererProps) {
@@ -33,7 +34,9 @@ export function GroupRenderer(props: GroupRendererProps) {
 
       {/* Group content */}
       <box flexDirection="column" gap={1}>
-        <For each={props.messages}>{(msg) => <MessageRenderer message={msg} />}</For>
+        <For each={props.messages}>
+          {(msg) => <MessageRenderer message={msg} screen={props.screen} />}
+        </For>
       </box>
     </box>
   )

@@ -31,8 +31,13 @@ export class SolidAdapter implements AdapterInterface {
   }
 
   renderToRoot(root: AdapterRoot, props: AdapterRenderProps): void {
-    // @ts-expect-error This is a workaround to avoid type errors
-    root.render(() => <ScreenManagerBridge {...props} />)
+    // Create a component function that renders ScreenManagerBridge with the provided props
+    // opentui/solid's render() calls createComponent(node, {}) which ignores props,
+    // so we create a wrapper component that captures the props in its closure
+    const App = () => (
+      <ScreenManagerBridge manager={props.manager as any} theme={props.theme as any} />
+    )
+    root.render(App)
   }
 }
 

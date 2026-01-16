@@ -1,6 +1,6 @@
 import { createSignal, createEffect, onCleanup } from 'solid-js'
 
-import type { LoadingMessageData, LogMessageVariant } from '@navios/commander-tui'
+import type { LoadingMessageData, LogMessageVariant, ScreenInstance } from '@navios/commander-tui'
 
 import { LogMessage } from '../log/index.ts'
 
@@ -8,6 +8,7 @@ const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', 
 
 export interface LoadingMessageProps {
   message: LoadingMessageData
+  screen: ScreenInstance
 }
 
 export function LoadingMessage(props: LoadingMessageProps) {

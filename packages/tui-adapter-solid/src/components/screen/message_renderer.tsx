@@ -10,6 +10,7 @@ import type {
   ProgressMessageData,
   GroupMessageData,
   TableMessageData,
+  ScreenInstance,
 } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'
@@ -23,6 +24,7 @@ import { TableMessage } from './table_message.tsx'
 
 export interface MessageRendererProps {
   message: MessageData
+  screen: ScreenInstance
 }
 
 export function MessageRenderer(props: MessageRendererProps) {
@@ -103,11 +105,11 @@ export function MessageRenderer(props: MessageRendererProps) {
       </Match>
 
       <Match when={msg().type === 'loading' && (msg() as LoadingMessageData)}>
-        {(loadingMsg) => <LoadingMessage message={loadingMsg()} />}
+        {(loadingMsg) => <LoadingMessage message={loadingMsg()} screen={props.screen} />}
       </Match>
 
       <Match when={msg().type === 'progress' && (msg() as ProgressMessageData)}>
-        {(progressMsg) => <ProgressMessage message={progressMsg()} />}
+        {(progressMsg) => <ProgressMessage message={progressMsg()} screen={props.screen} />}
       </Match>
 
       <Match when={msg().type === 'group' && (msg() as GroupMessageData)}>
