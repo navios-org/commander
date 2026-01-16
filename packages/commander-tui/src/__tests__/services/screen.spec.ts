@@ -15,9 +15,7 @@ import type { ScreenManagerInstance } from '../../services/screen_manager.ts'
 /**
  * Create a mock manager with TUI mode active (prompts go through TUI queue)
  */
-function createMockManager(
-  overrides: Partial<ScreenManagerInstance> = {},
-): ScreenManagerInstance {
+function createMockManager(overrides: Partial<ScreenManagerInstance> = {}): ScreenManagerInstance {
   return {
     onScreenCompleted: vi.fn(),
     onScreenVisibilityChanged: vi.fn(),
@@ -37,7 +35,7 @@ describe('ScreenInstance', () => {
   let screen: ScreenInstance
 
   beforeEach(() => {
-    screen = new ScreenInstance('test-id', { name: 'Test Screen' })
+    screen = new ScreenInstance('test-id', { name: 'Test Screen', static: true })
   })
 
   describe('construction and getters', () => {
@@ -50,7 +48,7 @@ describe('ScreenInstance', () => {
     })
 
     it('should set icon from options', () => {
-      const screenWithIcon = new ScreenInstance('id', { name: 'Test', icon: '📦' })
+      const screenWithIcon = new ScreenInstance('id', { name: 'Test', icon: '📦', static: true })
       expect(screenWithIcon.getIcon()).toBe('📦')
     })
 
@@ -59,7 +57,11 @@ describe('ScreenInstance', () => {
     })
 
     it('should set badgeCount from options', () => {
-      const screenWithBadge = new ScreenInstance('id', { name: 'Test', badgeCount: 5 })
+      const screenWithBadge = new ScreenInstance('id', {
+        name: 'Test',
+        badgeCount: 5,
+        static: true,
+      })
       expect(screenWithBadge.getBadgeCount()).toBe(5)
     })
 
@@ -72,12 +74,12 @@ describe('ScreenInstance', () => {
     })
 
     it('should set hidden from options', () => {
-      const hiddenScreen = new ScreenInstance('id', { name: 'Test', hidden: true })
+      const hiddenScreen = new ScreenInstance('id', { name: 'Test', hidden: true, static: true })
       expect(hiddenScreen.isHidden()).toBe(true)
     })
 
-    it('should default status to waiting', () => {
-      expect(screen.getStatus()).toBe('waiting')
+    it('should default status to static', () => {
+      expect(screen.getStatus()).toBe('static')
     })
   })
 

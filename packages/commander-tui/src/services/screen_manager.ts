@@ -8,11 +8,16 @@ import type { CliRenderer } from '@opentui/core'
 import { getThemePreset } from '../themes/index.ts'
 import { Adapter } from '../tokens/adapter.ts'
 import { ScreenManager } from '../tokens/screen-manager.ts'
-import { dynamicImport, getPromptDefaultValue, isBunRuntime, printMessagesToStdout } from '../utils/index.ts'
+import { RenderMode } from '../types/index.ts'
+import {
+  dynamicImport,
+  getPromptDefaultValue,
+  isBunRuntime,
+  printMessagesToStdout,
+} from '../utils/index.ts'
 
 import type { AdapterInterface, AdapterRoot } from '../adapters/interface.ts'
 import type { ScreenOptions } from '../schemas/index.ts'
-import { RenderMode } from '../types/index.ts'
 import type {
   BindOptions,
   FocusArea,
@@ -128,7 +133,7 @@ export class ScreenManagerInstance
     }
 
     // Determine useOpenTUI default: false for Bun (not supported), true for Node.js
-    const useOpenTUI = options?.useOpenTUI ?? !isBunRuntime()
+    const useOpenTUI = options?.useOpenTUI ?? isBunRuntime()
 
     if (!useOpenTUI) {
       // Explicit stdout mode requested

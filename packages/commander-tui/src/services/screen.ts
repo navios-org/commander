@@ -2,10 +2,10 @@ import { EventEmitter } from 'node:events'
 
 import type { LogLevel } from '@navios/core'
 
+import { RenderMode } from '../types/index.ts'
 import { getPromptDefaultValue, printSingleMessage } from '../utils/index.ts'
 
 import type { ScreenOptions } from '../schemas/index.ts'
-import { RenderMode } from '../types/index.ts'
 import type {
   ChoicePromptData,
   ConfirmPromptData,
@@ -51,9 +51,8 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
     this.icon = options.icon
     this.badgeCount = options.badgeCount ?? 0
     this.hidden = options.hidden ?? false
-    if (options.static) {
-      this.status = 'static'
-    }
+
+    this.status = (options.static ?? true) ? 'static' : 'waiting'
   }
 
   incrementVersion(): void {
