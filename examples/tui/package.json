@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "bun src/index.ts",
+    "tsx": "tsx src/index.ts",
     "basic": "bun src/index.ts basic",
     "progress": "bun src/index.ts progress",
     "prompt": "bun src/index.ts prompt",
@@ -12,6 +13,7 @@
   },
   "dependencies": {
     "@navios/commander-tui": "workspace:*",
-    "@navios/core": "^1.0.0"
+    "@navios/core": "^1.0.0",
+    "tsx": "^4.21.0"
   }
 }

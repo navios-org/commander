@@ -10,6 +10,7 @@
 import { Prompt, ScreenLogger, ScreenManager } from '@navios/commander-tui'
 import { Container } from '@navios/core'
 
+let adapter: 'ink' | 'react' | 'solid' | 'none' = 'ink'
 // ============================================
 // Example 1: Basic Logger Usage
 // ============================================
@@ -18,16 +19,22 @@ async function basicLoggerExample() {
 
   // Get the screen manager and bind it to display the TUI
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({
-    theme: 'dark',
-  })
-
+  try {
+    await screenManager.bind({
+      theme: 'dark',
+      useOpenTUI: adapter !== 'none',
+      sidebarTitle: 'Basic Logger Example',
+    })
+  } catch (error) {
+    console.error(error)
+    process.exit(1)
+  }
   // Get a logger instance - it will automatically create a screen
   const logger = await container.get(ScreenLogger, {
     screen: { name: 'Main' },
     context: 'App',
   })
-
+  console.log('here3')
   // Basic log levels
   logger.log('Application started')
   logger.debug('Debug information')
@@ -36,6 +43,7 @@ async function basicLoggerExample() {
   logger.success('Operation completed successfully')
   logger.trace('Trace information with stack')
 
+  console.log(screenManager.getScreenByName('Main'))
   // Wait a bit then unbind
   await delay(5000)
   screenManager.unbind()
@@ -48,7 +56,7 @@ async function progressExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark' })
+  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
 
   const logger = await container.get(ScreenLogger, {
     screen: { name: 'Progress Demo' },
@@ -90,7 +98,7 @@ async function promptExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark' })
+  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
 
   const logger = await container.get(ScreenLogger, {
     screen: { name: 'Prompts' },
@@ -164,7 +172,7 @@ async function multiScreenExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark' })
+  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
 
   // Create multiple loggers for different screens
   const buildLogger = await container.get(ScreenLogger, {
@@ -235,7 +243,7 @@ async function tablesAndGroupsExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark' })
+  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
 
   const logger = await container.get(ScreenLogger, {
     screen: { name: 'Data Display' },
@@ -283,6 +291,18 @@ function delay(ms: number): Promise<void> {
 // ============================================
 async function main() {
   const example = process.argv[2] || 'basic'
+  adapter = (process.argv[3] as 'ink' | 'react' | 'solid' | 'none') || 'ink'
+  switch (adapter) {
+    case 'ink':
+      await import('@navios/tui-adapter-ink')
+      break
+    case 'react':
+      await import('@navios/tui-adapter-react')
+      break
+    case 'solid':
+      await import('@navios/tui-adapter-solid')
+      break
+  }
 
   const examples: Record<string, () => Promise<void>> = {
     basic: basicLoggerExample,
