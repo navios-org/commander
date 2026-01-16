@@ -1,0 +1,41 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "check": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**/*.{ts,tsx,mts}",
+        "yarn run -T tsgoonfig.json",
+        "yarn run -T tsgoonfig.*.json"
+      ],
+      "outputs": []
+    },
+    "lint": {
+      "inputs": ["src/**/*.{ts,tsx,mts}"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**/*.{ts,tsx,mts}", "vitest.config.mts"],
+      "outputs": []
+    },
+    "test:ci": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**/*.{ts,tsx,mts}", "vitest.config.mts"],
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["check", "test:ci", "lint"],
+      "inputs": ["src/**/*.{ts,tsx,mts}", "tsdown.config.mts"],
+      "outputs": ["lib/**"]
+    },
+    "publish:pkg": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "publish:next": {
+      "dependsOn": ["build"],
+      "cache": false
+    }
+  }
+}

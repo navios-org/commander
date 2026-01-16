@@ -2,7 +2,7 @@ import { CommandHandler } from '@navios/commander'
 import { ScreenLogger } from '@navios/commander-tui'
 import { Command } from '@navios/commander/legacy-compat'
 import { inject } from '@navios/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { delay } from '../utils/index.js'
 
