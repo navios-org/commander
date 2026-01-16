@@ -1,6 +1,6 @@
-import { useLoggerContext } from '../context/index.ts'
-
 import type { Theme } from '@navios/commander-tui'
+
+import { useLoggerContext } from '../context/index.ts'
 
 /**
  * Hook to access the current theme.

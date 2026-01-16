@@ -1,9 +1,9 @@
 import { TextAttributes } from '@opentui/core'
 import { For, Show, createMemo } from 'solid-js'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type { ScreenInstance } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 import { SidebarItem } from './sidebar_item.tsx'
 import { SidebarSeparator } from './sidebar_separator.tsx'

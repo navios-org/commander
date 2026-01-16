@@ -1,10 +1,10 @@
+import { VARIANT_COLORS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 import { Show, type JSX } from 'solid-js'
 
-import { useTheme } from '../../hooks/index.ts'
-import { VARIANT_COLORS } from '@navios/commander-tui'
-
 import type { LogMessageProps } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 /**
  * LogMessage - A chat-like styled log message with level-based coloring.
@@ -35,7 +35,8 @@ export function LogMessage(props: LogMessageProps & { children?: JSX.Element }) 
   const theme = useTheme()
 
   // Get colors: variant colors take precedence over level colors
-  const levelColors = () => (props.variant ? VARIANT_COLORS[props.variant] : theme.logLevels[props.level])
+  const levelColors = () =>
+    props.variant ? VARIANT_COLORS[props.variant] : theme.logLevels[props.level]
 
   // Resolve final colors (custom overrides level colors)
   const borderColor = () => props.borderColor ?? levelColors().border
@@ -46,7 +47,9 @@ export function LogMessage(props: LogMessageProps & { children?: JSX.Element }) 
 
   // Determine border sides based on style
   const borderSides = (): ('left' | 'top' | 'bottom')[] =>
-    props.borderStyle === 'thin' || props.borderStyle === undefined ? ['left'] : ['left', 'top', 'bottom']
+    props.borderStyle === 'thin' || props.borderStyle === undefined
+      ? ['left']
+      : ['left', 'top', 'bottom']
 
   // Format timestamp if provided
   const formattedTimestamp = () => {

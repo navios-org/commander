@@ -1,7 +1,7 @@
+import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 import { createSignal, createMemo, createEffect, onCleanup, For, Show, untrack } from 'solid-js'
 
-import { FilterEngine, hasActiveFilter, SCREEN_EVENTS } from '@navios/commander-tui'
 import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 
 import { useTheme } from '../../hooks/index.ts'

@@ -1,9 +1,9 @@
 import { describe, it, expect, mock } from 'bun:test'
 
 import { Sidebar } from '../../components/sidebar/sidebar.tsx'
+import { SidebarContainer } from '../../components/sidebar/sidebar_container.tsx'
 import { SidebarItem } from '../../components/sidebar/sidebar_item.tsx'
 import { SidebarSeparator } from '../../components/sidebar/sidebar_separator.tsx'
-import { SidebarContainer } from '../../components/sidebar/sidebar_container.tsx'
 import { createMockScreenInstance } from '../mocks/factories.ts'
 
 /**

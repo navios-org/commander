@@ -1,9 +1,9 @@
 import { TextAttributes } from '@opentui/core'
 import { For, Show } from 'solid-js'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type { MessageData, GroupMessageData } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 import { MessageRenderer } from './message_renderer.tsx'
 

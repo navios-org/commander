@@ -1,9 +1,9 @@
-import { Injectable } from '@navios/core'
 import { Adapter } from '@navios/commander-tui'
+import { Injectable } from '@navios/core'
 import { render as solidRender } from '@opentui/solid'
 
-import type { CliRenderer } from '@opentui/core'
 import type { AdapterInterface, AdapterRoot, AdapterRenderProps } from '@navios/commander-tui'
+import type { CliRenderer } from '@opentui/core'
 
 import { ScreenManagerBridge } from './components/screen_manager_bridge.tsx'
 

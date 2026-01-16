@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'bun:test'
-import { createRoot } from 'solid-js'
 
 import { darkTheme, lightTheme, highContrastTheme } from '@navios/commander-tui'
+import { createRoot } from 'solid-js'
+
 import { LoggerProvider, useLoggerContext } from '../../context/logger_context'
 
 describe('LoggerProvider', () => {

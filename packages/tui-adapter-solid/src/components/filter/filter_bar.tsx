@@ -1,12 +1,11 @@
+import { ALL_LOG_LEVELS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 import { Show, For } from 'solid-js'
 
+import type { FilterState, LevelCounts } from '@navios/commander-tui'
 import type { LogLevel } from '@navios/core'
 
 import { useTheme } from '../../hooks/index.ts'
-import { ALL_LOG_LEVELS } from '@navios/commander-tui'
-
-import type { FilterState, LevelCounts } from '@navios/commander-tui'
 
 export interface FilterBarProps {
   filter: FilterState
@@ -38,7 +37,9 @@ export function FilterBar(props: FilterBarProps) {
       {/* Search input row */}
       <box flexDirection="row" gap={1}>
         <text fg={isSearchFocused() ? theme.colors.primary : theme.filter.textDim}>/</text>
-        <text fg={props.filter.searchQuery ? theme.filter.inputText : theme.filter.inputPlaceholder}>
+        <text
+          fg={props.filter.searchQuery ? theme.filter.inputText : theme.filter.inputPlaceholder}
+        >
           {props.filter.searchQuery || 'Search logs...'}
         </text>
         <Show when={isSearchFocused()}>

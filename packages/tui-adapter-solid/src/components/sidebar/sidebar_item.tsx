@@ -1,9 +1,9 @@
 import { TextAttributes } from '@opentui/core'
 import { Show } from 'solid-js'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type { ScreenInstance } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 export interface SidebarItemProps {
   screen: ScreenInstance

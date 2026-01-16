@@ -1,6 +1,6 @@
+import type { RGBA, SyntaxStyle, TreeSitterClient } from '@opentui/core'
 /// <reference types="solid-js" />
 import type { JSX as SolidJSX } from 'solid-js'
-import type { RGBA, SyntaxStyle, TreeSitterClient } from '@opentui/core'
 
 // Color type that accepts string or RGBA
 type Color = string | RGBA
@@ -17,7 +17,13 @@ declare module 'solid-js' {
         flexShrink?: number
         flexBasis?: number | string
         alignItems?: 'flex-start' | 'flex-end' | 'center' | 'stretch'
-        justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
+        justifyContent?:
+          | 'flex-start'
+          | 'flex-end'
+          | 'center'
+          | 'space-between'
+          | 'space-around'
+          | 'space-evenly'
         gap?: number
         width?: number | string
         height?: number | string

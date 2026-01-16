@@ -1,6 +1,6 @@
+import { SIDEBAR_EVENTS } from '@navios/commander-tui'
 import { createSignal, createEffect, createMemo, onCleanup, Show, untrack } from 'solid-js'
 
-import { SIDEBAR_EVENTS } from '@navios/commander-tui'
 import type { ScreenManagerInstance } from '@navios/commander-tui'
 
 import { Sidebar } from './sidebar.tsx'

@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'bun:test'
 
+import type { LevelCounts } from '@navios/commander-tui'
+
 import { FilterBar } from '../../components/filter/filter_bar.tsx'
 import { createFilterState } from '../mocks/factories.ts'
-
-import type { LevelCounts } from '@navios/commander-tui'
 
 function createLevelCounts(overrides: Partial<LevelCounts> = {}): LevelCounts {
   return {

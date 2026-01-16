@@ -1,7 +1,5 @@
-import { Show, For, createMemo } from 'solid-js'
-
-import { useLoggerContext } from '../../context/index.ts'
 import { ERROR_HIGHLIGHT_COLORS, HEADER_COLORS, resolveFiletype } from '@navios/commander-tui'
+import { Show, For, createMemo } from 'solid-js'
 
 import type {
   FileLogProps,
@@ -9,6 +7,8 @@ import type {
   FileLogDiffProps,
   FileLogPartialProps,
 } from '@navios/commander-tui'
+
+import { useLoggerContext } from '../../context/index.ts'
 
 /**
  * FileLog - Displays file content, diffs, or partial files with error highlighting.

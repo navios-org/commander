@@ -1,10 +1,11 @@
+import { CONTENT_MANAGER_EVENTS, FilterEngine, SCREEN_EVENTS } from '@navios/commander-tui'
 import { createSignal, createEffect, createMemo, onCleanup, Show, untrack } from 'solid-js'
 
-import { CONTENT_MANAGER_EVENTS, FilterEngine, SCREEN_EVENTS } from '@navios/commander-tui'
 import type { ScreenManagerInstance } from '@navios/commander-tui'
 
 import { FilterBar } from '../filter/filter_bar.tsx'
 import { ScreenBridge } from '../screen/screen_bridge.tsx'
+
 import { useFilter } from './filter_context.tsx'
 
 export interface ContentAreaProps {

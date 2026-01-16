@@ -1,9 +1,10 @@
+import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import { useKeyboard } from '@opentui/solid'
 import { createSignal, createMemo, Show, untrack } from 'solid-js'
 
-import { LoggerProvider } from '../context/index.ts'
-import { KeyboardManager, createDefaultBindings, handlePrintableInput } from '@navios/commander-tui'
 import type { KeyboardContext, Theme, ScreenManagerInstance } from '@navios/commander-tui'
+
+import { LoggerProvider } from '../context/index.ts'
 
 import { ContentArea, FilterProvider, useFilter, useFilterActions } from './content/index.ts'
 import { HelpOverlay } from './help/help_overlay.tsx'
@@ -53,7 +54,12 @@ function ScreenManagerBridgeInner(props: ScreenManagerBridgeProps) {
   })
 
   // Keyboard handler
-  const handleKeyboard = (key: { name: string; ctrl?: boolean; meta?: boolean; sequence?: string }) => {
+  const handleKeyboard = (key: {
+    name: string
+    ctrl?: boolean
+    meta?: boolean
+    sequence?: string
+  }) => {
     const screens = manager.getScreens()
     const activeScreen = manager.getActiveScreen()
 

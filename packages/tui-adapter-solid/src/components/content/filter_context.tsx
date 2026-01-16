@@ -1,6 +1,6 @@
+import { ALL_LOG_LEVELS, createDefaultFilterState } from '@navios/commander-tui'
 import { createContext, useContext, createSignal, type JSX, type Accessor } from 'solid-js'
 
-import { ALL_LOG_LEVELS, createDefaultFilterState } from '@navios/commander-tui'
 import type { FilterState } from '@navios/commander-tui'
 
 export interface FilterActions {

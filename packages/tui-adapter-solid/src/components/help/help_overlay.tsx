@@ -1,10 +1,10 @@
+import { formatKeyBinding } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 import { For, Show, createMemo } from 'solid-js'
 
-import { useTheme } from '../../hooks/index.ts'
-import { formatKeyBinding } from '@navios/commander-tui'
-
 import type { KeyBinding, KeyBindingCategory } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 export interface HelpOverlayProps {
   bindings: KeyBinding[]

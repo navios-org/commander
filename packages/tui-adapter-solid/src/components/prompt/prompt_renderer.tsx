@@ -1,8 +1,6 @@
 import { TextAttributes } from '@opentui/core'
 import { Show, For, Switch, Match } from 'solid-js'
 
-import { useTheme } from '../../hooks/index.ts'
-
 import type {
   PromptData,
   ChoicePromptData,
@@ -11,6 +9,8 @@ import type {
   MultiChoicePromptData,
   PromptTheme,
 } from '@navios/commander-tui'
+
+import { useTheme } from '../../hooks/index.ts'
 
 export interface PromptRendererProps {
   prompt: PromptData
@@ -248,7 +248,12 @@ function InputPromptRenderer(props: InputPromptRendererProps) {
       </box>
 
       {/* Input field */}
-      <box flexDirection="row" borderColor={props.colors.inputBorder} border={['left']} paddingLeft={1}>
+      <box
+        flexDirection="row"
+        borderColor={props.colors.inputBorder}
+        border={['left']}
+        paddingLeft={1}
+      >
         <text fg={hasValue() ? props.colors.inputText : props.colors.inputPlaceholder}>
           {hasValue() ? props.prompt.value : props.prompt.placeholder}
         </text>
