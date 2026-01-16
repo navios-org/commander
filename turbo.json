@@ -3,11 +3,7 @@
   "tasks": {
     "check": {
       "dependsOn": ["^build"],
-      "inputs": [
-        "src/**/*.{ts,tsx,mts}",
-        "yarn run -T tsgoonfig.json",
-        "yarn run -T tsgoonfig.*.json"
-      ],
+      "inputs": ["src/**/*.{ts,tsx,mts}", "tsconfig.json", "tsconfig.*.json"],
       "outputs": []
     },
     "lint": {
