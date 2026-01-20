@@ -7,6 +7,7 @@ import type { ScreenInstance, MessageData } from '@navios/commander-tui'
 import { useTheme, useScreenMessages, useActivePrompt } from '../../hooks/index.ts'
 import { useFilter } from '../content/filter_context.tsx'
 import { PromptRenderer } from '../prompt/index.ts'
+import { ScrollBox } from '../scroll/index.ts'
 
 import { GroupRenderer } from './group_renderer.tsx'
 import { MessageRenderer } from './message_renderer.tsx'
@@ -119,19 +120,26 @@ export function ScreenBridge({ screen, focused }: ScreenBridgeProps) {
         )}
       </Box>
 
-      {/* Virtualized scrollable content area */}
-      <Box flexDirection="column" flexGrow={1} paddingLeft={1} paddingRight={1}>
+      {/* Scrollable content area - each message is a direct child for measurement */}
+      <ScrollBox
+        flexGrow={1}
+        scrollY
+        stickyScroll
+        mouseScroll
+        scrollbarTrackColor={theme.sidebar.textDim}
+        scrollbarThumbColor={theme.sidebar.text}
+      >
         {processedMessages.map((item, index) => {
           const key = `item-${index}`
           if (item.type === 'group') {
             return (
-              <Box key={key} marginBottom={1}>
+              <Box key={key} marginBottom={1} paddingLeft={1} paddingRight={1}>
                 <GroupRenderer label={item.label!} messages={item.messages!} screen={screen} />
               </Box>
             )
           } else {
             return (
-              <Box key={key} marginBottom={1}>
+              <Box key={key} marginBottom={1} paddingLeft={1} paddingRight={1}>
                 <MessageRenderer message={item.message!} screen={screen} />
               </Box>
             )
@@ -139,8 +147,12 @@ export function ScreenBridge({ screen, focused }: ScreenBridgeProps) {
         })}
 
         {/* Render active prompt at the end of messages */}
-        {activePrompt && <PromptRenderer prompt={activePrompt} />}
-      </Box>
+        {activePrompt && (
+          <Box paddingLeft={1} paddingRight={1}>
+            <PromptRenderer prompt={activePrompt} />
+          </Box>
+        )}
+      </ScrollBox>
     </Box>
   )
 }

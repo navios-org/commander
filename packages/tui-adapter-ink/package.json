@@ -1,6 +1,6 @@
 {
   "name": "@navios/tui-adapter-ink",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -40,7 +40,6 @@
   "dependencies": {
     "ink": "^6.6.0",
     "ink-syntax-highlight": "^2.0.2",
-    "ink-virtual-list": "^0.2.3",
     "react": "^19.2.3"
   },
   "devDependencies": {

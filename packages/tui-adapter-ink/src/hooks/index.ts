@@ -7,6 +7,11 @@ export {
   type KeyboardHandler,
 } from './use_keyboard_manager.ts'
 export { useManagerSubscription } from './use_manager_subscription.ts'
+export {
+  useMouseScroll,
+  type MouseScrollEvent,
+  type UseMouseScrollOptions,
+} from './use_mouse_scroll.ts'
 
 // New useSyncExternalStore-based hooks
 export { useScreenMessages, useActivePrompt } from './use_screen_store.ts'

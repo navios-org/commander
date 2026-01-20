@@ -1,0 +1,527 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ScrollBox Integration > message spacing > should show consistent spacing as messages are added incrementally 1`] = `
+" Incremental
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ First message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScrollBox Integration > message spacing > should show consistent spacing as messages are added incrementally 2`] = `
+" Incremental
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ First message
+
+ │ 2:00:00 AM
+ │ Second message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScrollBox Integration > message spacing > should show consistent spacing as messages are added incrementally 3`] = `
+" Incremental
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ First message
+
+ │ 2:00:00 AM
+ │ Second message
+
+ │ 2:00:00 AM
+ │ Third message
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScrollBox Integration > message spacing > should show consistent spacing as messages are added incrementally 4`] = `
+" Incremental
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ First message
+
+ │ 2:00:00 AM
+ │ Second message
+
+ │ 2:00:00 AM
+ │ Third message
+
+ │ 2:00:00 AM
+ │ Fourth message
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScrollBox Integration > message spacing > should show consistent spacing between messages within viewport 1`] = `
+" Spacing
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Message 1
+
+ │ 2:00:00 AM
+ │ Message 2
+
+ │ 2:00:00 AM
+ │ Message 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should handle mixed content types with sticky scroll 1`] = `
+" Mixed
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Starting process...
+
+ │ 2:00:00 AM
+ │ Step 1 complete
+
+ │ 2:00:00 AM
+ │ Step 2 complete
+
+ │ 2:00:00 AM
+ │ Step 3 complete
+
+ │ 2:00:00 AM
+ │ Step 4 complete
+
+ │ 2:00:00 AM
+ │ Step 5 complete
+
+
+
+
+"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should handle mixed content types with sticky scroll 2`] = `
+" Mixed
+────────────────────────────────────────────────────────────────────────────────
+ │ 2:00:00 AM
+ │ Starting process...
+
+ │ 2:00:00 AM
+ │ Step 1 complete
+
+ │ 2:00:00 AM
+ │ Step 2 complete
+
+ │ 2:00:00 AM
+ │ Step 3 complete
+
+ │ 2:00:00 AM
+ │ Step 4 complete
+
+ │ 2:00:00 AM
+ │ Step 5 complete
+
+ │ 2:00:00 AM
+ │ ⠋ Processing data...
+
+"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should handle mixed content types with sticky scroll 3`] = `
+" Mixed
+────────────────────────────────────────────────────────────────────────────────
+ │ Starting process...                                                         │
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 1 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 2 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 3 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 4 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 5 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Data processed                                                              ┃
+                                                                               ┃
+ │ [ ░░░░░░░░░░░░░░░░░░░░] 0% Uploading files                                  ┃
+                                                                               ┃"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should handle mixed content types with sticky scroll 4`] = `
+" Mixed
+────────────────────────────────────────────────────────────────────────────────
+ │ Starting process...                                                         │
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 1 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 2 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 3 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 4 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 5 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Data processed                                                              ┃
+                                                                               ┃
+ │ [████████████████████ ] 100% Upload complete                                ┃
+                                                                               ┃"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should handle mixed content types with sticky scroll 5`] = `
+" Mixed
+────────────────────────────────────────────────────────────────────────────────
+ │ Step 2 complete                                                             │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Step 3 complete                                                             │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Step 4 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Step 5 complete                                                             ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Data processed                                                              ┃
+                                                                               ┃
+ │ [████████████████████ ] 100% Upload complete                                ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ All tasks completed!                                                        ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Process finished at 12:00:00                                                ┃
+                                                                               ┃"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should handle rapid message additions 1`] = `
+" Rapid
+────────────────────────────────────────────────────────────────────────────────
+ │ Rapid message 43                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Rapid message 44                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Rapid message 45                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Rapid message 46                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Rapid message 47                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Rapid message 48                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Rapid message 49                                                            ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Rapid message 50                                                            │"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should maintain scroll position when content updates 1`] = `
+" Update
+────────────────────────────────────────────────────────────────────────────────
+ │ Pre-existing message 8                                                      │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Pre-existing message 9                                                      │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Pre-existing message 10                                                     │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Pre-existing message 11                                                     │
+                                                                               │
+ │ 2:00:00 AM                                                                  ┃
+ │ Pre-existing message 12                                                     ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Pre-existing message 13                                                     ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Pre-existing message 14                                                     ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Pre-existing message 15                                                     │"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should maintain scroll position when content updates 2`] = `
+" Update
+────────────────────────────────────────────────────────────────────────────────
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Pre-existing message 12                                                     │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Pre-existing message 13                                                     │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Pre-existing message 14                                                     │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Pre-existing message 15                                                     │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ New message 1                                                               ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ New message 2                                                               ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ New message 3                                                               ┃
+                                                                               ┃"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should render content that exceeds viewport height 1`] = `
+" Scroll
+────────────────────────────────────────────────────────────────────────────────
+ │ Message 23                                                                  │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Message 24                                                                  │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Message 25                                                                  │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Message 26                                                                  │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Message 27                                                                  │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Message 28                                                                  │
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Message 29                                                                  ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Message 30                                                                  │"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should show new messages at bottom with sticky scroll as they are added 1`] = `
+" Live
+────────────────────────────────────────────────────────────────────────────────
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Initial message 4                                                           │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Initial message 5                                                           │
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Initial message 6                                                           ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Initial message 7                                                           ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Initial message 8                                                           ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Initial message 9                                                           ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Initial message 10                                                          ┃
+                                                                               ┃"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should show new messages at bottom with sticky scroll as they are added 2`] = `
+" Live
+────────────────────────────────────────────────────────────────────────────────
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Additional message 14                                                       │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Additional message 15                                                       │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Additional message 16                                                       │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Additional message 17                                                       │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Additional message 18                                                       ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Additional message 19                                                       ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Additional message 20                                                       ┃
+                                                                               ┃"
+`;
+
+exports[`ScrollBox Integration > sticky scroll behavior > should show new messages at bottom with sticky scroll as they are added 3`] = `
+" Live
+────────────────────────────────────────────────────────────────────────────────
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Final message 24                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Final message 25                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Final message 26                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Final message 27                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Final message 28                                                            │
+                                                                               │
+ │ 2:00:00 AM                                                                  │
+ │ Final message 29                                                            ┃
+                                                                               ┃
+ │ 2:00:00 AM                                                                  ┃
+ │ Final message 30                                                            ┃
+                                                                               ┃"
+`;
+
+exports[`ScrollBox Integration > with multiple screens > should maintain independent scroll positions per screen 1`] = `
+"┌───────────────────────┐ Screen1
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Screen1           │ │ Screen1 message 13                                 │
+│   ● Screen2           │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 14                                 │
+│                       │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 15                                 │
+│                       │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 16                                 │
+│                       │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 17                                 │
+│                       │                                                      ┃
+│                       │ │ 2:00:00 AM                                         ┃
+│                       │ │ Screen1 message 18                                 ┃
+│                       │                                                      ┃
+│                       │ │ 2:00:00 AM                                         ┃
+│───────────────────────│ │ Screen1 message 19                                 ┃
+│ q: exit | Tab: focus  │                                                      ┃
+│ | ?: help             │ │ 2:00:00 AM                                         ┃
+└───────────────────────┘ │ Screen1 message 20                                 │"
+`;
+
+exports[`ScrollBox Integration > with multiple screens > should maintain independent scroll positions per screen 2`] = `
+"┌───────────────────────┐ Screen1
+│ Screens               │───────────────────────────────────────────────────────
+│   ● Screen1           │ │ Screen1 message 13                                 │
+│   ● Screen2           │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 14                                 │
+│                       │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 15                                 │
+│                       │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 16                                 │
+│                       │                                                      │
+│                       │ │ 2:00:00 AM                                         │
+│                       │ │ Screen1 message 17                                 │
+│                       │                                                      ┃
+│                       │ │ 2:00:00 AM                                         ┃
+│                       │ │ Screen1 message 18                                 ┃
+│                       │                                                      ┃
+│                       │ │ 2:00:00 AM                                         ┃
+│───────────────────────│ │ Screen1 message 19                                 ┃
+│ q: exit | Tab: focus  │                                                      ┃
+│ | ?: help             │ │ 2:00:00 AM                                         ┃
+└───────────────────────┘ │ Screen1 message 20                                 │"
+`;
+
+exports[`ScrollBox Integration > with small viewport > should handle very small viewport gracefully 1`] = `
+" Small
+────────────────────────────────────────────────────────────
+ │ 2:00:00 AM                                              │
+ │ Message 8                                               │
+                                                           │
+ │ 2:00:00 AM                                              │
+ │ Message 9                                               │
+                                                           ┃
+ │ 2:00:00 AM                                              ┃
+ │ Message 10                                              │"
+`;

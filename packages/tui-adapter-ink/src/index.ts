@@ -59,3 +59,6 @@ export class InkAdapter implements AdapterInterface {
 // Re-export context and hooks for external use
 export * from './context/index.ts'
 export * from './hooks/index.ts'
+
+// Re-export components
+export { ScrollBox, type ScrollBoxProps } from './components/scroll/index.ts'

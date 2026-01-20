@@ -11,14 +11,7 @@ export default defineConfig({
   platform: 'node',
   dts: true,
   target: 'es2022',
-  external: [
-    'ink',
-    'ink-syntax-highlight',
-    'ink-virtual-list',
-    'react',
-    '@navios/core',
-    '@navios/commander-tui',
-  ],
+  external: ['ink', 'ink-syntax-highlight', 'react', '@navios/core', '@navios/commander-tui'],
   plugins: [
     swc.rolldown({
       jsc: {

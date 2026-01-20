@@ -25,9 +25,10 @@ vi.mock('ink', () => ({
   Text: ({ children }: { children?: React.ReactNode }) => children,
   useInput: vi.fn(),
   useApp: vi.fn(() => ({ exit: vi.fn() })),
-  useStdin: vi.fn(() => ({ isRawModeSupported: true })),
+  useStdin: vi.fn(() => ({ stdin: null, isRawModeSupported: false, setRawMode: vi.fn() })),
   useFocus: vi.fn(() => ({ isFocused: false })),
   useFocusManager: vi.fn(() => ({ focusNext: vi.fn(), focusPrevious: vi.fn() })),
+  measureElement: vi.fn(() => ({ width: 80, height: 24 })),
   render: vi.fn(() => ({
     rerender: vi.fn(),
     unmount: vi.fn(),

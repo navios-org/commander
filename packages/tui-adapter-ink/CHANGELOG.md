@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2026-01-20
+
+### Fixed
+
+- **ScrollBox** - Refactored content height measurement to use per-item measurement via `MeasurableItem` wrapper component, inspired by `ink-scroll-view`. Each child is now individually measured using `measureElement` and heights are summed for accurate scroll calculations.
+- **Sticky Scroll** - Fixed sticky scroll not showing the last item when content is added. Now properly tracks both child count and content height changes to ensure the view scrolls to the correct position after measurements complete.
+
 ## [1.2.0] - 2026-01-16
 
 ### Added
