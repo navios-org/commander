@@ -127,6 +127,12 @@ export class ScreenManagerInstance
   async bind(options?: BindOptions): Promise<void> {
     if (this.mode !== RenderMode.UNBOUND) return
 
+    // In non-interactive environments (no TTY), stay in UNBOUND mode
+    // This allows prompts to return defaults and screens to print on completion
+    if (!process.stdout.isTTY) {
+      return
+    }
+
     this.bindOptions = options ?? {}
 
     // Resolve theme from options
