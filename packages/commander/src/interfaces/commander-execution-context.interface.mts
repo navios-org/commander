@@ -31,6 +31,7 @@ export class CommanderExecutionContext {
     private readonly command: CommandMetadata,
     private readonly commandPath: string,
     private readonly options: any,
+    private readonly positionals: string[] = [],
   ) {}
 
   /**
@@ -60,5 +61,17 @@ export class CommanderExecutionContext {
    */
   getOptions(): any {
     return this.options
+  }
+
+  /**
+   * Gets the positional arguments.
+   *
+   * Positional arguments are values that don't match any option flags.
+   * For example, in `copy --force source.txt dest.txt`, the positionals are `['source.txt', 'dest.txt']`.
+   *
+   * @returns The positional arguments array
+   */
+  getPositionals(): string[] {
+    return this.positionals
   }
 }

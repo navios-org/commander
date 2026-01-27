@@ -1,9 +1,11 @@
+import { inject } from '@navios/core'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { z } from 'zod/v4'
 
 import { CommanderFactory } from '../commander.factory.mjs'
 import { CliModule } from '../decorators/cli-module.decorator.mjs'
 import { Command } from '../decorators/command.decorator.mjs'
+import { CommandExecutionContext } from '../tokens/index.mjs'
 
 import type { CommandHandler } from '../interfaces/command-handler.interface.mjs'
 
@@ -573,44 +575,134 @@ describe('CommanderApplication E2E - run() with different argv', () => {
 
     @Command({ path: 'copy', optionsSchema })
     class CopyCommand implements CommandHandler<z.infer<typeof optionsSchema>> {
-      async execute(options: z.infer<typeof optionsSchema>) {
-        executeMock(options)
+      async execute(options: z.infer<typeof optionsSchema>, positionals?: string[]) {
+        executeMock(options, positionals)
+      }
+    }
+
+    const noOptionsMock = vi.fn()
+
+    @Command({ path: 'ping' })
+    class PingCommand implements CommandHandler {
+      async execute(_options: unknown, positionals?: string[]) {
+        noOptionsMock(positionals)
       }
     }
 
     @CliModule({
-      commands: [CopyCommand],
+      commands: [CopyCommand, PingCommand],
     })
     class TestModule {}
 
     beforeEach(() => {
       executeMock.mockClear()
+      noOptionsMock.mockClear()
     })
 
-    it('should parse command with options only', async () => {
+    it('should pass empty positionals for command without options', async () => {
       const app = await CommanderFactory.create(TestModule)
       await app.init()
 
       const adapter = app.getAdapter()
-      await adapter.run(['node', 'script.js', 'copy', '--force'])
+      await adapter.run(['node', 'script.js', 'ping'])
 
-      expect(executeMock).toHaveBeenCalledWith({
-        force: true,
-      })
+      expect(noOptionsMock).toHaveBeenCalledWith([])
       await app.close()
     })
 
-    it('should parse command with mixed options and positionals', async () => {
+    it('should parse command with options only and empty positionals', async () => {
       const app = await CommanderFactory.create(TestModule)
       await app.init()
 
       const adapter = app.getAdapter()
-      // Note: positionals are not extracted in this test, but the command should still execute
       await adapter.run(['node', 'script.js', 'copy', '--force'])
 
-      expect(executeMock).toHaveBeenCalledWith({
-        force: true,
-      })
+      expect(executeMock).toHaveBeenCalledWith({ force: true }, [])
+      await app.close()
+    })
+
+    it('should pass positionals as second argument to execute', async () => {
+      const app = await CommanderFactory.create(TestModule)
+      await app.init()
+
+      const adapter = app.getAdapter()
+      // Positionals must come after at least one option because the parser
+      // collects command words until it hits an argument starting with '-'
+      await adapter.run(['node', 'script.js', 'copy', '--force', 'source.txt', 'dest.txt'])
+
+      expect(executeMock).toHaveBeenCalledWith({ force: true }, ['source.txt', 'dest.txt'])
+      await app.close()
+    })
+
+    it('should pass multiple positionals after options', async () => {
+      const app = await CommanderFactory.create(TestModule)
+      await app.init()
+
+      const adapter = app.getAdapter()
+      await adapter.run([
+        'node',
+        'script.js',
+        'copy',
+        '--force',
+        'file1.txt',
+        'file2.txt',
+        'file3.txt',
+      ])
+
+      expect(executeMock).toHaveBeenCalledWith({ force: true }, [
+        'file1.txt',
+        'file2.txt',
+        'file3.txt',
+      ])
+      await app.close()
+    })
+  })
+
+  describe('positionals via execution context', () => {
+    const contextMock = vi.fn()
+
+    const processSchema = z.object({
+      verbose: z.boolean().optional().default(false),
+    })
+
+    @Command({ path: 'process', optionsSchema: processSchema })
+    class ProcessCommand implements CommandHandler<z.infer<typeof processSchema>> {
+      private ctx = inject(CommandExecutionContext)
+
+      async execute() {
+        contextMock(this.ctx.getPositionals())
+      }
+    }
+
+    @CliModule({
+      commands: [ProcessCommand],
+    })
+    class ContextTestModule {}
+
+    beforeEach(() => {
+      contextMock.mockClear()
+    })
+
+    it('should access positionals via CommandExecutionContext', async () => {
+      const app = await CommanderFactory.create(ContextTestModule)
+      await app.init()
+
+      const adapter = app.getAdapter()
+      // Positionals must come after at least one option
+      await adapter.run(['node', 'script.js', 'process', '--verbose', 'file1.txt', 'file2.txt'])
+
+      expect(contextMock).toHaveBeenCalledWith(['file1.txt', 'file2.txt'])
+      await app.close()
+    })
+
+    it('should return empty array when no positionals via context', async () => {
+      const app = await CommanderFactory.create(ContextTestModule)
+      await app.init()
+
+      const adapter = app.getAdapter()
+      await adapter.run(['node', 'script.js', 'process', '--verbose'])
+
+      expect(contextMock).toHaveBeenCalledWith([])
       await app.close()
     })
   })

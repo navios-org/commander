@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-01-27
+
+### Added
+
+- **Positional Arguments Support** - Commands can now receive positional arguments as a second parameter
+  - `CommandHandler.execute()` now accepts optional `positionals?: string[]` parameter
+  - Example: `copy --force source.txt dest.txt` passes `['source.txt', 'dest.txt']` as positionals
+  - Fully backward compatible - existing commands without positionals parameter continue to work
+- **Positionals via Execution Context** - Access positionals through dependency injection
+  - New `getPositionals(): string[]` method on `CommanderExecutionContext`
+  - Inject via `CommandExecutionContext` token for flexible access in services
+
 ## [1.5.0] - 2026-01-16
 
 ### Changed

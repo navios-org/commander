@@ -130,7 +130,7 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
         ? this.cliParser.parse(argv, command.metadata.optionsSchema)
         : preliminaryParse
 
-      await this.executeCommand(parsed.command, parsed.options)
+      await this.executeCommand(parsed.command, parsed.options, parsed.positionals)
     } catch (error) {
       if (error instanceof Error) {
         this.logger.error(`Error: ${error.message}`)
@@ -146,7 +146,11 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
   /**
    * Execute a command programmatically with the provided options.
    */
-  async executeCommand(path: string, options: Record<string, unknown> = {}): Promise<void> {
+  async executeCommand(
+    path: string,
+    options: Record<string, unknown> = {},
+    positionals: string[] = [],
+  ): Promise<void> {
     const command = this.commandRegistry.getByPath(path)
     if (!command) {
       throw new Error(`[Navios Commander] Command not found: ${path}`)
@@ -161,7 +165,12 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
     }
 
     // Create execution context
-    const executionContext = new CommanderExecutionContext(metadata, path, validatedOptions)
+    const executionContext = new CommanderExecutionContext(
+      metadata,
+      path,
+      validatedOptions,
+      positionals,
+    )
 
     // Begin request scope
     const requestId = `cmd-${Date.now()}-${Math.random().toString(36).substring(7)}`
@@ -177,7 +186,7 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
         throw new Error(`Command ${path} does not implement execute method`)
       }
 
-      await commandInstance.execute(validatedOptions)
+      await commandInstance.execute(validatedOptions, positionals)
     } finally {
       await scopeContainer.endRequest()
     }
