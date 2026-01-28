@@ -437,27 +437,6 @@ export class CliParserService {
   }
 
   /**
-   * Checks if a zod/v4 schema represents an object type
-   * Unwraps zod/v4Optional and zod/v4Default using zod/v4 v4 API
-   */
-  private isSchemaObject(schema: z.ZodType): boolean {
-    try {
-      let currentSchema = schema
-      let typeName = currentSchema.def.type
-
-      // Unwrap zod/v4Optional and zod/v4Default using zod/v4 v4's def.innerType
-      while (typeName === 'optional' || typeName === 'default') {
-        currentSchema = (currentSchema as any)?.def?.innerType || currentSchema
-        typeName = currentSchema.def.type
-      }
-
-      return typeName === 'object'
-    } catch {
-      return false
-    }
-  }
-
-  /**
    * Gets the nested schema for a given dot-notation path.
    * Returns undefined if the path doesn't lead to a valid schema.
    */
