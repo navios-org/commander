@@ -437,38 +437,6 @@ export class CliParserService {
   }
 
   /**
-   * Extracts nested object field paths from a zod/v4 schema.
-   * Returns a set of dot-notation paths to nested object fields.
-   *
-   * @example
-   * // For schema: z.object({ config: z.object({ port: z.number() }) })
-   * // Returns: Set { 'config' }
-   */
-  private extractObjectFields(schema: z.ZodObject): Set<string> {
-    const objectFields = new Set<string>()
-
-    try {
-      const typeName = schema.def.type
-
-      if (typeName === 'object') {
-        const shape = schema.def.shape
-
-        if (shape && typeof shape === 'object') {
-          for (const [key, fieldSchema] of Object.entries(shape)) {
-            if (this.isSchemaObject(fieldSchema as any)) {
-              objectFields.add(key)
-            }
-          }
-        }
-      }
-    } catch {
-      // Silently fail if schema introspection fails
-    }
-
-    return objectFields
-  }
-
-  /**
    * Checks if a zod/v4 schema represents an object type
    * Unwraps zod/v4Optional and zod/v4Default using zod/v4 v4 API
    */
