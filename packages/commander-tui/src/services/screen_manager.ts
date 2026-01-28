@@ -129,7 +129,7 @@ export class ScreenManagerInstance
 
     // In non-interactive environments (no TTY), stay in UNBOUND mode
     // This allows prompts to return defaults and screens to print on completion
-    if (!process.stdout.isTTY) {
+    if (!process.stdout.isTTY || !process.stdin.isTTY) {
       return
     }
 
