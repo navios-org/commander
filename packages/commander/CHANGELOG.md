@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2026-01-29
+
+### Added
+
+- **Object Notation Support for CLI Parameters** - CLI parameters can now use object notation syntax
+  - Supports nested object syntax like `--config.host=localhost --config.port=3000`
+  - Automatically parses dot-separated keys into nested objects
+  - Works seamlessly with existing zod schema validation
+
 ## [1.6.0] - 2026-01-27
 
 ### Added
