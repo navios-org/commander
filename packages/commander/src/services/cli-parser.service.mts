@@ -16,6 +16,7 @@ export interface ParsedCliArgs {
   /**
    * Parsed options as key-value pairs.
    * Keys are converted from kebab-case to camelCase.
+   * Supports object notation (e.g., --obj.field=value creates { obj: { field: value } }).
    */
   options: Record<string, any>
   /**
@@ -33,6 +34,8 @@ export interface ParsedCliArgs {
  * - Boolean flags
  * - Array options
  * - Positional arguments
+ * - Object notation: `--obj.field=value` or `--obj.nested.field value`
+ *   Creates nested objects automatically (e.g., { obj: { field: value } })
  *
  * @public
  */
@@ -81,52 +84,101 @@ export class CliParserService {
 
       if (arg.startsWith('--')) {
         // Long option format: --key=value or --key value
+        // Also supports object notation: --obj.field=value or --obj.field value
         const key = arg.slice(2)
         const equalIndex = key.indexOf('=')
 
         if (equalIndex !== -1) {
-          // Format: --key=value
+          // Format: --key=value or --obj.field=value
           const optionName = key.slice(0, equalIndex)
           const optionValue = key.slice(equalIndex + 1)
-          const camelCaseKey = this.camelCase(optionName)
-          const isArray = arrayFields.has(camelCaseKey) || arrayFields.has(optionName)
 
-          if (isArray) {
-            // For array fields, accumulate values
-            if (!options[camelCaseKey]) {
-              options[camelCaseKey] = []
+          if (this.isObjectNotation(optionName)) {
+            // Object notation: --obj.field=value
+            const processedPath = this.processObjectNotationKey(optionName)
+            const isArray = optionsSchema ? this.isNestedArray(optionsSchema, processedPath) : false
+
+            if (isArray) {
+              const existingValue = this.getNestedProperty(options, processedPath)
+              if (!Array.isArray(existingValue)) {
+                this.setNestedProperty(options, processedPath, [])
+              }
+              this.getNestedProperty(options, processedPath).push(this.parseValue(optionValue))
+            } else {
+              this.setNestedProperty(options, processedPath, this.parseValue(optionValue))
             }
-            options[camelCaseKey].push(this.parseValue(optionValue))
           } else {
-            options[camelCaseKey] = this.parseValue(optionValue)
+            // Flat option: --key=value
+            const camelCaseKey = this.camelCase(optionName)
+            const isArray = arrayFields.has(camelCaseKey) || arrayFields.has(optionName)
+
+            if (isArray) {
+              // For array fields, accumulate values
+              if (!options[camelCaseKey]) {
+                options[camelCaseKey] = []
+              }
+              options[camelCaseKey].push(this.parseValue(optionValue))
+            } else {
+              options[camelCaseKey] = this.parseValue(optionValue)
+            }
           }
           i++
         } else {
           // Format: --key value or --boolean-flag
-          const camelCaseKey = this.camelCase(key)
-          const isBoolean = booleanFields.has(camelCaseKey) || booleanFields.has(key)
-          const isArray = arrayFields.has(camelCaseKey) || arrayFields.has(key)
-          const nextArg = args[i + 1]
+          // Also supports: --obj.field value or --obj.boolean-flag
 
-          if (isBoolean) {
-            // Known boolean flag from schema
-            options[camelCaseKey] = true
-            i++
-          } else if (isArray && nextArg && !nextArg.startsWith('-')) {
-            // Known array field from schema - accumulate values
-            if (!options[camelCaseKey]) {
-              options[camelCaseKey] = []
+          if (this.isObjectNotation(key)) {
+            // Object notation: --obj.field value or --obj.flag
+            const processedPath = this.processObjectNotationKey(key)
+            const isBoolean = optionsSchema ? this.isNestedBoolean(optionsSchema, processedPath) : false
+            const isArray = optionsSchema ? this.isNestedArray(optionsSchema, processedPath) : false
+            const nextArg = args[i + 1]
+
+            if (isBoolean) {
+              this.setNestedProperty(options, processedPath, true)
+              i++
+            } else if (isArray && nextArg && !nextArg.startsWith('-')) {
+              const existingValue = this.getNestedProperty(options, processedPath)
+              if (!Array.isArray(existingValue)) {
+                this.setNestedProperty(options, processedPath, [])
+              }
+              this.getNestedProperty(options, processedPath).push(this.parseValue(nextArg))
+              i += 2
+            } else if (nextArg && !nextArg.startsWith('-')) {
+              this.setNestedProperty(options, processedPath, this.parseValue(nextArg))
+              i += 2
+            } else {
+              // Assume boolean flag
+              this.setNestedProperty(options, processedPath, true)
+              i++
             }
-            options[camelCaseKey].push(this.parseValue(nextArg))
-            i += 2
-          } else if (nextArg && !nextArg.startsWith('-')) {
-            // Has a value
-            options[camelCaseKey] = this.parseValue(nextArg)
-            i += 2
           } else {
-            // Assume boolean flag
-            options[camelCaseKey] = true
-            i++
+            // Flat option: --key value or --flag
+            const camelCaseKey = this.camelCase(key)
+            const isBoolean = booleanFields.has(camelCaseKey) || booleanFields.has(key)
+            const isArray = arrayFields.has(camelCaseKey) || arrayFields.has(key)
+            const nextArg = args[i + 1]
+
+            if (isBoolean) {
+              // Known boolean flag from schema
+              options[camelCaseKey] = true
+              i++
+            } else if (isArray && nextArg && !nextArg.startsWith('-')) {
+              // Known array field from schema - accumulate values
+              if (!options[camelCaseKey]) {
+                options[camelCaseKey] = []
+              }
+              options[camelCaseKey].push(this.parseValue(nextArg))
+              i += 2
+            } else if (nextArg && !nextArg.startsWith('-')) {
+              // Has a value
+              options[camelCaseKey] = this.parseValue(nextArg)
+              i += 2
+            } else {
+              // Assume boolean flag
+              options[camelCaseKey] = true
+              i++
+            }
           }
         }
       } else if (arg.startsWith('-') && arg.length > 1 && arg !== '-') {
@@ -320,5 +372,119 @@ export class CliParserService {
     } catch {
       return false
     }
+  }
+
+  /**
+   * Sets a nested property on an object using dot notation path.
+   * Creates intermediate objects as needed.
+   *
+   * @example
+   * setNestedProperty({}, 'a.b.c', 'value') // { a: { b: { c: 'value' } } }
+   */
+  private setNestedProperty(obj: Record<string, any>, path: string, value: any): void {
+    const parts = path.split('.')
+    let current = obj
+
+    for (let i = 0; i < parts.length - 1; i++) {
+      const part = parts[i]
+      if (!(part in current) || typeof current[part] !== 'object' || current[part] === null) {
+        current[part] = {}
+      }
+      current = current[part]
+    }
+
+    current[parts[parts.length - 1]] = value
+  }
+
+  /**
+   * Gets a nested property from an object using dot notation path.
+   * Returns undefined if path doesn't exist.
+   */
+  private getNestedProperty(obj: Record<string, any>, path: string): any {
+    const parts = path.split('.')
+    let current = obj
+
+    for (const part of parts) {
+      if (current === undefined || current === null || typeof current !== 'object') {
+        return undefined
+      }
+      current = current[part]
+    }
+
+    return current
+  }
+
+  /**
+   * Checks if an option key contains dot notation (object notation).
+   * Returns true for keys like "obj.field" or "deep.nested.value".
+   */
+  private isObjectNotation(key: string): boolean {
+    return key.includes('.')
+  }
+
+  /**
+   * Processes an option key that may contain object notation.
+   * Converts each segment from kebab-case to camelCase.
+   *
+   * @example
+   * processObjectNotationKey('my-obj.field-name') // 'myObj.fieldName'
+   */
+  private processObjectNotationKey(key: string): string {
+    return key
+      .split('.')
+      .map(segment => this.camelCase(segment))
+      .join('.')
+  }
+
+  /**
+   * Gets the nested schema for a given dot-notation path.
+   * Returns undefined if the path doesn't lead to a valid schema.
+   */
+  private getNestedSchema(schema: z.ZodObject, path: string): z.ZodType | undefined {
+    try {
+      const parts = path.split('.')
+      let currentSchema: any = schema
+
+      for (const part of parts) {
+        // Unwrap optional/default wrappers
+        while (
+          currentSchema?.def?.type === 'optional' ||
+          currentSchema?.def?.type === 'default'
+        ) {
+          currentSchema = currentSchema.def.innerType
+        }
+
+        if (currentSchema?.def?.type !== 'object') {
+          return undefined
+        }
+
+        const shape = currentSchema.def.shape
+        if (!shape || !(part in shape)) {
+          return undefined
+        }
+
+        currentSchema = shape[part]
+      }
+
+      return currentSchema
+    } catch {
+      return undefined
+    }
+  }
+
+  /**
+   * Checks if a nested path represents a boolean field in the schema.
+   */
+  private isNestedBoolean(schema: z.ZodObject, path: string): boolean {
+    const nestedSchema = this.getNestedSchema(schema, path)
+    return nestedSchema ? this.isSchemaBoolean(nestedSchema) : false
+  }
+
+  /**
+   * Checks if a nested path represents an array field in the schema.
+   */
+  private isNestedArray(schema: z.ZodObject, path: string): boolean {
+    const nestedSchema = this.getNestedSchema(schema, path)
+    return nestedSchema ? this.isSchemaArray(nestedSchema) : false
   }
 }

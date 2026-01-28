@@ -133,6 +133,9 @@ export class CommandRegistryService {
             const optionFlag = `--${kebabKey}`
             const fieldType = this.getSchemaTypeName(fieldSchema as any)
             lines.push(`  ${optionFlag.padEnd(20)} ${fieldType}`)
+
+            // Check for nested object fields and display them with dot notation
+            this.formatNestedObjectOptions(fieldSchema as any, kebabKey, lines, '    ')
           }
         }
       } catch {
@@ -141,6 +144,49 @@ export class CommandRegistryService {
     }
 
     return lines.join('\n')
+  }
+
+  /**
+   * Recursively formats nested object options for help display.
+   * Shows nested fields with dot notation (e.g., --config.port)
+   */
+  private formatNestedObjectOptions(
+    schema: any,
+    parentPath: string,
+    lines: string[],
+    indent: string,
+  ): void {
+    try {
+      let currentSchema = schema
+      let typeName = currentSchema?.def?.type
+
+      // Unwrap optional/default wrappers
+      while (typeName === 'optional' || typeName === 'default') {
+        currentSchema = currentSchema?.def?.innerType
+        typeName = currentSchema?.def?.type
+      }
+
+      if (typeName !== 'object') {
+        return
+      }
+
+      const shape = currentSchema?.def?.shape
+      if (!shape || typeof shape !== 'object') {
+        return
+      }
+
+      for (const [key, fieldSchema] of Object.entries(shape)) {
+        const kebabKey = key.replace(/([A-Z])/g, '-$1').toLowerCase()
+        const optionFlag = `--${parentPath}.${kebabKey}`
+        const fieldType = this.getSchemaTypeName(fieldSchema as any)
+        lines.push(`${indent}${optionFlag.padEnd(20 - indent.length + 2)} ${fieldType}`)
+
+        // Recurse for deeper nesting
+        this.formatNestedObjectOptions(fieldSchema as any, `${parentPath}.${kebabKey}`, lines, indent + '  ')
+      }
+    } catch {
+      // Silently fail if schema introspection fails
+    }
   }
 
   /**

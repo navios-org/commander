@@ -1172,12 +1172,10 @@ __metadata:
     "@testing-library/react": "npm:^16.3.1"
     "@types/react": "npm:^19.2.8"
     "@types/react-dom": "npm:^19.2.3"
-    fullscreen-ink: "npm:^0.1.0"
     happy-dom: "npm:^20.3.1"
     ink: "npm:^6.6.0"
     ink-syntax-highlight: "npm:^2.0.2"
     ink-testing-library: "npm:^4.0.0"
-    ink-virtual-list: "npm:^0.2.3"
     react: "npm:^19.2.3"
     react-dom: "npm:^19.2.3"
     strip-ansi: "npm:^7.1.0"
@@ -3266,16 +3264,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fullscreen-ink@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "fullscreen-ink@npm:0.1.0"
-  dependencies:
-    ink: "npm:>=4.4.1"
-    react: "npm:>=18.2.0"
-  checksum: 10c0/d304f1777ae0bad51eb4da38cf289d5e96edae8666dcacdd98c3d53c1ea2311ded25f4322751599be6e458e5199f7d98eb619c5fea31752a8bbf4bcd1a283072
-  languageName: node
-  linkType: hard
-
 "function-bind@npm:^1.1.2":
   version: 1.1.2
   resolution: "function-bind@npm:1.1.2"
@@ -3507,17 +3495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ink-virtual-list@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "ink-virtual-list@npm:0.2.3"
-  peerDependencies:
-    ink: ^6.6.0
-    react: ^19.2.3
-  checksum: 10c0/75928ca7343d04812ef33702ff421aab52af3b9449b5051477c1527a68948c559cbc2d230528f566f0b267d2c622975fbf5e037378682a86d38cf8dfddf194a3
-  languageName: node
-  linkType: hard
-
-"ink@npm:>=4.4.1, ink@npm:^6.6.0":
+"ink@npm:^6.6.0":
   version: 6.6.0
   resolution: "ink@npm:6.6.0"
   dependencies:
@@ -4399,7 +4377,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:>=18.2.0, react@npm:^19.2.3":
+"react@npm:^19.2.3":
   version: 19.2.3
   resolution: "react@npm:19.2.3"
   checksum: 10c0/094220b3ba3a76c1b668f972ace1dd15509b157aead1b40391d1c8e657e720c201d9719537375eff08f5e0514748c0319063392a6f000e31303aafc4471f1436
