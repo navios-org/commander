@@ -501,4 +501,305 @@ describe('CliParserService', () => {
       })
     })
   })
+
+  describe('object notation parsing', () => {
+    it('should parse simple object notation with equal sign', () => {
+      const result = parser.parse(['node', 'script.js', 'test', '--config.port=3000'])
+      expect(result.options).toEqual({
+        config: { port: 3000 },
+      })
+    })
+
+    it('should parse simple object notation with space separator', () => {
+      const result = parser.parse(['node', 'script.js', 'test', '--config.port', '3000'])
+      expect(result.options).toEqual({
+        config: { port: 3000 },
+      })
+    })
+
+    it('should parse deeply nested object notation', () => {
+      const result = parser.parse([
+        'node',
+        'script.js',
+        'test',
+        '--config.database.host=localhost',
+        '--config.database.port=5432',
+      ])
+      expect(result.options).toEqual({
+        config: {
+          database: {
+            host: 'localhost',
+            port: 5432,
+          },
+        },
+      })
+    })
+
+    it('should parse multiple fields in the same object', () => {
+      const result = parser.parse([
+        'node',
+        'script.js',
+        'test',
+        '--config.host=localhost',
+        '--config.port=3000',
+        '--config.debug=true',
+      ])
+      expect(result.options).toEqual({
+        config: {
+          host: 'localhost',
+          port: 3000,
+          debug: true,
+        },
+      })
+    })
+
+    it('should convert kebab-case to camelCase in nested paths', () => {
+      const result = parser.parse([
+        'node',
+        'script.js',
+        'test',
+        '--my-config.db-host=localhost',
+        '--my-config.max-connections=10',
+      ])
+      expect(result.options).toEqual({
+        myConfig: {
+          dbHost: 'localhost',
+          maxConnections: 10,
+        },
+      })
+    })
+
+    it('should handle mixed flat and nested options', () => {
+      const result = parser.parse([
+        'node',
+        'script.js',
+        'test',
+        '--verbose',
+        '--config.port=3000',
+        '--name',
+        'test',
+      ])
+      expect(result.options).toEqual({
+        verbose: true,
+        config: { port: 3000 },
+        name: 'test',
+      })
+    })
+
+    it('should handle object notation boolean flags without schema', () => {
+      const result = parser.parse(['node', 'script.js', 'test', '--config.enabled'])
+      expect(result.options).toEqual({
+        config: { enabled: true },
+      })
+    })
+
+    it('should parse object notation with schema-defined boolean fields', () => {
+      const schema = z.object({
+        config: z.object({
+          enabled: z.boolean(),
+          port: z.number(),
+        }),
+      })
+
+      const result = parser.parse(
+        ['node', 'script.js', 'test', '--config.enabled', '--config.port', '3000'],
+        schema,
+      )
+
+      expect(result.options).toEqual({
+        config: {
+          enabled: true,
+          port: 3000,
+        },
+      })
+    })
+
+    it('should parse object notation with schema-defined array fields', () => {
+      const schema = z.object({
+        config: z.object({
+          hosts: z.array(z.string()),
+        }),
+      })
+
+      const result = parser.parse(
+        [
+          'node',
+          'script.js',
+          'test',
+          '--config.hosts',
+          'localhost',
+          '--config.hosts',
+          'remote.server.com',
+        ],
+        schema,
+      )
+
+      expect(result.options).toEqual({
+        config: {
+          hosts: ['localhost', 'remote.server.com'],
+        },
+      })
+    })
+
+    it('should parse object notation array fields with equal sign syntax', () => {
+      const schema = z.object({
+        config: z.object({
+          ports: z.array(z.number()),
+        }),
+      })
+
+      const result = parser.parse(
+        ['node', 'script.js', 'test', '--config.ports=3000', '--config.ports=4000'],
+        schema,
+      )
+
+      expect(result.options).toEqual({
+        config: {
+          ports: [3000, 4000],
+        },
+      })
+    })
+
+    it('should handle optional nested object fields', () => {
+      const schema = z.object({
+        config: z.object({
+          debug: z.boolean().optional(),
+          port: z.number().optional(),
+        }).optional(),
+      })
+
+      const result = parser.parse(
+        ['node', 'script.js', 'test', '--config.debug', '--config.port', '8080'],
+        schema,
+      )
+
+      expect(result.options).toEqual({
+        config: {
+          debug: true,
+          port: 8080,
+        },
+      })
+    })
+
+    it('should handle default values in nested schemas', () => {
+      const schema = z.object({
+        config: z.object({
+          enabled: z.boolean().default(false),
+          timeout: z.number(),
+        }),
+      })
+
+      const result = parser.parse(
+        ['node', 'script.js', 'test', '--config.enabled', '--config.timeout', '5000'],
+        schema,
+      )
+
+      expect(result.options).toEqual({
+        config: {
+          enabled: true,
+          timeout: 5000,
+        },
+      })
+    })
+
+    it('should parse string values in object notation', () => {
+      const result = parser.parse([
+        'node',
+        'script.js',
+        'test',
+        '--database.connection-string=postgres://localhost:5432/mydb',
+      ])
+      expect(result.options).toEqual({
+        database: {
+          connectionString: 'postgres://localhost:5432/mydb',
+        },
+      })
+    })
+
+    it('should parse JSON values in object notation', () => {
+      const result = parser.parse([
+        'node',
+        'script.js',
+        'test',
+        '--config.metadata={"key":"value"}',
+      ])
+      expect(result.options).toEqual({
+        config: {
+          metadata: { key: 'value' },
+        },
+      })
+    })
+
+    it('should handle three levels of nesting', () => {
+      const result = parser.parse([
+        'node',
+        'script.js',
+        'test',
+        '--app.database.connection.host=localhost',
+        '--app.database.connection.port=5432',
+        '--app.server.port=3000',
+      ])
+      expect(result.options).toEqual({
+        app: {
+          database: {
+            connection: {
+              host: 'localhost',
+              port: 5432,
+            },
+          },
+          server: {
+            port: 3000,
+          },
+        },
+      })
+    })
+
+    it('should handle object notation with positionals', () => {
+      const schema = z.object({
+        config: z.object({
+          verbose: z.boolean(),
+        }),
+      })
+
+      const result = parser.parse(
+        ['node', 'script.js', 'test', '--config.verbose', 'file1.txt', 'file2.txt'],
+        schema,
+      )
+
+      expect(result.options).toEqual({
+        config: { verbose: true },
+      })
+      expect(result.positionals).toEqual(['file1.txt', 'file2.txt'])
+    })
+
+    it('should not interfere with flat options when using object notation', () => {
+      const schema = z.object({
+        verbose: z.boolean(),
+        config: z.object({
+          port: z.number(),
+        }),
+        name: z.string(),
+      })
+
+      const result = parser.parse(
+        [
+          'node',
+          'script.js',
+          'test',
+          '--verbose',
+          '--config.port',
+          '3000',
+          '--name',
+          'my-app',
+        ],
+        schema,
+      )
+
+      expect(result.options).toEqual({
+        verbose: true,
+        config: { port: 3000 },
+        name: 'my-app',
+      })
+    })
+  })
 })
