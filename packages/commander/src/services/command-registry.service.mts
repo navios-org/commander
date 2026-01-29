@@ -182,7 +182,12 @@ export class CommandRegistryService {
         lines.push(`${indent}${optionFlag.padEnd(20 - indent.length + 2)} ${fieldType}`)
 
         // Recurse for deeper nesting
-        this.formatNestedObjectOptions(fieldSchema as any, `${parentPath}.${kebabKey}`, lines, indent + '  ')
+        this.formatNestedObjectOptions(
+          fieldSchema as any,
+          `${parentPath}.${kebabKey}`,
+          lines,
+          indent + '  ',
+        )
       }
     } catch {
       // Silently fail if schema introspection fails
@@ -252,6 +257,16 @@ export class CommandRegistryService {
     } catch {
       return undefined
     }
+  }
+
+  /**
+   * Get all registered command paths.
+   * Useful for smart command detection in argv parsing.
+   *
+   * @returns Array of command paths
+   */
+  getAllPaths(): string[] {
+    return Array.from(this.commands.keys())
   }
 
   /**

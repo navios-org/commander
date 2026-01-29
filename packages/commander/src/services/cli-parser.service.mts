@@ -48,11 +48,18 @@ export class CliParserService {
    *
    * @param argv - Array of command-line arguments (typically process.argv)
    * @param optionsSchema - Optional zod/v4 schema to determine boolean flags and option types
+   * @param availableCommands - Optional list of registered command paths for smart detection.
+   *   When provided, scans argv to find the best matching command, enabling support for
+   *   custom launchers (tsx, ts-node, npx, etc.) that add extra args before the command.
    * @returns Parsed command (space-separated if multi-word), options, and positional arguments
    */
-  parse(argv: string[], optionsSchema?: z.ZodObject): ParsedCliArgs {
-    // Skip first two args (node and script path)
-    const args = argv.slice(2)
+  parse(argv: string[], optionsSchema?: z.ZodObject, availableCommands?: string[]): ParsedCliArgs {
+    // Determine where to start parsing - smart detection when commands available
+    const startIndex = availableCommands?.length
+      ? this.findCommandStartIndex(argv, availableCommands)
+      : 2 // Default: skip node and script path
+
+    const args = argv.slice(startIndex)
 
     if (args.length === 0) {
       throw new Error('[Navios Commander] No command provided')
@@ -130,7 +137,9 @@ export class CliParserService {
           if (this.isObjectNotation(key)) {
             // Object notation: --obj.field value or --obj.flag
             const processedPath = this.processObjectNotationKey(key)
-            const isBoolean = optionsSchema ? this.isNestedBoolean(optionsSchema, processedPath) : false
+            const isBoolean = optionsSchema
+              ? this.isNestedBoolean(optionsSchema, processedPath)
+              : false
             const isArray = optionsSchema ? this.isNestedArray(optionsSchema, processedPath) : false
             const nextArg = args[i + 1]
 
@@ -228,6 +237,43 @@ export class CliParserService {
       options,
       positionals,
     }
+  }
+
+  /**
+   * Finds the index in argv where the command starts by matching against available commands.
+   * Prioritizes longer/more specific commands (e.g., 'db migrate' matches before 'db').
+   *
+   * @param argv - Full argv array
+   * @param availableCommands - List of registered command paths
+   * @returns Index where the command starts, or 2 as fallback
+   */
+  private findCommandStartIndex(argv: string[], availableCommands: string[]): number {
+    // Sort commands by specificity (more parts = more specific, then by length)
+    const sortedCommands = [...availableCommands].sort((a, b) => {
+      const aParts = a.split(' ').length
+      const bParts = b.split(' ').length
+      if (bParts !== aParts) return bParts - aParts // More parts first
+      return b.length - a.length // Then longer strings first
+    })
+
+    // Scan argv looking for command matches
+    // Start from index 1 to skip at least the node executable
+    for (let startIdx = 1; startIdx < argv.length; startIdx++) {
+      for (const cmd of sortedCommands) {
+        const cmdParts = cmd.split(' ')
+        const endIdx = startIdx + cmdParts.length
+
+        if (endIdx > argv.length) continue
+
+        const slice = argv.slice(startIdx, endIdx)
+        if (slice.join(' ') === cmd) {
+          return startIdx
+        }
+      }
+    }
+
+    // Fallback: use default slice(2) behavior
+    return 2
   }
 
   /**
@@ -432,7 +478,7 @@ export class CliParserService {
   private processObjectNotationKey(key: string): string {
     return key
       .split('.')
-      .map(segment => this.camelCase(segment))
+      .map((segment) => this.camelCase(segment))
       .join('.')
   }
 
@@ -447,10 +493,7 @@ export class CliParserService {
 
       for (const part of parts) {
         // Unwrap optional/default wrappers
-        while (
-          currentSchema?.def?.type === 'optional' ||
-          currentSchema?.def?.type === 'default'
-        ) {
+        while (currentSchema?.def?.type === 'optional' || currentSchema?.def?.type === 'default') {
           currentSchema = currentSchema.def.innerType
         }
 

@@ -108,8 +108,12 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
     }
 
     try {
-      // Preliminary parse to find command
-      const preliminaryParse = this.cliParser.parse(argv)
+      // Get all registered command paths for smart command detection
+      // This enables support for custom launchers (tsx, ts-node, npx, etc.)
+      const commandPaths = this.commandRegistry.getAllPaths()
+
+      // Preliminary parse to find command (with smart detection)
+      const preliminaryParse = this.cliParser.parse(argv, undefined, commandPaths)
 
       // Handle --help or -h flags by showing help for the specific command
       if (preliminaryParse.options.help || preliminaryParse.options.h) {
@@ -125,9 +129,9 @@ export class CommanderAdapterService implements AbstractCliAdapterInterface {
 
       const command = this.commandRegistry.getByPath(preliminaryParse.command)
 
-      // Re-parse with schema if available
+      // Re-parse with schema if available (still use smart detection)
       const parsed = command?.metadata.optionsSchema
-        ? this.cliParser.parse(argv, command.metadata.optionsSchema)
+        ? this.cliParser.parse(argv, command.metadata.optionsSchema, commandPaths)
         : preliminaryParse
 
       await this.executeCommand(parsed.command, parsed.options, parsed.positionals)

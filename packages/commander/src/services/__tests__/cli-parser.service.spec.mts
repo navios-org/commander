@@ -502,6 +502,116 @@ describe('CliParserService', () => {
     })
   })
 
+  describe('smart command detection with availableCommands', () => {
+    it('should detect command with custom launcher prefix (tsx)', () => {
+      const availableCommands = ['test', 'build', 'deploy']
+      const result = parser.parse(
+        ['node', '/path/to/npx', 'tsx', 'src/cli.ts', 'test', '--verbose'],
+        undefined,
+        availableCommands,
+      )
+      expect(result.command).toBe('test')
+      expect(result.options).toEqual({ verbose: true })
+    })
+
+    it('should detect multi-word command with launcher prefix', () => {
+      const availableCommands = ['db', 'db migrate', 'db seed']
+      const result = parser.parse(
+        ['node', 'npx', 'tsx', 'cli.ts', 'db', 'migrate', '--force'],
+        undefined,
+        availableCommands,
+      )
+      expect(result.command).toBe('db migrate')
+      expect(result.options).toEqual({ force: true })
+    })
+
+    it('should prefer longer command match over shorter', () => {
+      const availableCommands = ['db', 'db migrate', 'db migrate production']
+      const result = parser.parse(
+        ['node', 'script.js', 'db', 'migrate', 'production', '--dry-run'],
+        undefined,
+        availableCommands,
+      )
+      expect(result.command).toBe('db migrate production')
+      expect(result.options).toEqual({ dryRun: true })
+    })
+
+    it('should fallback to slice(2) when no command matches', () => {
+      const availableCommands = ['test', 'build']
+      const result = parser.parse(
+        ['node', 'script.js', 'unknown', '--flag'],
+        undefined,
+        availableCommands,
+      )
+      // Falls back to default behavior, treating 'unknown' as command
+      expect(result.command).toBe('unknown')
+      expect(result.options).toEqual({ flag: true })
+    })
+
+    it('should work with yarn workspace prefix', () => {
+      const availableCommands = ['greet', 'help']
+      const result = parser.parse(
+        ['node', 'yarn', 'workspace', '@myapp/cli', 'run', 'cli', 'greet', '--name', 'World'],
+        undefined,
+        availableCommands,
+      )
+      expect(result.command).toBe('greet')
+      expect(result.options).toEqual({ name: 'World' })
+    })
+
+    it('should work with empty availableCommands (fallback to default)', () => {
+      const result = parser.parse(['node', 'script.js', 'test', '--verbose'], undefined, [])
+      expect(result.command).toBe('test')
+      expect(result.options).toEqual({ verbose: true })
+    })
+
+    it('should work without availableCommands parameter (default behavior)', () => {
+      const result = parser.parse(['node', 'script.js', 'test', '--verbose'])
+      expect(result.command).toBe('test')
+      expect(result.options).toEqual({ verbose: true })
+    })
+
+    it('should handle command appearing in launcher path without confusion', () => {
+      // 'test' appears in path '/home/user/test-project/cli.js' but should find the actual command
+      const availableCommands = ['test', 'build']
+      const result = parser.parse(
+        ['node', '/home/user/test-project/cli.js', 'build', '--watch'],
+        undefined,
+        availableCommands,
+      )
+      expect(result.command).toBe('build')
+      expect(result.options).toEqual({ watch: true })
+    })
+
+    it('should handle npx with package name prefix', () => {
+      const availableCommands = ['generate', 'init']
+      const result = parser.parse(
+        ['node', '/usr/local/bin/npx', '@myorg/cli', 'generate', '--template', 'react'],
+        undefined,
+        availableCommands,
+      )
+      expect(result.command).toBe('generate')
+      expect(result.options).toEqual({ template: 'react' })
+    })
+
+    it('should combine smart detection with schema parsing', () => {
+      const availableCommands = ['serve', 'build']
+      const schema = z.object({
+        port: z.number(),
+        watch: z.boolean(),
+      })
+
+      const result = parser.parse(
+        ['node', 'npx', 'tsx', 'cli.ts', 'serve', '--port', '3000', '--watch'],
+        schema,
+        availableCommands,
+      )
+
+      expect(result.command).toBe('serve')
+      expect(result.options).toEqual({ port: 3000, watch: true })
+    })
+  })
+
   describe('object notation parsing', () => {
     it('should parse simple object notation with equal sign', () => {
       const result = parser.parse(['node', 'script.js', 'test', '--config.port=3000'])
@@ -662,10 +772,12 @@ describe('CliParserService', () => {
 
     it('should handle optional nested object fields', () => {
       const schema = z.object({
-        config: z.object({
-          debug: z.boolean().optional(),
-          port: z.number().optional(),
-        }).optional(),
+        config: z
+          .object({
+            debug: z.boolean().optional(),
+            port: z.number().optional(),
+          })
+          .optional(),
       })
 
       const result = parser.parse(
@@ -782,16 +894,7 @@ describe('CliParserService', () => {
       })
 
       const result = parser.parse(
-        [
-          'node',
-          'script.js',
-          'test',
-          '--verbose',
-          '--config.port',
-          '3000',
-          '--name',
-          'my-app',
-        ],
+        ['node', 'script.js', 'test', '--verbose', '--config.port', '3000', '--name', 'my-app'],
         schema,
       )
 
