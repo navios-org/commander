@@ -332,7 +332,6 @@ For standalone usage, import the adapter directly:
 ```typescript
 // React adapter (default)
 import '@navios/commander-tui/adapters/react'
-
 // Or Solid.js adapter
 import '@navios/commander-tui/adapters/solid'
 ```

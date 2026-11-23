@@ -24,7 +24,6 @@ Commands are defined using the `@Command` decorator. Each command must implement
 
 ```typescript
 import { Command, CommandHandler } from '@navios/commander'
-
 import { z } from 'zod/v4'
 
 const greetOptionsSchema = z.object({
@@ -96,7 +95,6 @@ node dist/cli.js greet --name World --greeting Hi
 
 ```typescript
 import { CliModule, Command, CommandHandler, inject, Injectable } from '@navios/commander'
-
 import { z } from 'zod/v4'
 
 // Service
