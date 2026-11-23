@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- **Node.js** - Used automatically on Node.js 26.4+ started with `--experimental-ffi`, together with `@navios/commander-tui` 1.7+ (and `@navios/commander` 1.9+).
 - **Removed `bun-plugin.mts`** - The Bun preload that lowered decorators is gone. Bun runs standard decorators natively, and the plugin had started breaking `.tsx` loading.
 - **`LoggerProvider`** - Creates its default `SyntaxStyle` from the surrounding OpenTUI renderer. Outside a renderer, `syntaxStyle` is `undefined`.
 - **Rendering** - The scrollbar is hidden when content fits, content padding is applied, and diff line numbers count blank context lines (OpenTUI 0.9 behaviour).

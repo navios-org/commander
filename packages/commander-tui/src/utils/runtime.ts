@@ -1,5 +1,5 @@
 /**
- * Detect if running in Bun environment (OpenTUI is not supported in Bun)
+ * Detect if running in the Bun runtime.
  */
 export function isBunRuntime(): boolean {
   return typeof (globalThis as Record<string, unknown>).Bun !== 'undefined'

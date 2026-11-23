@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **OpenTUI on Node.js** - `bind()` now uses the TUI by default wherever OpenTUI can run: Bun, or Node.js 26.4+ started with `--experimental-ffi`. Before, the default was Bun only. New helper: `isOpenTUISupported()`.
 - **`@opentui/core` peer dependency** - Declared `@opentui/core` ^0.9.7 as an optional peer dependency. It was already used by the published types and the default renderer, but was not declared.
 
 ### Changed
@@ -17,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **Terminal restore on exit** - `unbind()` now waits for the OpenTUI renderer to finish restoring the terminal (`renderer.closed`) before flushing screens to stdout.
+- **Terminal restore on exit** - `unbind()` now waits for the OpenTUI renderer to finish restoring the terminal (`renderer.closed`) before flushing screens to stdout, and still prints them if that restore fails.
 
 ## [1.6.2] - 2026-01-28
 

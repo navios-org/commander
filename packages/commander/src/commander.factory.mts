@@ -3,7 +3,7 @@ import { ConsoleLogger, NaviosFactory } from '@navios/core'
 import type { ClassTypeWithInstance, LogLevel, NaviosApplication, NaviosModule } from '@navios/core'
 
 import { defineCliEnvironment } from './define-environment.mjs'
-import { dynamicImport } from './utils/index.mjs'
+import { dynamicImport, loadTuiAdapter } from './utils/index.mjs'
 
 import type { CliEnvironment } from './interfaces/environment.interface.mjs'
 
@@ -103,7 +103,8 @@ export interface CommanderTuiOptions {
    * Use OpenTUI for terminal rendering.
    * When true: Full TUI with sidebar, scrolling, interactive prompts.
    * When false: Stdout mode - static screens print immediately, others on completion.
-   * @default true for Node.js, false for Bun (OpenTUI not supported)
+   * @default true when the runtime can run OpenTUI (Bun, or Node.js 26.4+ started
+   * with `--experimental-ffi`); always true for the `ink` adapter
    */
   useOpenTUI?: boolean
 }
@@ -198,16 +199,7 @@ export class CommanderFactory {
         tuiModule =
           await dynamicImport<typeof import('@navios/commander-tui')>('@navios/commander-tui')
         // Load the appropriate adapter based on configuration
-        const adapter = options.tuiOptions?.adapter
-        const isBun = tuiModule.isBunRuntime()
-
-        if (adapter === 'ink') {
-          await dynamicImport('@navios/tui-adapter-ink')
-        } else if (adapter === 'solid' && isBun) {
-          await dynamicImport('@navios/tui-adapter-solid')
-        } else if (adapter === 'react' && isBun) {
-          await dynamicImport('@navios/tui-adapter-react')
-        }
+        await loadTuiAdapter(tuiModule, options.tuiOptions?.adapter)
       } catch (error) {
         console.error(error)
         throw new Error(

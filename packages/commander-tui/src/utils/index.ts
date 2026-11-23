@@ -12,6 +12,7 @@ export * from './format.ts'
 
 // Runtime detection
 export * from './runtime.ts'
+export { isOpenTUISupported } from './opentui-support.ts'
 
 // Prompt utilities
 export * from './prompt.ts'

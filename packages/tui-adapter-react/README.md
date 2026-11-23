@@ -28,7 +28,7 @@ import { ScreenManager } from '@navios/commander-tui'
 // The React adapter is now automatically used for TUI rendering
 ```
 
-With `@navios/commander` on Bun, selecting the adapter is enough — the factory loads it for you:
+With `@navios/commander`, selecting the adapter is enough — the factory loads it for you:
 
 ```typescript
 const app = await CommanderFactory.create(AppModule, {
@@ -41,21 +41,10 @@ const app = await CommanderFactory.create(AppModule, {
 
 OpenTUI renders through native FFI. On Bun that is built in; on Node.js it depends on the still-experimental `node:ffi` module, which brings a few caveats:
 
-- **Node.js 26.4 or later.** Earlier versions have no `node:ffi`. The renderer then fails to start and `commander-tui` falls back to plain stdout output with a warning.
-- **Start Node with `--experimental-ffi`**, e.g. `node --experimental-ffi ./cli.mjs` or `NODE_OPTIONS=--experimental-ffi`. Without the flag the renderer fails the same way.
+- **Node.js 26.4 or later.** Earlier versions have no `node:ffi`, so the TUI is not used and output goes to stdout.
+- **Start Node with `--experimental-ffi`**, e.g. `node --experimental-ffi ./cli.mjs` or `NODE_OPTIONS=--experimental-ffi`. Without the flag `node:ffi` is unavailable and output goes to stdout as well.
 - **ES modules only.** Load the adapter with `import`; `require()` fails because OpenTUI's modules use top-level await.
-- **Opt in explicitly.** On Node.js, `commander-tui` defaults to stdout mode, and `@navios/commander`'s factory only auto-loads this adapter under Bun. Import the adapter yourself and request the OpenTUI renderer:
-
-  ```typescript
-  import '@navios/tui-adapter-react'
-
-  const app = await CommanderFactory.create(AppModule, {
-    enableTUI: true,
-    tuiOptions: { adapter: 'react', useOpenTUI: true },
-  })
-  ```
-
-  When using `@navios/commander-tui` directly, call `screenManager.bind({ useOpenTUI: true })`.
+- **Picked automatically.** `@navios/commander-tui` 1.7+ checks whether OpenTUI can run (Bun, or Node.js 26.4+ with `node:ffi` available) and uses the TUI by default when it can; otherwise it prints to stdout. `@navios/commander` 1.9+ likewise loads this adapter on Node.js when it is selected with `tuiOptions: { adapter: 'react' }`. Pass `useOpenTUI: false` to force stdout output.
 
 ## What's Included
 

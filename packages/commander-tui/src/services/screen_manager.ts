@@ -12,7 +12,7 @@ import { RenderMode } from '../types/index.ts'
 import {
   dynamicImport,
   getPromptDefaultValue,
-  isBunRuntime,
+  isOpenTUISupported,
   printMessagesToStdout,
 } from '../utils/index.ts'
 
@@ -140,8 +140,9 @@ export class ScreenManagerInstance
       this.theme = typeof options.theme === 'string' ? getThemePreset(options.theme) : options.theme
     }
 
-    // Determine useOpenTUI default: false for Bun (not supported), true for Node.js
-    const useOpenTUI = options?.useOpenTUI ?? isBunRuntime()
+    // Default to the TUI whenever this runtime can run OpenTUI:
+    // Bun, or Node.js 26.4+ started with --experimental-ffi
+    const useOpenTUI = options?.useOpenTUI ?? (await isOpenTUISupported())
 
     if (!useOpenTUI) {
       // Explicit stdout mode requested

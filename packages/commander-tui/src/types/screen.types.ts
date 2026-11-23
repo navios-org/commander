@@ -145,7 +145,8 @@ export interface BindOptions {
    * Use OpenTUI for terminal rendering.
    * When true: Full TUI with sidebar, scrolling, interactive prompts.
    * When false: Stdout mode - static screens print immediately, others on completion.
-   * Default: true for Node.js, false for Bun (OpenTUI not supported).
+   * Default: true when the runtime can run OpenTUI (Bun, or Node.js 26.4+
+   * started with `--experimental-ffi`), false otherwise.
    */
   useOpenTUI?: boolean
 }

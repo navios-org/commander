@@ -6,7 +6,7 @@ import '../../services/screen_manager.ts'
 import { Adapter } from '../../tokens/adapter.ts'
 import { ScreenManager } from '../../tokens/screen-manager.ts'
 import { RenderMode } from '../../types/index.ts'
-import { dynamicImport } from '../../utils/index.ts'
+import { dynamicImport, isOpenTUISupported } from '../../utils/index.ts'
 import { createLogMessage } from '../utils/factories.ts'
 
 import type { AdapterInterface } from '../../adapters/interface.ts'
@@ -16,6 +16,7 @@ import type { ScreenManagerInstance } from '../../services/screen_manager.ts'
 vi.mock('../../utils/index.ts', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../../utils/index.ts')>()),
   dynamicImport: vi.fn(),
+  isOpenTUISupported: vi.fn(),
 }))
 
 function setTTY(value: boolean | undefined) {
@@ -23,7 +24,7 @@ function setTTY(value: boolean | undefined) {
   Object.defineProperty(process.stdin, 'isTTY', { value, configurable: true })
 }
 
-describe('ScreenManager teardown with OpenTUI renderer', () => {
+describe('ScreenManager with the OpenTUI renderer', () => {
   let container: TestContainer
   let manager: ScreenManagerInstance
   const originalStdoutTTY = process.stdout.isTTY
@@ -98,5 +99,25 @@ describe('ScreenManager teardown with OpenTUI renderer', () => {
     const output = write.mock.calls.map(([chunk]) => String(chunk)).join('')
     expect(output).toContain('kept despite close failure')
     expect(manager.getRenderMode()).toBe(RenderMode.UNBOUND)
+  })
+
+  it('uses the OpenTUI renderer by default when the runtime supports it', async () => {
+    vi.mocked(isOpenTUISupported).mockResolvedValue(true)
+    const renderer = { destroy: vi.fn(), closed: Promise.resolve() }
+    vi.mocked(dynamicImport).mockResolvedValue({ createCliRenderer: async () => renderer })
+
+    await manager.bind()
+
+    expect(manager.getRenderMode()).toBe(RenderMode.TUI_ACTIVE)
+    await manager.unbind()
+  })
+
+  it('stays in stdout mode by default when the runtime cannot run OpenTUI', async () => {
+    vi.mocked(isOpenTUISupported).mockResolvedValue(false)
+
+    await manager.bind()
+
+    expect(manager.getRenderMode()).toBe(RenderMode.STDOUT_INTERACTIVE)
+    expect(dynamicImport).not.toHaveBeenCalled()
   })
 })
