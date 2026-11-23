@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2026-11-23
+
+### Breaking Changes
+
+- **OpenTUI 0.9** - Upgraded `@opentui/core` and `@opentui/react` from 0.1.73 to ^0.9.7. Requires Bun >=1.3.14 (or Node.js >=26.4 with `--experimental-ffi`).
+- **Custom `SyntaxStyle`** - OpenTUI 0.9 requires an owner: create it with `SyntaxStyle.create(renderer.nativeScene)` before passing it to `LoggerProvider`.
+- **ESM-only** - The CommonJS build is removed. It never loaded (`@opentui/react` is an async ES module).
+
+### Fixed
+
+- **Syntax highlighting** - `web-tree-sitter` (required by `@opentui/core` for `<code>`/`<diff>` highlighting) is now a dependency.
+
+### Changed
+
+- **`LoggerProvider`** - Creates its default `SyntaxStyle` from the surrounding OpenTUI renderer. Outside a renderer, `syntaxStyle` is `undefined`.
+- **Rendering** - The scrollbar is hidden when content fits, content padding is applied, and diff line numbers count blank context lines (OpenTUI 0.9 behaviour).
+- **React** - Updated to ^19.3.1.
+
 ## [1.2.0] - 2026-01-16
 
 ### Added

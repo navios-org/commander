@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - 2026-11-23
+
+### Changed
+
+- **Dependencies** - Updated `@navios/core` to ^1.1.0 and the build/test toolchain (TypeScript 7.0, tsdown 0.23, Vitest 5, Yarn 4.19). No API changes.
+
 ## [1.8.0] - 2026-01-29
 
 ### Added
