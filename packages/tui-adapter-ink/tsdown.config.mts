@@ -4,7 +4,7 @@ import swc from 'unplugin-swc'
 export default defineConfig({
   entry: ['src/index.ts'],
   outDir: 'lib',
-  format: ['esm', 'cjs'],
+  format: ['esm'],
   clean: true,
   treeshake: true,
   sourcemap: true,

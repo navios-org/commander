@@ -487,30 +487,30 @@ exports[`ScrollBox Integration > with multiple screens > should maintain indepen
 `;
 
 exports[`ScrollBox Integration > with multiple screens > should maintain independent scroll positions per screen 2`] = `
-"┌───────────────────────┐ Screen1
+"┌───────────────────────┐ Screen2
 │ Screens               │───────────────────────────────────────────────────────
-│   ● Screen1           │ │ Screen1 message 13                                 │
+│   ● Screen1           │ │ Screen2 message 13                                 │
 │   ● Screen2           │                                                      │
 │                       │ │ 2:00:00 AM                                         │
-│                       │ │ Screen1 message 14                                 │
+│                       │ │ Screen2 message 14                                 │
 │                       │                                                      │
 │                       │ │ 2:00:00 AM                                         │
-│                       │ │ Screen1 message 15                                 │
+│                       │ │ Screen2 message 15                                 │
 │                       │                                                      │
 │                       │ │ 2:00:00 AM                                         │
-│                       │ │ Screen1 message 16                                 │
+│                       │ │ Screen2 message 16                                 │
 │                       │                                                      │
 │                       │ │ 2:00:00 AM                                         │
-│                       │ │ Screen1 message 17                                 │
+│                       │ │ Screen2 message 17                                 │
 │                       │                                                      ┃
 │                       │ │ 2:00:00 AM                                         ┃
-│                       │ │ Screen1 message 18                                 ┃
+│                       │ │ Screen2 message 18                                 ┃
 │                       │                                                      ┃
 │                       │ │ 2:00:00 AM                                         ┃
-│───────────────────────│ │ Screen1 message 19                                 ┃
+│───────────────────────│ │ Screen2 message 19                                 ┃
 │ q: exit | Tab: focus  │                                                      ┃
 │ | ?: help             │ │ 2:00:00 AM                                         ┃
-└───────────────────────┘ │ Screen1 message 20                                 │"
+└───────────────────────┘ │ Screen2 message 20                                 │"
 `;
 
 exports[`ScrollBox Integration > with small viewport > should handle very small viewport gracefully 1`] = `

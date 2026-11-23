@@ -136,8 +136,8 @@ exports[`ScreenLogger Integration > dynamic screen creation > should create scre
 `;
 
 exports[`ScreenLogger Integration > dynamic screen creation > should create screen dynamically after render and display content 2`] = `
-"
-
+" DynamicApp
+────────────────────────────────────────────────────────────────────────────────
 
 
 
