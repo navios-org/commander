@@ -109,11 +109,12 @@ describe('useLoggerContext', () => {
     expect(result.current.treeSitterClient).toBeUndefined()
   })
 
-  it('should return context values when used inside LoggerProvider', () => {
+  it('should return context values when used inside LoggerProvider without a renderer', () => {
     const { result } = renderLoggerHook(() => useLoggerContext())
 
     expect(result.current.theme).toBeDefined()
     expect(result.current.levelColors).toBeDefined()
-    expect(result.current.syntaxStyle).toBeDefined()
+    // SyntaxStyle needs a native owner (OpenTUI >=0.6); see the renderer-backed test
+    expect(result.current.syntaxStyle).toBeUndefined()
   })
 })

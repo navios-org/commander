@@ -38,9 +38,16 @@
   },
   "devDependencies": {
     "@navios/core": "^1.1.0",
+    "@opentui/core": "^0.9.7",
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
-    "@navios/core": "*"
+    "@navios/core": "*",
+    "@opentui/core": "^0.9.7"
+  },
+  "peerDependenciesMeta": {
+    "@opentui/core": {
+      "optional": true
+    }
   }
 }

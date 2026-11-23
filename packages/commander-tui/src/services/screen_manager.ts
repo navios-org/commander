@@ -172,7 +172,7 @@ export class ScreenManagerInstance
 
         this.renderer = await createCliRenderer({
           exitOnCtrlC: options?.exitOnCtrlC ?? true,
-          useAlternateScreen: true,
+          screenMode: 'alternate-screen',
           useMouse: options?.useMouse ?? true,
         })
 
@@ -309,6 +309,8 @@ export class ScreenManagerInstance
           ;(this.renderer as unknown as { disableMouse: () => void }).disableMouse()
         }
         this.renderer.destroy()
+        // destroy() restores the terminal asynchronously; wait before writing to stdout
+        await this.renderer.closed
       }
     }
 

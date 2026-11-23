@@ -161,7 +161,7 @@ describe('useLoggerContext', () => {
     })
   })
 
-  it('should return context values when used inside LoggerProvider', () => {
+  it('should return context values when used inside LoggerProvider without a renderer', () => {
     createRoot((dispose) => {
       let context: ReturnType<typeof useLoggerContext> | undefined
 
@@ -174,7 +174,8 @@ describe('useLoggerContext', () => {
 
       expect(context!.theme).toBeDefined()
       expect(context!.levelColors).toBeDefined()
-      expect(context!.syntaxStyle).toBeDefined()
+      // SyntaxStyle needs a native owner (OpenTUI >=0.6); see the renderer-backed test
+      expect(context!.syntaxStyle).toBeUndefined()
 
       dispose()
     })

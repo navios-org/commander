@@ -25,7 +25,7 @@ const solidResolveAliases: Record<string, string> = {
 export default defineConfig({
   entry: ['src/index.tsx'],
   outDir: 'lib',
-  format: ['esm', 'cjs'],
+  format: ['esm'],
   clean: true,
   treeshake: true,
   sourcemap: true,

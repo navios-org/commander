@@ -1,5 +1,6 @@
 import { darkTheme, resolveTheme } from '@navios/commander-tui'
 import { SyntaxStyle, type TreeSitterClient } from '@opentui/core'
+import { RendererContext } from '@opentui/solid'
 import { createContext, useContext, createMemo, type ParentProps } from 'solid-js'
 
 import type {
@@ -59,7 +60,11 @@ export interface LoggerProviderProps extends ParentProps {
  */
 export function LoggerProvider(props: LoggerProviderProps) {
   // Create or use provided SyntaxStyle
-  const syntaxStyle = createMemo(() => props.syntaxStyle ?? SyntaxStyle.create())
+  // undefined when rendered outside an OpenTUI root (e.g. unit tests)
+  const renderer = useContext(RendererContext)
+  const syntaxStyle = createMemo(
+    () => props.syntaxStyle ?? (renderer ? SyntaxStyle.create(renderer.nativeScene) : undefined),
+  )
 
   // Resolve theme (could be a preset name or a theme object)
   const theme = createMemo(() => resolveTheme(props.theme ?? 'dark'))

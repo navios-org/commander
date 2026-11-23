@@ -12,7 +12,6 @@
     "directory": "packages/tui-adapter-react"
   },
   "type": "module",
-  "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
   "typings": "./lib/index.d.mts",
   "exports": {
@@ -20,10 +19,6 @@
       "import": {
         "types": "./lib/index.d.mts",
         "default": "./lib/index.mjs"
-      },
-      "require": {
-        "types": "./lib/index.d.cts",
-        "default": "./lib/index.cjs"
       }
     }
   },
@@ -37,9 +32,10 @@
     "publish:next": "yarn npm publish --access public --tag next"
   },
   "dependencies": {
-    "@opentui/core": "^0.1.73",
-    "@opentui/react": "^0.1.73",
-    "react": "^19.3.1"
+    "@opentui/core": "^0.9.7",
+    "@opentui/react": "^0.9.7",
+    "react": "^19.3.1",
+    "web-tree-sitter": "0.25.10"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^21.0.4",
@@ -52,5 +48,9 @@
   "peerDependencies": {
     "@navios/commander-tui": "^1.3.0",
     "@navios/core": "*"
+  },
+  "engines": {
+    "bun": ">=1.3.14",
+    "node": ">=26.4.0"
   }
 }
