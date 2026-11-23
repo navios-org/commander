@@ -309,8 +309,10 @@ export class ScreenManagerInstance
           ;(this.renderer as unknown as { disableMouse: () => void }).disableMouse()
         }
         this.renderer.destroy()
-        // destroy() restores the terminal asynchronously; wait before writing to stdout
-        await this.renderer.closed
+        // destroy() restores the terminal asynchronously; wait before writing to stdout.
+        // `closed` rejects on sink errors or a late/timed-out graceful close; the
+        // renderer is still released, so carry on and flush rather than lose output.
+        await this.renderer.closed.catch(() => {})
       }
     }
 

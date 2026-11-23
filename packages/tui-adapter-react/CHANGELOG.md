@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - **OpenTUI 0.9** - Upgraded `@opentui/core` and `@opentui/react` from 0.1.73 to ^0.9.7. Requires Bun >=1.3.14 (or Node.js >=26.4 with `--experimental-ffi`).
 - **Custom `SyntaxStyle`** - OpenTUI 0.9 requires an owner: create it with `SyntaxStyle.create(renderer.nativeScene)` before passing it to `LoggerProvider`.
+- **Requires `@navios/commander-tui` ^1.7.0** - That release waits for OpenTUI 0.9 to restore the terminal before printing screens on exit.
 - **ESM-only** - The CommonJS build is removed. It never loaded (`@opentui/react` is an async ES module).
 
 ### Fixed

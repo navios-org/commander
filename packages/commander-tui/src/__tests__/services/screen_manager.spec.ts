@@ -78,4 +78,25 @@ describe('ScreenManager teardown with OpenTUI renderer', () => {
     const output = write.mock.calls.map(([chunk]) => String(chunk)).join('')
     expect(output).toContain('flushed on exit')
   })
+
+  it('unbind still flushes screens when renderer.closed rejects', async () => {
+    // OpenTUI rejects `closed` on sink errors or a late/timed-out graceful close
+    const renderer = {
+      destroy: vi.fn(),
+      closed: Promise.reject(new Error('graceful close timed out')),
+    }
+    renderer.closed.catch(() => {}) // avoid an unhandled rejection before unbind awaits it
+    vi.mocked(dynamicImport).mockResolvedValue({ createCliRenderer: async () => renderer })
+
+    await manager.bind({ useOpenTUI: true })
+    const screen = manager.createScreen({ name: 'Main' })
+    screen.addMessage(createLogMessage({ content: 'kept despite close failure' }))
+    const write = vi.spyOn(process.stdout, 'write').mockImplementation(() => true)
+
+    await expect(manager.unbind()).resolves.toBeUndefined()
+
+    const output = write.mock.calls.map(([chunk]) => String(chunk)).join('')
+    expect(output).toContain('kept despite close failure')
+    expect(manager.getRenderMode()).toBe(RenderMode.UNBOUND)
+  })
 })

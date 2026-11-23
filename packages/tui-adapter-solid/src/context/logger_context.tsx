@@ -1,6 +1,6 @@
 import { darkTheme, resolveTheme } from '@navios/commander-tui'
-import { SyntaxStyle, type TreeSitterClient } from '@opentui/core'
-import { RendererContext } from '@opentui/solid'
+import { SyntaxStyle, type CliRenderer, type TreeSitterClient } from '@opentui/core'
+import { useRenderer } from '@opentui/solid'
 import { createContext, useContext, createMemo, type ParentProps } from 'solid-js'
 
 import type {
@@ -60,8 +60,10 @@ export interface LoggerProviderProps extends ParentProps {
  */
 export function LoggerProvider(props: LoggerProviderProps) {
   // Create or use provided SyntaxStyle
-  // undefined when rendered outside an OpenTUI root (e.g. unit tests)
-  const renderer = useContext(RendererContext)
+  // Ask @opentui/solid for the renderer: this package bundles its own solid-js,
+  // so a local useContext(RendererContext) would not see @opentui/solid's
+  // context. undefined when rendered outside an OpenTUI root (e.g. unit tests).
+  const renderer = getRendererIfAvailable()
   const syntaxStyle = createMemo(
     () => props.syntaxStyle ?? (renderer ? SyntaxStyle.create(renderer.nativeScene) : undefined),
   )
@@ -111,4 +113,12 @@ export function useLoggerContext(): LoggerContextValue {
     }
   }
   return context
+}
+
+function getRendererIfAvailable(): CliRenderer | undefined {
+  try {
+    return useRenderer()
+  } catch {
+    return undefined
+  }
 }
