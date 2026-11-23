@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "compile": "yarn run -T tsgo",
+    "compile": "yarn run -T tsc",
     "start": "bun src/index.ts",
     "build": "bun src/index.ts build",
     "deploy": "bun src/index.ts deploy",
@@ -17,6 +17,6 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   }
 }

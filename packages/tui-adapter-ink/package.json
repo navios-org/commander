@@ -28,7 +28,7 @@
     }
   },
   "scripts": {
-    "check": "yarn run -T tsgo --build",
+    "check": "yarn run -T tsc --build",
     "lint": "yarn run -T oxlint --fix && yarn run -T oxfmt",
     "test": "vitest",
     "test:ci": "vitest run",
@@ -51,7 +51,7 @@
     "ink-testing-library": "^4.0.0",
     "react-dom": "^19.2.3",
     "strip-ansi": "^7.2.0",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "unplugin-swc": "^2.0.0",
     "vitest": "^5.1.1"
   },

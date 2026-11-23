@@ -91,7 +91,7 @@ export const addToCache = (codeTS: string, codeJS: string): void => {
   saveCacheImpl()
 }
 
-const MODE: 'babel' | 'esbuild' | 'typescript' = 'esbuild'
+const MODE: 'babel' | 'esbuild' = 'esbuild'
 
 async function transpileFile(name: string, codeTs: string): Promise<string> {
   // 1. try to return the cached version
@@ -106,7 +106,6 @@ async function transpileFile(name: string, codeTs: string): Promise<string> {
 
 async function transpileFileForReal(name: string, codeTS: string): Promise<string> {
   if (MODE === 'esbuild') return transpileFileWithEsbuild(name, codeTS)
-  if (MODE === 'typescript') return transpileFileWithTypescript(name, codeTS)
   throw new Error(`MODE ${MODE} is ont supported`)
 }
 
@@ -118,19 +117,4 @@ async function transpileFileWithEsbuild(name: string, file: string): Promise<str
     target: 'chrome110',
   })
   return result.code
-}
-
-// alt 3. esbuild ------------------------------------------------------------------------
-async function transpileFileWithTypescript(name: string, file: string): Promise<string> {
-  const typescript = (await import('typescript')).default
-  const codeJS = typescript.transpileModule(file, {
-    compilerOptions: {
-      module: typescript.ModuleKind.ESNext,
-      target: typescript.ScriptTarget.ESNext,
-      jsx: typescript.JsxEmit.React,
-      decorators: true,
-      importAttributes: true,
-    },
-  })
-  return codeJS.outputText
 }

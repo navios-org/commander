@@ -10,7 +10,9 @@ export default defineConfig({
   treeshake: true,
   sourcemap: true,
   platform: 'node',
-  dts: true,
+  // tsconfig.json is solution-style (src is owned by the referenced
+  // tsconfig.lib.json); TS 7's tsgo dts emit needs the owning project.
+  dts: { tsconfig: 'tsconfig.lib.json' },
   target: 'es2022',
   plugins: [
     withFilter(

@@ -28,7 +28,7 @@
     }
   },
   "scripts": {
-    "check": "yarn run -T tsgo --build",
+    "check": "yarn run -T tsc --build",
     "lint": "yarn run -T oxlint --fix && yarn run -T oxfmt",
     "test": "vitest",
     "test:ci": "vitest run",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@navios/core": "^1.1.0",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "@navios/core": "*"

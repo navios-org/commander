@@ -37,7 +37,7 @@
     }
   },
   "scripts": {
-    "check": "yarn run -T tsgo -b",
+    "check": "yarn run -T tsc -b",
     "lint": "yarn run -T oxlint --fix && yarn run -T oxfmt",
     "test": "vitest",
     "test:ci": "vitest run",
@@ -52,7 +52,7 @@
     "@navios/builder": "^1.0.0",
     "@navios/commander-tui": "workspace:*",
     "tsx": "^4.23.15",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "zod": "^4.6.7"
   },
   "peerDependencies": {
