@@ -46,14 +46,14 @@
     "publish:next": "yarn npm publish --access public --tag next"
   },
   "dependencies": {
-    "@navios/core": "^1.0.0"
+    "@navios/core": "^1.1.0"
   },
   "devDependencies": {
     "@navios/builder": "^1.0.0",
     "@navios/commander-tui": "workspace:*",
-    "tsx": "^4.21.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
-    "zod": "^4.3.5"
+    "zod": "^4.6.7"
   },
   "peerDependencies": {
     "@navios/commander-tui": "^1.0.0",

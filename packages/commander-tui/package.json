@@ -37,7 +37,7 @@
     "publish:next": "yarn npm publish --access public --tag next"
   },
   "devDependencies": {
-    "@navios/core": "^1.0.0",
+    "@navios/core": "^1.1.0",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
