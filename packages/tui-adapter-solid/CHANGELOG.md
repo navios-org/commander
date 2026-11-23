@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- **Removed `bun-plugin.mts`** - The Bun preload that lowered decorators is gone. Bun runs standard decorators natively, and the plugin had started breaking `.tsx` loading.
 - **`LoggerProvider`** - Creates its default `SyntaxStyle` from the surrounding OpenTUI renderer. Outside a renderer, `syntaxStyle` is `undefined`.
 - **Solid** - Updated to ^1.9.20.
 
