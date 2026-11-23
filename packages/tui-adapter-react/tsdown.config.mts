@@ -11,7 +11,15 @@ export default defineConfig({
   platform: 'node',
   dts: true,
   target: 'es2022',
-  external: ['@opentui/core', '@opentui/react', 'react', '@navios/core', '@navios/commander-tui'],
+  deps: {
+    neverBundle: [
+      '@opentui/core',
+      '@opentui/react',
+      'react',
+      '@navios/core',
+      '@navios/commander-tui',
+    ],
+  },
   plugins: [
     swc.rolldown({
       jsc: {

@@ -1,7 +1,6 @@
 import { defineConfig } from 'tsdown'
 import swc from 'unplugin-swc'
 
-console.log('zod')
 export default defineConfig({
   entry: ['src/index.ts'],
   outDir: 'lib',
@@ -11,7 +10,12 @@ export default defineConfig({
   platform: 'node',
   dts: true,
   target: 'es2022',
-  external: ['@opentui/core', '@navios/core', 'zod'],
+  deps: {
+    neverBundle: ['@opentui/core', '@navios/core', 'zod'],
+    // Declarations import `zod/v4`; tsdown 0.23 only externalizes subpaths of
+    // declared deps, so match the subpath explicitly (dts list replaces the JS one).
+    dts: { neverBundle: ['@opentui/core', '@navios/core', /^zod(\/|$)/] },
+  },
   plugins: [
     swc.rolldown({
       jsc: {

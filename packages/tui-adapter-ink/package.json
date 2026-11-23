@@ -52,7 +52,7 @@
     "react-dom": "^19.2.3",
     "strip-ansi": "^7.2.0",
     "typescript": "^5.9.3",
-    "unplugin-swc": "^1.5.9",
+    "unplugin-swc": "^2.0.0",
     "vitest": "^4.0.17"
   },
   "peerDependencies": {

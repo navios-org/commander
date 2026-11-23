@@ -32,9 +32,14 @@ export default defineConfig({
   platform: 'node',
   dts: true,
   target: 'es2022',
-  external: ['@opentui/core', '@opentui/solid', '@navios/core', '@navios/commander-tui'],
+  deps: {
+    neverBundle: ['@opentui/core', '@opentui/solid', '@navios/core', '@navios/commander-tui'],
+    alwaysBundle: ['solid-js', 'solid-js/store', 'solid-js/web'],
+    // Bundle solid-js into JS only; declarations keep importing types from
+    // 'solid-js' (tsdown 0.23 applies alwaysBundle to dts unless overridden).
+    dts: { alwaysBundle: [] },
+  },
   alias: solidResolveAliases,
-  noExternal: ['solid-js', 'solid-js/store', 'solid-js/web'],
   plugins: [
     solid({
       babel: {
