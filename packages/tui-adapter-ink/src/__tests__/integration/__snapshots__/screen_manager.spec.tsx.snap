@@ -3,7 +3,7 @@
 exports[`ScreenManager Integration > render tracking > should capture non-empty frame 1`] = `
 " Main
 ────────────────────────────────────────────────────────────────────────────────
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ Test message
 
 
@@ -57,7 +57,7 @@ exports[`ScreenManager Integration > with multiple screens > should handle scree
 exports[`ScreenManager Integration > with multiple screens > should render second screen when set as active 1`] = `
 "┌───────────────────────┐ Tests
 │ Screens               │───────────────────────────────────────────────────────
-│   ● Build             │ │ 2:00:00 AM
+│   ● Build             │ │ 12:00:00 AM
 │   ● Tests             │ │ Test output
 │                       │
 │                       │
@@ -111,7 +111,7 @@ exports[`ScreenManager Integration > with multiple screens > should render sideb
 exports[`ScreenManager Integration > with multiple screens > should show first screen as active by default 1`] = `
 "┌───────────────────────┐ Build
 │ Screens               │───────────────────────────────────────────────────────
-│   ● Build             │ │ 2:00:00 AM
+│   ● Build             │ │ 12:00:00 AM
 │   ● Tests             │ │ Build output
 │                       │
 │                       │
@@ -165,7 +165,7 @@ exports[`ScreenManager Integration > with single screen > should render empty sc
 exports[`ScreenManager Integration > with single screen > should render screen with loading message 1`] = `
 " Main
 ────────────────────────────────────────────────────────────────────────────────
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ ⠋ Loading data...
 
 
@@ -192,7 +192,7 @@ exports[`ScreenManager Integration > with single screen > should render screen w
 exports[`ScreenManager Integration > with single screen > should render screen with log message 1`] = `
 " Main
 ────────────────────────────────────────────────────────────────────────────────
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ Hello World
 
 
@@ -219,10 +219,10 @@ exports[`ScreenManager Integration > with single screen > should render screen w
 exports[`ScreenManager Integration > with single screen > should render screen with mixed message types 1`] = `
 " Main
 ────────────────────────────────────────────────────────────────────────────────
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ Starting process...
 
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ ⠋ Fetching data
 
  │ [██████ ░░░░░░░░░░░░░░] 30% Downloading
@@ -246,13 +246,13 @@ exports[`ScreenManager Integration > with single screen > should render screen w
 exports[`ScreenManager Integration > with single screen > should render screen with multiple log messages 1`] = `
 " Main
 ────────────────────────────────────────────────────────────────────────────────
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ First message
 
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ Warning message
 
- │ 2:00:00 AM
+ │ 12:00:00 AM
  │ Error message
 
 
