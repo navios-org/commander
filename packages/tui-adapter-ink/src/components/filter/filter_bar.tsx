@@ -74,7 +74,7 @@ export function FilterBar({ filter, levelCounts }: FilterBarProps) {
       {/* Hints */}
       <Box flexDirection="row">
         <Text color={theme.filter.textDim}>
-          Tab: switch fields | 1-7: toggle levels | Esc: close
+          Tab: switch fields | 1-6: toggle levels | Esc: close
         </Text>
       </Box>
     </Box>

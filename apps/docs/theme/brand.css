@@ -1,0 +1,172 @@
+/*
+ * "Prompt": the look of the Commander documentation. Flat panels, sharp
+ * corners, a green prompt as the accent and a monospace voice for headings
+ * of reference material. Built on the variables of Rspress's default theme.
+ */
+
+/* `html` raises specificity above Rspress's own `:root` and `.dark` blocks, which load later. */
+html:root {
+  --cm-accent: #15803d;
+  --cm-accent-strong: #166534;
+  --cm-panel: #ffffff;
+  --cm-line: #e2e5e9;
+  --cm-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+
+  --rp-c-brand: var(--cm-accent);
+  --rp-c-brand-dark: var(--cm-accent-strong);
+  --rp-c-brand-darker: #14532d;
+  --rp-c-brand-light: #16a34a;
+  --rp-c-brand-lighter: #4ade80;
+  --rp-c-brand-tint: rgba(22, 163, 74, 0.1);
+  --rp-c-link: var(--cm-accent);
+  --rp-c-bg: #f7f8f9;
+  --rp-c-bg-soft: #eef0f2;
+  --rp-c-bg-mute: #e2e5e9;
+  --rp-c-divider: #d5d9de;
+  --rp-c-divider-light: var(--cm-line);
+  --rp-c-text-1: #14181d;
+  --rp-c-text-2: #55606c;
+  --rp-c-text-code: #14532d;
+  --rp-c-text-code-bg: rgba(22, 163, 74, 0.1);
+  --rp-c-text-code-border: rgba(22, 163, 74, 0.16);
+  --rp-code-block-bg: #ffffff;
+  --rp-code-block-border: 1px solid var(--cm-line);
+  --rp-code-title-bg: #eef0f2;
+  --rp-radius: 6px;
+
+  --shiki-token-keyword: #9333ea;
+  --shiki-token-function: #0369a1;
+  --shiki-token-string: #15803d;
+  --shiki-token-string-expression: #15803d;
+  --shiki-token-constant: #b45309;
+  --shiki-token-parameter: #be123c;
+  --shiki-token-comment: #7b8794;
+  --shiki-token-punctuation: #3c4651;
+  --shiki-token-link: #0369a1;
+}
+
+html.dark {
+  --cm-accent: #4ade80;
+  --cm-accent-strong: #22c55e;
+  --cm-panel: #12161b;
+  --cm-line: #232a32;
+
+  --rp-c-brand: var(--cm-accent);
+  --rp-c-brand-dark: var(--cm-accent-strong);
+  --rp-c-brand-darker: #16a34a;
+  --rp-c-brand-light: #86efac;
+  --rp-c-brand-lighter: #bbf7d0;
+  --rp-c-brand-tint: rgba(74, 222, 128, 0.12);
+  --rp-c-link: #86efac;
+  --rp-c-bg: #0b0e11;
+  --rp-c-bg-soft: #12161b;
+  --rp-c-bg-mute: #1b2128;
+  --rp-c-divider: #2b333d;
+  --rp-c-divider-light: var(--cm-line);
+  --rp-c-text-1: #e8ecf0;
+  --rp-c-text-2: #9aa5b1;
+  --rp-c-text-code: #bbf7d0;
+  --rp-c-text-code-bg: rgba(74, 222, 128, 0.1);
+  --rp-c-text-code-border: rgba(74, 222, 128, 0.14);
+  --rp-code-block-bg: #0f1317;
+  --rp-code-title-bg: #171c22;
+
+  --shiki-token-keyword: #c4b5fd;
+  --shiki-token-function: #7dd3fc;
+  --shiki-token-string: #86efac;
+  --shiki-token-string-expression: #86efac;
+  --shiki-token-constant: #fcd34d;
+  --shiki-token-parameter: #fda4af;
+  --shiki-token-comment: #6b7785;
+  --shiki-token-punctuation: #b6c0cb;
+  --shiki-token-link: #7dd3fc;
+}
+
+body {
+  background: var(--rp-c-bg);
+}
+
+/* A plain bar with a hairline, not a floating one. */
+header.rp-nav {
+  border-bottom: 1px solid var(--cm-line) !important;
+  background: color-mix(in srgb, var(--rp-c-bg) 88%, transparent) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* The name of the product reads like a command. */
+.rp-nav-title__title {
+  font-family: var(--cm-mono);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.rp-nav-title__title::before {
+  content: '$ ';
+  color: var(--cm-accent);
+}
+
+.rp-nav-menu__item--active > .rp-nav-menu__item__container {
+  color: var(--rp-c-brand);
+}
+
+/* Sidebar: section names as small caps, the current page marked by a bar. */
+.rp-sidebar-item {
+  border-radius: 4px;
+}
+
+.rp-sidebar-item--active {
+  background: var(--rp-c-brand-tint);
+  box-shadow: inset 2px 0 0 var(--cm-accent);
+}
+
+.rp-sidebar-section-header,
+.rp-sidebar-group > .rp-sidebar-item:first-child {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Content. */
+.rp-doc h1 {
+  letter-spacing: -0.025em;
+}
+
+.rp-doc h2 {
+  margin-top: 2.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--cm-line);
+  letter-spacing: -0.015em;
+}
+
+.rp-doc :not(pre) > code {
+  font-family: var(--cm-mono);
+  border-radius: 4px;
+}
+
+.rp-doc pre,
+.rp-doc .rp-codeblock {
+  border-radius: 6px;
+}
+
+.rp-doc table {
+  font-size: 0.92rem;
+}
+
+.rp-doc th {
+  text-align: left;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rp-c-text-2);
+}
+
+/* A terminal session in a page: ```console blocks get a darker ground in both themes. */
+.rp-doc pre.shiki[data-lang='console'],
+.rp-doc .language-console pre {
+  background: #0b0e11;
+  color: #d6dde5;
+}
+
+.rp-outline {
+  border-left: 1px solid var(--cm-line);
+}

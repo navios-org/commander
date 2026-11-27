@@ -50,6 +50,11 @@ export class ScreenLoggerInstance implements LoggerService {
     this.enabledLevels = new Set(options.enabledLevels)
   }
 
+  /** The screen this logger writes to. */
+  getScreen(): ScreenInstance {
+    return this.screen
+  }
+
   private isLevelEnabled(level: LogLevel): boolean {
     // Check local logger levels first
     if (!this.enabledLevels.has(level)) {
@@ -73,6 +78,10 @@ export class ScreenLoggerInstance implements LoggerService {
   }
 
   trace(msg: string | object, label?: string): this {
+    if (!this.isLevelEnabled('verbose')) {
+      // A stack is expensive to capture and would not be shown.
+      return this
+    }
     const trace = captureTrace(1)
     return this.write('verbose', msg, label, trace, 'trace')
   }
@@ -132,7 +141,7 @@ export class ScreenLoggerInstance implements LoggerService {
   // ============================================
 
   file(path: string, content: string): this {
-    if (!this.isLevelEnabled('debug')) {
+    if (!this.isLevelEnabled('log')) {
       return this
     }
 
@@ -148,7 +157,7 @@ export class ScreenLoggerInstance implements LoggerService {
   }
 
   diff(path: string, diffContent: string, view?: 'unified' | 'split'): this {
-    if (!this.isLevelEnabled('debug')) {
+    if (!this.isLevelEnabled('log')) {
       return this
     }
 
@@ -165,7 +174,7 @@ export class ScreenLoggerInstance implements LoggerService {
   }
 
   fileError(path: string, content: string, errorLines: number[], startLine: number = 1): this {
-    if (!this.isLevelEnabled('debug')) {
+    if (!this.isLevelEnabled('log')) {
       return this
     }
 
@@ -190,6 +199,9 @@ export class ScreenLoggerInstance implements LoggerService {
    * Sonner-like promise handling
    */
   async promise<T>(promise: Promise<T>, options: PromiseOptions<T>): Promise<T> {
+    if (!this.isLevelEnabled('log')) {
+      return promise
+    }
     const id = generateId()
 
     // Add loading message
@@ -234,6 +246,9 @@ export class ScreenLoggerInstance implements LoggerService {
    * Create a loading message with manual resolution
    */
   loading(message: string): LoadingHandle {
+    if (!this.isLevelEnabled('log')) {
+      return { success() {}, fail() {} }
+    }
     const id = generateId()
 
     const loadingMessage: LoadingMessageData = {
@@ -269,7 +284,11 @@ export class ScreenLoggerInstance implements LoggerService {
    * Create a progress bar with manual updates
    */
   progress(label: string, options: { total: number }): ProgressHandle {
+    if (!this.isLevelEnabled('log')) {
+      return { update() {}, complete() {}, fail() {} }
+    }
     const id = generateId()
+    const total = Math.max(0, options.total)
 
     const progressMessage: ProgressMessageData = {
       id,
@@ -277,7 +296,7 @@ export class ScreenLoggerInstance implements LoggerService {
       timestamp: new Date(),
       label,
       current: 0,
-      total: options.total,
+      total,
       status: 'active',
     }
     this.screen.addMessage(progressMessage)
@@ -285,13 +304,14 @@ export class ScreenLoggerInstance implements LoggerService {
     return {
       update: (current: number, newLabel?: string) => {
         this.screen.updateProgressMessage(id, {
-          current,
+          // A bar cannot be fuller than full, whatever the caller counted.
+          current: Math.min(total, Math.max(0, current)),
           label: newLabel ?? label,
         })
       },
       complete: (message?: string) => {
         this.screen.updateProgressMessage(id, {
-          current: options.total,
+          current: total,
           status: 'complete',
           resolvedContent: message,
         })
@@ -313,6 +333,9 @@ export class ScreenLoggerInstance implements LoggerService {
    * Start a collapsible log group
    */
   group(label: string): this {
+    if (!this.isLevelEnabled('log')) {
+      return this
+    }
     const message: GroupMessageData = {
       id: generateId(),
       type: 'group',
@@ -329,6 +352,9 @@ export class ScreenLoggerInstance implements LoggerService {
    * End the current log group
    */
   groupEnd(): this {
+    if (!this.isLevelEnabled('log')) {
+      return this
+    }
     const message: GroupMessageData = {
       id: generateId(),
       type: 'group',
@@ -349,7 +375,7 @@ export class ScreenLoggerInstance implements LoggerService {
    * Display tabular data
    */
   table(data: Record<string, unknown>[], options?: { title?: string }): this {
-    if (data.length === 0) return this
+    if (data.length === 0 || !this.isLevelEnabled('log')) return this
 
     const firstRow = data[0]
     if (!firstRow) return this

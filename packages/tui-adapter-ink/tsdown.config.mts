@@ -4,14 +4,16 @@ import swc from 'unplugin-swc'
 export default defineConfig({
   entry: ['src/index.ts'],
   outDir: 'lib',
-  format: ['esm', 'cjs'],
+  format: ['esm'],
   clean: true,
   treeshake: true,
   sourcemap: true,
   platform: 'node',
   dts: true,
   target: 'es2022',
-  external: ['ink', 'ink-syntax-highlight', 'react', '@navios/core', '@navios/commander-tui'],
+  deps: {
+    neverBundle: ['ink', 'ink-syntax-highlight', 'react', '@navios/core', '@navios/commander-tui'],
+  },
   plugins: [
     swc.rolldown({
       jsc: {

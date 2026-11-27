@@ -2,7 +2,7 @@ import { Factory, inject } from '@navios/core'
 
 import type { FactoryContext } from '@navios/core'
 
-import { type ScreenOptions } from '../schemas/index.ts'
+import { type ScreenOptionsInput } from '../schemas/index.ts'
 import { ScreenInstance } from '../services/index.ts'
 import { Screen, ScreenManager } from '../tokens/index.ts'
 
@@ -12,7 +12,7 @@ import { Screen, ScreenManager } from '../tokens/index.ts'
 export class ScreenFactory {
   private readonly screenManager = inject(ScreenManager)
 
-  create(ctx: FactoryContext, options: ScreenOptions): ScreenInstance {
+  create(ctx: FactoryContext, options: ScreenOptionsInput): ScreenInstance {
     const screen = this.screenManager.getScreenByName(options.name)
     if (screen) {
       return screen

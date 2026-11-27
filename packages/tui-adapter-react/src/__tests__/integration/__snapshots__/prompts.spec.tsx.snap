@@ -3,66 +3,67 @@
 exports[`Prompts Integration ChoicePrompt should render choice prompt with default selection 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Which framework do you prefer?                                             
  │                                                                              
  │ > React                                                                      
- │ > Vue                                                                        
- │ > Angular                                                                    
+ │   Vue                                                                        
+ │   Angular                                                                    
  │                                                                              
  │ ↑/↓ to navigate, Enter to select                                             
                                                                                 
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration ChoicePrompt should render choice prompt with second option selected 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Select a database:                                                         
  │                                                                              
- │ > PostgreSQL                                                                 
+ │   PostgreSQL                                                                 
  │ > MySQL                                                                      
- │ > SQLite                                                                     
+ │   SQLite                                                                     
  │                                                                              
  │ ↑/↓ to navigate, Enter to select                                             
                                                                                 
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration ChoicePrompt should render choice prompt with input option in input mode 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? How would you like to proceed?                                             
  │                                                                              
- │ > Continue                                                                   
- │ > Skip                                                                       
+ │   Continue                                                                   
+ │   Skip                                                                       
  │ > Custom : my custom value_                                                  
  │                                                                              
  │ Type your answer, Enter to submit, Esc to cancel                             
@@ -70,23 +71,23 @@ exports[`Prompts Integration ChoicePrompt should render choice prompt with input
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration ConfirmPrompt should render confirm prompt with Yes selected 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Are you sure you want to delete this file?                                 
  │                                                                              
  │  > Yes, delete      Cancel                                                   
@@ -98,23 +99,23 @@ exports[`Prompts Integration ConfirmPrompt should render confirm prompt with Yes
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration ConfirmPrompt should render confirm prompt with No selected 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Overwrite existing configuration?                                          
  │                                                                              
  │    Overwrite    > Keep existing                                              
@@ -126,23 +127,23 @@ exports[`Prompts Integration ConfirmPrompt should render confirm prompt with No 
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration InputPrompt should render input prompt with placeholder 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Enter your project name:                                                   
  │                                                                              
  │ │ my-awesome-project_                                                        
@@ -154,23 +155,23 @@ exports[`Prompts Integration InputPrompt should render input prompt with placeho
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration InputPrompt should render input prompt with user input 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? What is your username?                                                     
  │                                                                              
  │ │ john_doe_                                                                  
@@ -182,23 +183,23 @@ exports[`Prompts Integration InputPrompt should render input prompt with user in
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration InputPrompt should render input prompt with default value 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Enter port number:                                                         
  │                                                                              
  │ │ 8080_                                                                      
@@ -210,83 +211,83 @@ exports[`Prompts Integration InputPrompt should render input prompt with default
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration MultiChoicePrompt should render multi-choice prompt with no selections 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Select features to enable: (0/4 selected)                                  
  │                                                                              
  │ > [ ] TypeScript                                                             
- │ > [ ] ESLint                                                                 
- │ > [ ] Prettier                                                               
- │ > [ ] Jest                                                                   
+ │   [ ] ESLint                                                                 
+ │   [ ] Prettier                                                               
+ │   [ ] Jest                                                                   
  │                                                                              
  │ ↑/↓ to navigate, Space to toggle                                             
  │ Select at least 1 option                                                     
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration MultiChoicePrompt should render multi-choice prompt with some selections 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Select packages to install: (2/3 selected)                                 
  │                                                                              
- │ > [✓] lodash                                                                 
+ │   [✓] lodash                                                                 
  │ > [ ] axios                                                                  
- │ > [✓] moment                                                                 
+ │   [✓] moment                                                                 
  │                                                                              
  │ ↑/↓ to navigate, Space to toggle                                             
  │ Enter to confirm                                                             
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;
 
 exports[`Prompts Integration MultiChoicePrompt should render multi-choice prompt at max selections 1`] = `
 " Prompts                                                                        
 ────────────────────────────────────────────────────────────────────────────────
+                                                                                
  │ ? Choose up to 2 colors: (2/2 selected)                                      
  │                                                                              
- │ > [✓] Red                                                                    
- │ > [✓] Green                                                                  
+ │   [✓] Red                                                                    
+ │   [✓] Green                                                                  
  │ > [ ] Blue                                                                   
  │                                                                              
  │ ↑/↓ to navigate, Space to toggle                                             
@@ -294,16 +295,15 @@ exports[`Prompts Integration MultiChoicePrompt should render multi-choice prompt
                                                                                 
                                                                                 
                                                                                 
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
-                                                                               █
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 "
 `;

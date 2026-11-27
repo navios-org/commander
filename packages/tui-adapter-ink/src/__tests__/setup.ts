@@ -29,6 +29,7 @@ vi.mock('ink', () => ({
   useFocus: vi.fn(() => ({ isFocused: false })),
   useFocusManager: vi.fn(() => ({ focusNext: vi.fn(), focusPrevious: vi.fn() })),
   measureElement: vi.fn(() => ({ width: 80, height: 24 })),
+  useWindowSize: vi.fn(() => ({ columns: 80, rows: 24 })),
   render: vi.fn(() => ({
     rerender: vi.fn(),
     unmount: vi.fn(),

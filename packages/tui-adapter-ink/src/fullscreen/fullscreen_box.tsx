@@ -2,6 +2,7 @@ import { Box, useInput } from 'ink'
 import { forwardRef } from 'react'
 
 import type { BoxProps, DOMElement } from 'ink'
+import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 import { useScreenSize } from './use_screen_size.ts'
 
@@ -11,11 +12,12 @@ import { useScreenSize } from './use_screen_size.ts'
  *
  * Ported from fullscreen-ink.
  */
-export const FullScreenBox = forwardRef<DOMElement, BoxProps>(function FullScreenBox(props, ref) {
-  // Prevent input from rendering and shifting the layout
-  useInput(() => {})
+export const FullScreenBox: ForwardRefExoticComponent<BoxProps & RefAttributes<DOMElement>> =
+  forwardRef<DOMElement, BoxProps>(function FullScreenBox(props, ref) {
+    // Prevent input from rendering and shifting the layout
+    useInput(() => {})
 
-  const { width, height } = useScreenSize()
+    const { width, height } = useScreenSize()
 
-  return <Box ref={ref} height={height} width={width} {...props} />
-})
+    return <Box ref={ref} height={height} width={width} {...props} />
+  })

@@ -21,7 +21,9 @@ export function SidebarItem({ screen, isSelected, isActive, focused }: SidebarIt
   if (isSelected && focused) {
     backgroundColor = theme.sidebar.selectedBackground
   } else if (isActive) {
-    backgroundColor = theme.sidebar.selectedBackground + '80'
+    // Half transparent, where the colour is a plain #rrggbb that can take an alpha.
+    const selected = theme.sidebar.selectedBackground
+    backgroundColor = /^#[0-9a-f]{6}$/i.test(selected) ? selected + '80' : selected
   }
 
   return (

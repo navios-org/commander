@@ -159,6 +159,10 @@ export class KeyboardManager {
       return false
     }
 
+    if (condition.filterField !== undefined && condition.filterField !== context.filterField) {
+      return false
+    }
+
     if (
       condition.isHelpVisible !== undefined &&
       condition.isHelpVisible !== context.isHelpVisible

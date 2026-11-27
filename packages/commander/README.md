@@ -1,380 +1,97 @@
 # @navios/commander
 
-A CLI command framework built on `@navios/core` that provides a decorator-based approach to building command-line applications. It uses the same patterns and architecture as Navios HTTP applications, making it easy to share code and services between your CLI tools and web servers.
+Command line applications out of classes: a command declares the words that select it and one
+schema for its options. The parser, the validation, the help and the types of `execute()` all come
+from that schema. Commands inject services like the rest of a [Navios](https://navios.tech)
+application, of which the command line is one transport.
 
-## Installation
+> 2.0 is in alpha and not compatible with 1.x. See
+> [Migrating to 2.0](../../apps/docs/content/docs/reference/migrating-to-2.md).
 
-```bash
-npm install @navios/commander zod/v4
-```
-
-## Features
-
-- **Decorator-based**: Use `@Command` and `@CliModule` decorators to define commands and modules
-- **Dependency Injection**: Full DI support via `@navios/core` with request-scoped command execution
-- **Schema Validation**: Built-in support for zod/v4 schemas to validate command options
-- **Modular Architecture**: Organize commands into modules with imports support
-- **Built-in Help**: Automatic `help` command and `--help` flag support with zod/v4 meta descriptions
-
-## Usage
-
-### Creating a Command
-
-Commands are defined using the `@Command` decorator. Each command must implement the `CommandHandler` interface with an `execute` method.
-
-```typescript
-import { Command, CommandHandler } from '@navios/commander'
-
-import { z } from 'zod/v4'
-
-const greetOptionsSchema = z.object({
-  name: z.string().meta({ description: 'Name of the person to greet' }),
-  greeting: z.string().optional().default('Hello').meta({ description: 'Greeting message' }),
-})
-
-type GreetOptions = z.infer<typeof greetOptionsSchema>
-
-@Command({
-  path: 'greet',
-  description: 'Greet a user with a custom message',
-  optionsSchema: greetOptionsSchema,
-})
-export class GreetCommand implements CommandHandler<GreetOptions> {
-  async execute(options: GreetOptions) {
-    console.log(`${options.greeting}, ${options.name}!`)
-  }
-}
-```
-
-### Creating a CLI Module
-
-Modules organize commands and can import other modules:
-
-```typescript
-import { CliModule } from '@navios/commander'
-
-import { GreetCommand } from './greet.command'
-
-@CliModule({
-  commands: [GreetCommand],
-  // Optional: overrides for service implementations with higher priority
-  // overrides: [OverrideService],
-})
-export class AppModule {}
-```
-
-### Bootstrapping the Application
-
-Use `CommanderFactory` to create and run your CLI application:
-
-```typescript
-import { CommanderFactory } from '@navios/commander'
-
-import { AppModule } from './app.module'
-
-async function bootstrap() {
-  const app = await CommanderFactory.create(AppModule)
-  await app.init()
-
-  // Get the adapter and run with command-line arguments
-  const adapter = app.getAdapter()
-  await adapter.run(process.argv)
-
-  await app.close()
-}
-
-bootstrap()
-```
-
-Then run your CLI:
+## Install
 
 ```bash
-node dist/cli.js greet --name World --greeting Hi
+npm install @navios/commander@next @navios/core@next zod
 ```
 
-### Advanced Example with Dependency Injection
+Node.js 24 or later, or Bun. `zod` is optional: any Standard Schema validates, and a zod 4 schema
+is also read for the types of options, aliases and help.
 
-```typescript
-import { CliModule, Command, CommandHandler, inject, Injectable } from '@navios/commander'
+## A program
 
-import { z } from 'zod/v4'
+```ts
+import { Command, runCli } from '@navios/commander'
+import { inject, Injectable, Module } from '@navios/core'
+import { z } from 'zod'
 
-// Service
-@Injectable()
-class UserService {
-  async getUser(id: string) {
-    return { id, name: 'John Doe' }
-  }
-}
-
-// Command with injected service
-const userOptionsSchema = z.object({
-  userId: z.string(),
-})
-
-@Command({
-  path: 'user:show',
-  optionsSchema: userOptionsSchema,
-})
-export class ShowUserCommand implements CommandHandler<z.infer<typeof userOptionsSchema>> {
-  private userService = inject(UserService)
-
-  async execute(options: { userId: string }) {
-    const user = await this.userService.getUser(options.userId)
-    console.log(`User: ${user.name} (ID: ${user.id})`)
-  }
-}
-
-// Module
-@CliModule({
-  commands: [ShowUserCommand],
-})
-export class UserModule {}
-
-@CliModule({
-  imports: [UserModule],
-})
-export class AppModule {}
-```
-
-### Accessing ExecutionContext
-
-The `ExecutionContext` provides access to the current command execution information, including the module metadata, command metadata, command path, and options. This is useful for middleware, guards, or any service that needs context about the current command execution.
-
-```typescript
-import {
-  Command,
-  CommandExecutionContext,
-  CommandHandler,
-  inject,
-  Injectable,
-} from '@navios/commander'
+import type { CommandContext, CommandHandler, CommandOptions } from '@navios/commander'
 
 @Injectable()
-class CommandLogger {
-  private executionContext = inject(CommandExecutionContext)
+class Deployer {
+  async deploy(env: string) {}
+}
 
-  logCommandInfo() {
-    const ctx = this.executionContext
-    console.log('Command Path:', ctx.getCommandPath())
-    console.log('Command Options:', ctx.getOptions())
-    console.log('Command Metadata:', ctx.getCommand())
+const options = z.object({
+  env: z.enum(['staging', 'production']),
+  dryRun: z.boolean().default(false).meta({ alias: 'n', description: 'Change nothing' }),
+})
+
+@Command({ path: 'deploy <env>', description: 'Deploy the application', options })
+class DeployCommand implements CommandHandler<typeof options> {
+  private readonly deployer = inject(Deployer)
+
+  async execute({ env, dryRun }: CommandOptions<typeof options>, ctx: CommandContext) {
+    if (!dryRun) {
+      await this.deployer.deploy(env)
+    }
+    ctx.output.write(`${dryRun ? 'Would deploy' : 'Deployed'} to ${env}`)
   }
 }
 
-@Command({ path: 'example' })
-export class ExampleCommand implements CommandHandler {
-  private logger = inject(CommandLogger)
+@Module({ commands: [DeployCommand] })
+class AppModule {}
 
-  async execute(options: any) {
-    this.logger.logCommandInfo()
-    // Your command logic here
-  }
-}
+await runCli(AppModule, { name: 'mycli', version: '1.0.0' })
 ```
 
-The `ExecutionContext` provides the following methods:
+```console
+$ mycli deploy production -n
+Would deploy to production
 
-- `getCommand()` - Returns the command metadata
-- `getCommandPath()` - Returns the command path (e.g., 'user:create')
-- `getOptions()` - Returns the validated command options
+$ mycli deploy production --dry-rnu
+mycli: Unknown option --dry-rnu. Did you mean --dry-run?
+Run "mycli deploy --help" for usage.
 
-### Listing All Commands
+$ mycli deploy --help
+Usage: mycli deploy <env> [options]
 
-```typescript
-const app = await CommanderFactory.create(AppModule)
-await app.init()
+Deploy the application
 
-const adapter = app.getAdapter()
-const commands = adapter.getAllCommands()
-console.log('Available commands:')
-commands.forEach(({ path }) => {
-  console.log(`  - ${path}`)
-})
+Arguments:
+  <env>  (staging | production)
+
+Options:
+  -n, --dry-run  Change nothing
+  -h, --help     Show help
 ```
 
-## Advanced Usage
+## What it does
 
-### Programmatic Command Execution
+- **One schema per command.** Types of values, `--no-flag`, aliases, defaults, choices, nested
+  objects (`--db.host`), lists and positional arguments (`'copy <source> [target]'`).
+- **Help and errors.** Generated help for the program, groups and commands; typo suggestions;
+  usage errors exit with 2, `CliError` with the code you give.
+- **Dependency injection.** Services, modules, guards, interceptors and attributes of
+  `@navios/core`. Nothing is built until a command needs it.
+- **Lazy commands.** `lazyCommand()` imports a command's code only when it runs.
+- **Tests.** `createTestCli()` from `@navios/commander/testing` runs command lines in memory and
+  returns stdout, stderr and the exit code.
+- **Legacy decorators.** `@navios/commander/legacy-compat` for `experimentalDecorators`.
 
-For advanced use cases where you need to execute commands programmatically (e.g., in tests or programmatic workflows), you can use `executeCommand`:
+## Documentation
 
-```typescript
-import { CommanderFactory } from '@navios/commander'
-
-import { AppModule } from './app.module'
-
-async function bootstrap() {
-  const app = await CommanderFactory.create(AppModule)
-  await app.init()
-
-  // Execute a command programmatically
-  const adapter = app.getAdapter()
-  await adapter.executeCommand('greet', {
-    name: 'World',
-    greeting: 'Hi',
-  })
-
-  await app.close()
-}
-
-bootstrap()
-```
-
-This is useful for:
-
-- Unit and integration testing
-- Building CLI tools that wrap other CLI tools
-- Programmatic automation workflows
-
-## API Reference
-
-### Decorators
-
-#### `@Command(options)`
-
-Defines a CLI command.
-
-**Options:**
-
-- `path: string` - The command path (e.g., 'user:create', 'db:migrate')
-- `description?: string` - Optional description for help text
-- `optionsSchema?: zod/v4Schema` - Optional zod/v4 schema for validating command options
-
-#### `@CliModule(options)`
-
-Defines a CLI module.
-
-**Options:**
-
-- `commands?: ClassType[]` - Array of command classes
-- `imports?: ClassType[]` - Array of other modules to import
-- `overrides?: ClassType[]` - Array of service override classes to import for side effects (ensures `@Injectable` decorators execute)
-
-### Interfaces
-
-#### `CommandHandler<TOptions>`
-
-Interface that command classes must implement.
-
-```typescript
-interface CommandHandler<TOptions = any> {
-  execute(options: TOptions): void | Promise<void>
-}
-```
-
-#### `Module` (alias for `NaviosModule`)
-
-Optional lifecycle hooks for modules. This is an alias for `NaviosModule` from `@navios/core`.
-
-```typescript
-interface NaviosModule {
-  onModuleInit?: () => Promise<void> | void
-}
-```
-
-### Classes
-
-#### `CommanderFactory`
-
-Factory class for creating CLI applications.
-
-**Methods:**
-
-- `static async create(appModule, options?)` - Creates a new CommanderApplication
-
-#### `NaviosApplication`
-
-Main application class returned by `CommanderFactory.create()`.
-
-**Methods:**
-
-- `async init()` - Initializes the application
-- `getAdapter()` - Returns the CLI adapter for running commands
-- `getContainer()` - Returns the DI container
-- `async close()` - Closes the application
-
-#### `AbstractCliAdapterInterface`
-
-CLI adapter interface returned by `app.getAdapter()`.
-
-**Methods:**
-
-- `async run(argv)` - Parses command-line arguments and executes the appropriate command
-- `async executeCommand(path, options?)` - Executes a command programmatically with options
-- `getAllCommands()` - Returns all registered commands
-
-## TUI Mode
-
-Commander supports an optional Terminal User Interface (TUI) mode for rich, interactive CLI experiences.
-
-### Enabling TUI
-
-```typescript
-import { CommanderFactory } from '@navios/commander'
-
-const app = await CommanderFactory.create(AppModule, {
-  enableTUI: true,
-  tuiOptions: {
-    theme: 'dark',
-    autoClose: { enabled: true, delay: 3000 },
-  },
-})
-```
-
-### Choosing a Framework Adapter
-
-The TUI supports both React and Solid.js rendering frameworks:
-
-```typescript
-const app = await CommanderFactory.create(AppModule, {
-  enableTUI: true,
-  tuiOptions: {
-    adapter: 'react', // 'react' (default) or 'solid'
-    theme: 'dark',
-  },
-})
-```
-
-For Solid.js support, install the optional dependency:
-
-```bash
-npm install solid-js
-```
-
-### TUI Options
-
-- `adapter` - Framework adapter: `'react'` (default) or `'solid'`
-- `theme` - Theme preset: `'dark'`, `'light'`, or `'high-contrast'`
-- `exitOnCtrlC` - Exit on Ctrl+C (default: `true`)
-- `sidebarWidth` - Sidebar width in columns
-- `sidebarPosition` - Sidebar position: `'left'` or `'right'`
-- `sidebarTitle` - Sidebar title text
-- `autoClose` - Auto-close configuration with `enabled` and `delay`
-- `useMouse` - Enable mouse support (default: `true`)
-- `hideDefaultScreen` - Hide the default screen
-
-## Legacy Decorator Support
-
-If your project uses TypeScript experimental decorators (legacy mode), you can import from the `legacy-compat` subpath:
-
-```typescript
-import { Command, CliModule, CommandHandler } from '@navios/commander/legacy-compat'
-
-@Command({ path: 'greet' })
-export class GreetCommand implements CommandHandler {
-  async execute() {
-    console.log('Hello!')
-  }
-}
-
-@CliModule({
-  commands: [GreetCommand],
-})
-export class AppModule {}
-```
-
-This provides wrapper decorators that convert the legacy decorator API to Stage 3 format internally, allowing you to use the same decorator syntax while maintaining compatibility with older TypeScript configurations.
+The guide and the API reference are in [`apps/docs`](../../apps/docs/content/docs/index.md) of
+this repository, and are published as a site by its `deploy-docs` workflow.
 
 ## License
 

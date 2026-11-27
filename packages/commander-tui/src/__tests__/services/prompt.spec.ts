@@ -1,20 +1,22 @@
-import { TestContainer } from '@navios/core/testing'
+import { Container, provide } from '@navios/core'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { PromptInstance } from '../../services/prompt.ts'
 import { Screen } from '../../tokens/index.ts'
 import { createMockScreenInstance } from '../utils/factories.ts'
 
+import type { ScreenInstance } from '../../index.ts'
 import type { MockScreenInstance } from '../utils/factories.ts'
 
 describe('PromptInstance', () => {
-  let container: TestContainer
+  let container: Container
   let mockScreen: MockScreenInstance
 
   beforeEach(() => {
-    container = new TestContainer()
     mockScreen = createMockScreenInstance()
-    container.bind(Screen).toValue(mockScreen)
+    container = new Container({
+      providers: [provide(Screen, { value: mockScreen as unknown as ScreenInstance })],
+    })
   })
 
   afterEach(async () => {
@@ -73,23 +75,19 @@ describe('PromptInstance', () => {
       )
     })
 
-    it('should default selectedIndex to 0 if defaultChoice not found', async () => {
+    it('should refuse a defaultChoice that is not among the choices', async () => {
       const prompt = await createPrompt()
 
-      prompt.choice({
-        question: 'Select',
-        choices: [
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 'b' },
-        ],
-        defaultChoice: 'nonexistent',
-      })
-
-      expect(mockScreen._addPrompt).toHaveBeenCalledWith(
-        expect.objectContaining({
-          selectedIndex: 0,
+      await expect(
+        prompt.choice({
+          question: 'Select',
+          choices: [
+            { label: 'A', value: 'a' },
+            { label: 'B', value: 'b' },
+          ],
+          defaultChoice: 'nonexistent',
         }),
-      )
+      ).rejects.toThrow('The default choice "nonexistent" is not among the choices')
     })
 
     it('should include timeout when provided', async () => {
@@ -104,7 +102,6 @@ describe('PromptInstance', () => {
       expect(mockScreen._addPrompt).toHaveBeenCalledWith(
         expect.objectContaining({
           timeout: 5000,
-          timeoutStarted: expect.any(Number),
         }),
       )
     })
@@ -136,8 +133,8 @@ describe('PromptInstance', () => {
           question: 'Are you sure?',
           confirmText: 'Yes',
           cancelText: 'No',
-          defaultValue: true,
-          selectedValue: true,
+          defaultValue: false,
+          selectedValue: false,
           resolved: false,
         }),
       )
@@ -187,7 +184,6 @@ describe('PromptInstance', () => {
       expect(mockScreen._addPrompt).toHaveBeenCalledWith(
         expect.objectContaining({
           timeout: 10000,
-          timeoutStarted: expect.any(Number),
         }),
       )
     })
@@ -253,7 +249,6 @@ describe('PromptInstance', () => {
       expect(mockScreen._addPrompt).toHaveBeenCalledWith(
         expect.objectContaining({
           timeout: 30000,
-          timeoutStarted: expect.any(Number),
         }),
       )
     })
@@ -371,7 +366,6 @@ describe('PromptInstance', () => {
       expect(mockScreen._addPrompt).toHaveBeenCalledWith(
         expect.objectContaining({
           timeout: 15000,
-          timeoutStarted: expect.any(Number),
         }),
       )
     })

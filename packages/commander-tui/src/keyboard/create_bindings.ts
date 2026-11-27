@@ -1,3 +1,5 @@
+import { ALL_LOG_LEVELS } from '../types/index.ts'
+
 import type { ScreenInstance, ScreenManagerInstance } from '../services/index.ts'
 import type { KeyBinding, KeyboardContext, KeyEvent } from '../types/index.ts'
 
@@ -277,8 +279,9 @@ export function createDefaultBindings(handlers: BindingHandlers): KeyBinding[] {
     priority: 70,
   })
 
-  // Number keys 1-7 to toggle log levels in filter
-  for (let i = 1; i <= 7; i++) {
+  // Number keys toggle the log levels, one key per level, while the levels
+  // have the focus. In the search field a digit is a character to search for.
+  for (let i = 1; i <= ALL_LOG_LEVELS.length; i++) {
     bindings.push({
       key: String(i),
       handler: () => {
@@ -287,7 +290,7 @@ export function createDefaultBindings(handlers: BindingHandlers): KeyBinding[] {
       },
       description: `Toggle level ${i}`,
       category: 'filter',
-      when: { isFilterActive: true },
+      when: { isFilterActive: true, filterField: 'levels' },
       priority: 70,
     })
   }

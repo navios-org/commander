@@ -1,9 +1,31 @@
 import { VARIANT_COLORS } from '@navios/commander-tui'
 import { TextAttributes } from '@opentui/core'
 
-import type { LogMessageProps } from '@navios/commander-tui'
+import type { LogMessageVariant } from '@navios/commander-tui'
+import type { LogLevel } from '@navios/core'
+import type { RGBA } from '@opentui/core'
+import type { ReactNode } from 'react'
 
 import { useTheme } from '../../hooks/index.ts'
+
+export interface LogMessageProps {
+  /** Log level determines the color scheme */
+  level: LogLevel
+  /** Semantic variant, such as 'success', that overrides the colors of the level */
+  variant?: LogMessageVariant
+  children: ReactNode
+  timestamp?: Date | string
+  /** A label before the message, such as "API" */
+  label?: string
+  /** A stack trace to show below the message */
+  trace?: string
+  borderColor?: string | RGBA
+  backgroundColor?: string | RGBA
+  /** 'thin' draws the left border only, 'thick' left, top and bottom */
+  borderStyle?: 'thin' | 'thick'
+  padding?: number
+  margin?: number
+}
 
 /**
  * LogMessage - A chat-like styled log message with level-based coloring.

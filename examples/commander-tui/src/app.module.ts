@@ -1,8 +1,8 @@
-import { CliModule } from '@navios/commander/legacy-compat'
+import { Module } from '@navios/core'
 
 import { BuildCommand, DeployCommand, StatusCommand } from './commands/index.js'
 
-@CliModule({
+@Module({
   commands: [BuildCommand, DeployCommand, StatusCommand],
 })
 export class AppModule {}

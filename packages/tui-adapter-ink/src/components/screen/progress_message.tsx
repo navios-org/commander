@@ -33,7 +33,9 @@ export function ProgressMessage({ message: initialMessage, screen }: ProgressMes
   const message = useProgressMessageUpdate(screen, initialMessage.id, initialMessage)
 
   const theme = useTheme()
-  const percent = Math.round((message.current / message.total) * 100)
+  // Whatever was reported, the bar is between empty and full.
+  const ratio = message.total > 0 ? message.current / message.total : 0
+  const percent = Math.round(Math.min(1, Math.max(0, ratio)) * 100)
   const barWidth = 20
   const filled = Math.round((percent / 100) * barWidth)
   const empty = barWidth - filled

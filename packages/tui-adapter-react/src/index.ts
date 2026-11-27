@@ -1,34 +1,60 @@
-import { Adapter } from '@navios/commander-tui'
-import { Injectable } from '@navios/core'
-import { createRoot as reactCreateRoot } from '@opentui/react'
+import { createCliRenderer } from '@opentui/core'
+import { createRoot } from '@opentui/react'
 import { createElement } from 'react'
 
-import type { AdapterInterface, AdapterRoot, AdapterRenderProps } from '@navios/commander-tui'
-import type { CliRenderer } from '@opentui/core'
+import type { TuiAdapter, TuiMount, TuiMountProps } from '@navios/commander-tui'
 
 import { ScreenManagerBridge } from './components/screen_manager_bridge.tsx'
+import { openTuiSupport } from './support.ts'
+
+export { isNodeVersionAtLeast, OPENTUI_MIN_NODE_VERSION, openTuiSupport } from './support.ts'
 
 /**
- * React adapter for TUI rendering.
- * Automatically registers to DI when this module is imported.
+ * Draws the screens with OpenTUI, a native renderer with mouse support and
+ * syntax highlighting. It runs on Bun, and on Node.js 26.4 or later started
+ * with `--experimental-ffi`; anywhere else the screens print to standard
+ * output, after a warning that says so.
+ *
+ * ```ts
+ * import { tui } from '@navios/commander-tui'
+ * import { openTuiAdapter } from '@navios/tui-adapter-react'
+ *
+ * await runCli(AppModule, { plugins: [tui({ adapter: openTuiAdapter() })] })
+ * ```
  */
-@Injectable({ token: Adapter })
-export class ReactAdapter implements AdapterInterface {
-  createRoot(renderer: CliRenderer): AdapterRoot {
-    const root = reactCreateRoot(renderer)
-    return {
-      render(element: unknown): void {
-        root.render(element as React.ReactNode)
-      },
-      unmount(): void {
-        root.unmount()
-      },
-    }
-  }
-
-  renderToRoot(root: AdapterRoot, props: AdapterRenderProps): void {
-    const element = createElement(ScreenManagerBridge, props as any)
-    root.render(element)
+export function openTuiAdapter(): TuiAdapter {
+  return {
+    name: 'opentui',
+    isSupported: () => openTuiSupport(),
+    async mount({ manager, theme, options }: TuiMountProps): Promise<TuiMount> {
+      const renderer = await createCliRenderer({
+        exitOnCtrlC: options.exitOnCtrlC ?? true,
+        screenMode: 'alternate-screen',
+        useMouse: options.mouse ?? true,
+      })
+      let root: ReturnType<typeof createRoot>
+      try {
+        root = createRoot(renderer)
+        root.render(createElement(ScreenManagerBridge, { manager, theme }))
+      } catch (error) {
+        // The terminal is already in the alternate screen: give it back.
+        renderer.destroy()
+        await renderer.closed.catch(() => {})
+        throw error
+      }
+      return {
+        async unmount(): Promise<void> {
+          root.unmount()
+          // Mouse reporting is switched off first, or its escape sequences leak
+          // into the shell.
+          ;(renderer as unknown as { disableMouse?: () => void }).disableMouse?.()
+          renderer.destroy()
+          // destroy() restores the terminal asynchronously. `closed` rejects on
+          // a late or timed-out close; the renderer is released either way.
+          await renderer.closed.catch(() => {})
+        },
+      }
+    },
   }
 }
 

@@ -5,7 +5,7 @@ import type { LogLevel } from '@navios/core'
 import { RenderMode } from '../types/index.ts'
 import { getPromptDefaultValue, printSingleMessage } from '../utils/index.ts'
 
-import type { ScreenOptions } from '../schemas/index.ts'
+import type { ScreenOptionsInput } from '../schemas/index.ts'
 import type {
   ChoicePromptData,
   ConfirmPromptData,
@@ -38,15 +38,21 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
   private manager: ScreenManagerInstance | null = null
   private printFn: ((messages: MessageData[], name: string, isError: boolean) => void) | null = null
   private hasPrinted: boolean = false
+  private printedIncrementally: boolean = false
+  private maxMessages: number
   private version: number = 0
+  private messagesVersion: number = 0
 
   // Prompt queue system
   private promptQueue: PendingPrompt[] = []
   private activePrompt: PendingPrompt | null = null
   private promptVersion: number = 0
 
-  constructor(id: string, options: ScreenOptions) {
+  constructor(id: string, options: ScreenOptionsInput) {
     super()
+    // Every row that updates itself listens; the default limit of ten is a false alarm here.
+    this.setMaxListeners(0)
+    this.maxMessages = options.maxMessages ?? 10_000
     this.id = id
     this.name = options.name
     this.icon = options.icon
@@ -154,7 +160,12 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
       // Only print immediately if NOT in TUI mode
       // In TUI mode, printing happens on unbind()
       if (!this.manager?.hasTuiRenderer()) {
-        this.printToConsole()
+        if (this.printedIncrementally) {
+          // Its messages were printed as they came; printing them again would repeat them.
+          this.hasPrinted = true
+        } else {
+          this.printToConsole()
+        }
       }
       this.manager?.onScreenCompleted(this)
     }
@@ -204,14 +215,34 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
   }
 
   /**
+   * Changes whenever the list of messages does: one added, some dropped, all
+   * cleared. Not when a message is updated in place. Lets a view keep its
+   * copy of the list until there is a reason to take a new one.
+   */
+  getMessagesVersion(): number {
+    return this.messagesVersion
+  }
+
+  /** One message by its id, without copying the list. */
+  getMessage(id: string): MessageData | undefined {
+    return this.messages.findLast((message) => message.id === id)
+  }
+
+  /**
    * Add a message to the screen (internal use by Logger)
    */
   addMessage(message: MessageData): void {
     this.messages.push(message)
+    if (this.maxMessages > 0 && this.messages.length > this.maxMessages) {
+      // In chunks, so that a full screen does not shift its array on every line.
+      this.messages.splice(0, Math.max(1, Math.ceil(this.maxMessages / 10)))
+    }
+    this.messagesVersion++
     this.incrementVersion()
 
-    // In non-TUI modes, static screens print messages immediately
-    if (this.status === 'static' && !this.manager?.hasTuiRenderer()) {
+    // Without an interface a screen prints as it goes: a static one always, and
+    // one that reports a status once its messages have been printed.
+    if ((this.status === 'static' || this.hasPrinted) && !this.manager?.hasTuiRenderer()) {
       this.printSingleMessageToConsole(message)
     }
 
@@ -222,7 +253,8 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
    * Update a loading message (internal use by Logger)
    */
   updateMessage(id: string, updates: Partial<LoadingMessageData>): void {
-    const index = this.messages.findIndex((m) => m.id === id)
+    // What is updated is almost always among the last messages.
+    const index = this.messages.findLastIndex((m) => m.id === id)
     if (index !== -1) {
       const oldMessage = this.messages[index] as LoadingMessageData
       this.messages[index] = {
@@ -248,7 +280,8 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
    * Update a progress message (internal use by Logger)
    */
   updateProgressMessage(id: string, updates: Partial<ProgressMessageData>): void {
-    const index = this.messages.findIndex((m) => m.id === id)
+    // What is updated is almost always among the last messages.
+    const index = this.messages.findLastIndex((m) => m.id === id)
     if (index !== -1) {
       const oldMessage = this.messages[index] as ProgressMessageData
       this.messages[index] = {
@@ -278,6 +311,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
    */
   clear(): this {
     this.messages = []
+    this.messagesVersion++
     this.incrementVersion()
     this.emit('messages:cleared')
     return this
@@ -303,38 +337,15 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
 
       // STDOUT modes (STDOUT_INTERACTIVE, STDOUT_FALLBACK): use readline for interactive prompts
       if (mode === RenderMode.STDOUT_INTERACTIVE || mode === RenderMode.STDOUT_FALLBACK) {
-        this.manager?.handleReadlinePrompt(prompt).then(resolve)
+        this.manager
+          ?.handleReadlinePrompt(prompt)
+          .then(resolve, () => this.resolvePromptWithDefault(prompt, resolve))
         return
       }
 
       // TUI_ACTIVE mode: use TUI prompt queue system
-      const pending: PendingPrompt = { data: prompt, resolve }
+      this.promptQueue.push({ data: prompt, resolve })
 
-      // Set up timeout if specified
-      if (prompt.timeout && prompt.timeoutStarted) {
-        pending.timeoutId = setTimeout(() => {
-          if (this.activePrompt === pending) {
-            this.resolvePromptWithDefault(prompt, resolve)
-            this.activePrompt = null
-            this.activateNextPrompt()
-            this.incrementVersion()
-            this.emit('prompt:resolved')
-          } else {
-            // Remove from queue if not yet active
-            const idx = this.promptQueue.indexOf(pending)
-            if (idx !== -1) {
-              this.promptQueue.splice(idx, 1)
-              this.resolvePromptWithDefault(prompt, resolve)
-              this.incrementVersion()
-            }
-          }
-        }, prompt.timeout)
-      }
-
-      // Add to queue
-      this.promptQueue.push(pending)
-
-      // If no active prompt, activate this one
       if (!this.activePrompt) {
         this.activateNextPrompt()
       }
@@ -342,8 +353,29 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
   }
 
   /**
-   * Resolve a prompt with its default value
+   * Answers every prompt of the screen with its default: nobody is left to
+   * answer them. Called when the interface closes and when the screen is
+   * removed.
    */
+  _cancelPrompts(): void {
+    const pending = this.activePrompt ? [this.activePrompt, ...this.promptQueue] : this.promptQueue
+    if (pending.length === 0) {
+      return
+    }
+    this.activePrompt = null
+    this.promptQueue = []
+    for (const prompt of pending) {
+      if (prompt.timeoutId) {
+        clearTimeout(prompt.timeoutId)
+      }
+      prompt.data.resolved = true
+      prompt.resolve(getPromptDefaultValue(prompt.data))
+    }
+    this.incrementVersion()
+    this.incrementPromptVersion()
+    this.emit('prompt:resolved')
+  }
+
   private resolvePromptWithDefault(
     prompt: PromptData,
     resolve: (value: string | boolean | string[]) => void,
@@ -648,7 +680,26 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
    */
   private activateNextPrompt(): void {
     if (this.promptQueue.length > 0) {
-      this.activePrompt = this.promptQueue.shift()!
+      const pending = this.promptQueue.shift()!
+      this.activePrompt = pending
+      const { data } = pending
+      if (data.timeout) {
+        // The time to answer starts when the question is shown, not while it waits its turn.
+        data.timeoutStarted = Date.now()
+        pending.timeoutId = setTimeout(() => {
+          if (this.activePrompt !== pending) {
+            return
+          }
+          data.resolved = true
+          pending.resolve(getPromptDefaultValue(data))
+          this.activePrompt = null
+          this.activateNextPrompt()
+          this.incrementVersion()
+          this.incrementPromptVersion()
+          this.emit('prompt:resolved')
+        }, data.timeout)
+        pending.timeoutId.unref?.()
+      }
       // Notify manager to focus this screen
       this.manager?.onScreenPromptActivated(this)
       this.incrementVersion()
@@ -661,6 +712,7 @@ export class ScreenInstance extends EventEmitter<ScreenEventMap> {
    * Print a single message immediately to stdout (for static screens in stdout mode)
    */
   private printSingleMessageToConsole(message: MessageData): void {
+    this.printedIncrementally = true
     printSingleMessage(message, this.name, false)
   }
 

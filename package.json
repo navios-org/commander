@@ -2,6 +2,7 @@
   "name": "@navios/commander-mono",
   "private": true,
   "workspaces": [
+    "apps/*",
     "packages/*",
     "examples/*"
   ],
@@ -12,24 +13,25 @@
     "test": "turbo run test --filter='./packages/*'",
     "test:ci": "turbo run test:ci --filter='./packages/*'",
     "publish:all": "turbo run publish:pkg --filter='./packages/*'",
-    "publish:next": "turbo run publish:next --filter='./packages/*'"
+    "publish:next": "turbo run publish:next --filter='./packages/*'",
+    "docs:dev": "yarn workspace @navios/commander-docs dev",
+    "docs:build": "yarn workspace @navios/commander-docs build"
   },
   "devDependencies": {
-    "@navios/builder": "^1.0.0",
-    "@swc/core": "^1.15.8",
-    "@types/bun": "^1.3.6",
-    "@types/node": "25.0.9",
-    "@typescript/native-preview": "^7.0.0-dev.20260115.1",
-    "@vitest/coverage-v8": "^4.0.17",
-    "oxfmt": "^0.24.0",
-    "oxlint": "^1.39.0",
-    "tsdown": "^0.19.0",
-    "tslib": "^2.8.1",
-    "turbo": "^2.7.4",
-    "typescript": "^5.9.3",
-    "unplugin-swc": "^1.5.9",
-    "vitest": "^4.0.17",
-    "zod": "^4.3.5"
+    "@swc/core": "^1.16.22",
+    "@types/bun": "^1.4.5",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.1.1",
+    "oxfmt": "^0.79.0",
+    "oxlint": "^1.94.0",
+    "tsdown": "^0.23.7",
+    "tslib": "^2.9.1",
+    "turbo": "^2.11.13",
+    "typescript": "^7.0.2",
+    "unplugin-swc": "^2.0.0",
+    "vite": "^7.3.8",
+    "vitest": "^5.1.1",
+    "zod": "^4.6.7"
   },
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "yarn@4.19.0"
 }

@@ -1,55 +1,30 @@
 # @navios/tui-adapter-react
 
-React adapter for `@navios/commander-tui` using OpenTUI renderer.
+Draws the screens of [`@navios/commander-tui`](../commander-tui) with
+[OpenTUI](https://github.com/sst/opentui) and React: native rendering, mouse support and
+tree-sitter syntax highlighting.
 
-> **Important**: This adapter only works with **Bun**. It is not compatible with Node.js due to OpenTUI's runtime requirements.
-
-## Installation
+OpenTUI needs **Bun**, or **Node.js 26.4+ started with `--experimental-ffi`**. Anywhere else the
+adapter says so and the screens print to standard output, so a program that uses it still works.
 
 ```bash
-bun add @navios/commander-tui @navios/tui-adapter-react
+npm install @navios/commander-tui@next @navios/tui-adapter-react@next react
 ```
 
-## Requirements
+```ts
+import { runCli } from '@navios/commander'
+import { tui } from '@navios/commander-tui'
+import { openTuiAdapter } from '@navios/tui-adapter-react'
 
-- **Bun** runtime (Node.js is not supported)
-- `@navios/commander-tui` ^1.3.0
-- `@navios/core` \*
-
-## Usage
-
-Simply import the adapter to register it with the DI container:
-
-```typescript
-import '@navios/tui-adapter-react'
-import { ScreenManager } from '@navios/commander-tui'
-
-// The React adapter is now automatically used for TUI rendering
+await runCli(AppModule, { plugins: [tui({ adapter: openTuiAdapter() })] })
 ```
 
-## What's Included
+`openTuiSupport()` tells whether OpenTUI can run in the current process, or why not.
 
-This package provides:
+The package is ESM only. Importing it registers nothing; the adapter is what you pass to `tui()`.
 
-- `ReactAdapter` - The adapter class that handles React/OpenTUI rendering
-- `LoggerProvider` - Context provider for theme and syntax highlighting
-- `useLoggerContext` - Hook to access logger context
-- `useTheme` - Hook to access the current theme
-- `useFilterState` - Hook for managing filter state
-- `useKeyboardManager` - Hook for keyboard input handling
-- `useManagerSubscription` - Hook for subscribing to screen manager changes
-
-## Why Bun Only?
-
-This adapter uses `@opentui/react` which relies on Bun-specific features for its terminal rendering engine. The OpenTUI library provides advanced terminal UI capabilities that are optimized for the Bun runtime.
-
-If you need Node.js compatibility, consider using `@navios/tui-adapter-ink` instead, which provides similar functionality using the Ink library.
-
-## Related Packages
-
-- `@navios/commander-tui` - Core TUI package (required)
-- `@navios/tui-adapter-solid` - Solid.js adapter (Bun only)
-- `@navios/tui-adapter-ink` - Ink adapter (Node.js compatible)
+See [Adapters](../../apps/docs/content/docs/tui/adapters.md) for a comparison with the Ink
+adapter.
 
 ## License
 

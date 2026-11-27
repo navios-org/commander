@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0-alpha.0] - 2026-11-27
+
+For `@navios/commander-tui` 2.0.
+
+### Breaking
+
+- **`openTuiAdapter()` replaces the `ReactAdapter` class.** Pass it to `tui({ adapter: openTuiAdapter() })` or `manager.bind({ adapter })`. Importing the package no longer registers anything.
+- The adapter creates and destroys the OpenTUI renderer itself. `@navios/commander-tui` no longer does, and has no OpenTUI dependency.
+- `react` is a peer dependency instead of a dependency, so that an application has one copy. `web-tree-sitter`, which nothing imported, is no longer a dependency. `@navios/core` is no longer a peer dependency.
+
+### Added
+
+- `openTuiSupport()`: whether OpenTUI can run in this process, or the reason why not. The reason is printed when the adapter falls back to standard output.
+
+### Fixed
+
+- The background of the active sidebar item was an invalid colour with the dark theme, and was drawn magenta.
+- The sidebar position (`sidebar.position: 'right'`) is honoured.
+- A progress value beyond the total no longer crashes the interface.
+- A renderer that was created but could not be given a root is destroyed, instead of leaving the terminal in the alternate screen.
+
+## [2.0.0] - 2026-11-23
+
+### Breaking Changes
+
+- **OpenTUI 0.9** - Upgraded `@opentui/core` and `@opentui/react` from 0.1.73 to ^0.9.7. Requires Bun >=1.3.14 (or Node.js >=26.4 with `--experimental-ffi`).
+- **Custom `SyntaxStyle`** - OpenTUI 0.9 requires an owner: create it with `SyntaxStyle.create(renderer.nativeScene)` before passing it to `LoggerProvider`.
+- **Requires `@navios/commander-tui` ^1.7.0** - That release waits for OpenTUI 0.9 to restore the terminal before printing screens on exit.
+- **ESM-only** - The CommonJS build is removed. It never loaded (`@opentui/react` is an async ES module).
+
+### Fixed
+
+- **Syntax highlighting** - `web-tree-sitter` (required by `@opentui/core` for `<code>`/`<diff>` highlighting) is now a dependency.
+
+### Changed
+
+- **Node.js** - Used automatically on Node.js 26.4+ started with `--experimental-ffi`, together with `@navios/commander-tui` 1.7+ (and `@navios/commander` 1.9+).
+- **Removed `bun-plugin.mts`** - The Bun preload that lowered decorators is gone. Bun runs standard decorators natively, and the plugin had started breaking `.tsx` loading.
+- **`LoggerProvider`** - Creates its default `SyntaxStyle` from the surrounding OpenTUI renderer. Outside a renderer, `syntaxStyle` is `undefined`.
+- **Rendering** - The scrollbar is hidden when content fits, content padding is applied, and diff line numbers count blank context lines (OpenTUI 0.9 behaviour).
+- **React** - Updated to ^19.3.1.
+
 ## [1.2.0] - 2026-01-16
 
 ### Added

@@ -71,16 +71,26 @@ export interface FakeStdin extends EventEmitter {
   ref: () => void
   unref: () => void
   isTTY: boolean
+  /** Ink drains input with `read()` after a 'readable' event */
+  read: () => string | null
+  /** Simulate the user typing `data` (one chunk, like a single keypress) */
+  write: (data: string) => void
 }
 
 export function createStdin(): FakeStdin {
   const stdin = new EventEmitter() as FakeStdin
+  const pending: string[] = []
   stdin.isTTY = true
   stdin.setRawMode = () => {}
   stdin.resume = () => {}
   stdin.setEncoding = () => {}
   stdin.ref = () => {}
   stdin.unref = () => {}
+  stdin.read = () => pending.shift() ?? null
+  stdin.write = (data: string) => {
+    pending.push(data)
+    stdin.emit('readable')
+  }
   return stdin
 }
 

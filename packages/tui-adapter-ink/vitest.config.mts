@@ -1,6 +1,10 @@
 import swc from 'unplugin-swc'
 import { defineConfig } from 'vitest/config'
 
+// Snapshots contain rendered clock times. Without a fixed zone they only
+// match on a machine in the zone they were written in.
+process.env.TZ = 'UTC'
+
 export default defineConfig({
   test: {
     projects: [

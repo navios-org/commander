@@ -20,6 +20,11 @@ import type { ScreenInstance } from './screen.ts'
  * Prompt class for interactive user input.
  * Similar to Logger, but for prompts that require user interaction.
  */
+let promptCount = 0
+function promptId(): string {
+  return `prompt-${++promptCount}`
+}
+
 @Injectable({
   token: Prompt,
 })
@@ -50,10 +55,13 @@ export class PromptInstance {
 
     // Find default index
     const defaultIndex = defaultChoice ? choices.findIndex((c) => c.value === defaultChoice) : 0
+    if (defaultIndex === -1) {
+      throw new Error(`The default choice "${defaultChoice}" is not among the choices`)
+    }
 
     const prompt: ChoicePromptData = {
       type: 'choice',
-      id: `prompt-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      id: promptId(),
       timestamp: new Date(),
       question,
       choices,
@@ -63,7 +71,7 @@ export class PromptInstance {
       inputValue: '',
       resolved: false,
       timeout,
-      timeoutStarted: timeout ? Date.now() : undefined,
+      timeoutStarted: undefined,
     }
 
     return this.screen._addPrompt(prompt) as Promise<string>
@@ -78,13 +86,14 @@ export class PromptInstance {
       question,
       confirmText = 'Yes',
       cancelText = 'No',
-      defaultValue = true,
+      // Where nobody can answer, the default is the answer: it must not be a yes.
+      defaultValue = false,
       timeout,
     } = options
 
     const prompt: ConfirmPromptData = {
       type: 'confirm',
-      id: `prompt-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      id: promptId(),
       timestamp: new Date(),
       question,
       confirmText,
@@ -93,7 +102,7 @@ export class PromptInstance {
       selectedValue: defaultValue,
       resolved: false,
       timeout,
-      timeoutStarted: timeout ? Date.now() : undefined,
+      timeoutStarted: undefined,
     }
 
     return this.screen._addPrompt(prompt) as Promise<boolean>
@@ -108,7 +117,7 @@ export class PromptInstance {
 
     const prompt: InputPromptData = {
       type: 'input',
-      id: `prompt-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      id: promptId(),
       timestamp: new Date(),
       question,
       placeholder,
@@ -116,7 +125,7 @@ export class PromptInstance {
       value: defaultValue,
       resolved: false,
       timeout,
-      timeoutStarted: timeout ? Date.now() : undefined,
+      timeoutStarted: undefined,
     }
 
     return this.screen._addPrompt(prompt) as Promise<string>
@@ -151,7 +160,7 @@ export class PromptInstance {
 
     const prompt: MultiChoicePromptData = {
       type: 'multiChoice',
-      id: `prompt-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      id: promptId(),
       timestamp: new Date(),
       question,
       choices,
@@ -161,7 +170,7 @@ export class PromptInstance {
       maxSelect,
       resolved: false,
       timeout,
-      timeoutStarted: timeout ? Date.now() : undefined,
+      timeoutStarted: undefined,
     }
 
     return this.screen._addPrompt(prompt) as Promise<string[]>

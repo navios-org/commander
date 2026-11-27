@@ -1,12 +1,13 @@
 import { darkTheme, resolveTheme } from '@navios/commander-tui'
 import { createContext, useContext, useMemo, type ReactNode } from 'react'
 
-import type {
-  LoggerContextValue,
-  LogLevelColorMap,
-  Theme,
-  ThemePreset,
-} from '@navios/commander-tui'
+import type { LogLevelColorMap, Theme, ThemePreset } from '@navios/commander-tui'
+
+/** What the components of the interface share. */
+export interface LoggerContextValue {
+  levelColors: LogLevelColorMap
+  theme: Theme
+}
 
 const LoggerContext = createContext<LoggerContextValue | null>(null)
 
@@ -56,8 +57,6 @@ export function LoggerProvider({
 
   const value: LoggerContextValue = useMemo(
     () => ({
-      syntaxStyle: undefined,
-      treeSitterClient: undefined,
       levelColors,
       theme,
     }),
@@ -76,8 +75,6 @@ export function useLoggerContext(): LoggerContextValue {
   if (!context) {
     // Return defaults if not in a provider (allows standalone usage)
     return {
-      syntaxStyle: undefined,
-      treeSitterClient: undefined,
       levelColors: darkTheme.logLevels,
       theme: darkTheme,
     }

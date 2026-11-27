@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0-alpha.0] - 2026-11-27
+
+For `@navios/commander-tui` 2.0.
+
+### Breaking
+
+- **`inkAdapter()` replaces the `InkAdapter` class.** Pass it to `tui({ adapter: inkAdapter() })` or `manager.bind({ adapter })`. Importing the package no longer registers anything.
+- `@navios/core` is no longer a peer dependency. Node.js 24 or later.
+
+### Fixed
+
+- `exitOnCtrlC` of the bind options is honoured; it was always on.
+- When Ink exits by itself on Ctrl+C the screen manager is told, so the program stops drawing and prints what the screens held instead of running on behind a blank screen.
+- The sidebar position (`sidebar.position: 'right'`) is honoured.
+- A progress value beyond the total no longer crashes the interface.
+
+## [2.0.0] - 2026-11-23
+
+### Breaking Changes
+
+- **Ink 8** - Upgraded from Ink 6 to Ink 8.
+- **React is a peer dependency** - `react` (>=19.3.0, as required by Ink 8) is now a peer dependency instead of a dependency, so the adapter shares your app's React.
+- **Node.js >=22** - Required by Ink 7+.
+- **ESM-only** - The CommonJS build is removed. It never loaded (Ink is ESM with top-level await: `ERR_REQUIRE_ASYNC_MODULE`).
+
+### Fixed
+
+- **Escape and Backspace in prompts** - Under Ink 6, Escape arrived with `meta` set and never matched the exit-input-mode binding, and Backspace arrived as `delete` and did not delete. Both work now.
+
+### Changed
+
+- **`useScreenSize`** - Now built on Ink's `useWindowSize`.
+
 ## [1.2.1] - 2026-01-20
 
 ### Fixed

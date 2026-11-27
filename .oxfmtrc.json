@@ -2,8 +2,8 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "semi": false,
   "singleQuote": true,
-  "experimentalSortImports": {
+  "sortImports": {
     "groups": [["builtin"], ["value-external" ], ["type-external"], ["value-internal"], ["type-internal"], ["value-parent"], ["type-parent"], ["value-sibling"], ["type-sibling"], ["value-index"], ["type-index"]]
   },
-  "experimentalSortPackageJson": true
+  "sortPackageJson": true
 }

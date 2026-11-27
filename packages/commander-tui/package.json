@@ -1,6 +1,7 @@
 {
   "name": "@navios/commander-tui",
-  "version": "1.6.2",
+  "version": "2.0.0-alpha.0",
+  "description": "Terminal interface for Navios applications: screens, logs, progress and prompts",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -11,7 +12,13 @@
     "url": "https://github.com/navios-org/commander.git",
     "directory": "packages/commander-tui"
   },
+  "files": [
+    "lib",
+    "README.md",
+    "CHANGELOG.md"
+  ],
   "type": "module",
+  "sideEffects": true,
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
   "typings": "./lib/index.d.mts",
@@ -25,10 +32,20 @@
         "types": "./lib/index.d.cts",
         "default": "./lib/index.cjs"
       }
+    },
+    "./react": {
+      "import": {
+        "types": "./lib/react/index.d.mts",
+        "default": "./lib/react/index.mjs"
+      },
+      "require": {
+        "types": "./lib/react/index.d.cts",
+        "default": "./lib/react/index.cjs"
+      }
     }
   },
   "scripts": {
-    "check": "yarn run -T tsgo --build",
+    "check": "yarn run -T tsc --build",
     "lint": "yarn run -T oxlint --fix && yarn run -T oxfmt",
     "test": "vitest",
     "test:ci": "vitest run",
@@ -36,11 +53,26 @@
     "publish:pkg": "yarn npm publish --access public",
     "publish:next": "yarn npm publish --access public --tag next"
   },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
   "devDependencies": {
-    "@navios/core": "^1.0.0",
-    "typescript": "^5.9.3"
+    "@navios/core": "^2.0.0-alpha.1",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.1",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.7"
   },
   "peerDependencies": {
-    "@navios/core": "*"
+    "@navios/core": "^2.0.0-alpha.1",
+    "react": ">=19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

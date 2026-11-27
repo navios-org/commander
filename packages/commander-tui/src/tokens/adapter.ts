@@ -1,10 +1,9 @@
 import { InjectionToken } from '@navios/core'
 
-import type { AdapterInterface } from '../adapters/interface.ts'
+import type { TuiAdapter } from '../adapters/interface.ts'
 
 /**
- * Injection token for the TUI rendering adapter.
- * Import the specific adapter (e.g., '@navios/commander-tui/adapters/react')
- * to register an implementation.
+ * The adapter that draws the screens. `tui({ adapter })` provides it;
+ * without one the screens print to standard output.
  */
-export const Adapter = InjectionToken.create<AdapterInterface>('Adapter')
+export const Adapter = InjectionToken.create<TuiAdapter>('TuiAdapter')

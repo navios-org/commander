@@ -1,33 +1,28 @@
-import { CommandHandler } from '@navios/commander'
+import { Command } from '@navios/commander'
 import { ScreenLogger } from '@navios/commander-tui'
-import { Command } from '@navios/commander/legacy-compat'
 import { inject } from '@navios/core'
+
+import type { CommandHandler } from '@navios/commander'
 
 import { delay } from '../utils/index.js'
 
-@Command({
-  path: 'status',
-  description: 'Show system status',
-})
+@Command({ path: 'status', description: 'Show system status' })
 export class StatusCommand implements CommandHandler {
-  private readonly logger = inject(ScreenLogger, {
-    screen: { name: 'Status', static: true },
-    context: 'Status',
-  })
+  private readonly logger = inject(ScreenLogger, { screen: 'Status', context: 'Status' })
 
   async execute(): Promise<void> {
-    this.logger.log('Fetching system status...')
-
     this.logger.log('Checking database connection...')
     await delay(800)
-    this.logger.debug('Host: localhost:5432')
-    this.logger.debug('Database: myapp')
-
     this.logger.log('Checking cache status...')
     await delay(600)
-    this.logger.debug('Type: Redis')
-    this.logger.debug('Hit rate: 94.5%')
 
-    this.logger.log('All systems operational!')
+    this.logger.table(
+      [
+        { service: 'Database', status: 'up', detail: 'localhost:5432' },
+        { service: 'Cache', status: 'up', detail: 'hit rate 94.5%' },
+      ],
+      { title: 'Services' },
+    )
+    this.logger.success('All systems operational!')
   }
 }
