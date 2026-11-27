@@ -1,7 +1,9 @@
 import { VARIANT_COLORS } from '@navios/commander-tui'
 import { Box, Text } from 'ink'
 
-import type { LogMessageProps } from '@navios/commander-tui'
+import type { LogMessageVariant } from '@navios/commander-tui'
+import type { LogLevel } from '@navios/core'
+import type { ReactNode } from 'react'
 
 import { useTheme } from '../../hooks/index.ts'
 
@@ -11,6 +13,25 @@ function toStringColor(color: string | { r: number; g: number; b: number; a?: nu
   // Convert RGBA object to hex string
   const { r, g, b } = color
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+}
+
+export interface LogMessageProps {
+  /** Log level determines the color scheme */
+  level: LogLevel
+  /** Semantic variant, such as 'success', that overrides the colors of the level */
+  variant?: LogMessageVariant
+  children: ReactNode
+  timestamp?: Date | string
+  /** A label before the message, such as "API" */
+  label?: string
+  /** A stack trace to show below the message */
+  trace?: string
+  borderColor?: string
+  backgroundColor?: string
+  /** 'thin' draws the left border only, 'thick' left, top and bottom */
+  borderStyle?: 'thin' | 'thick'
+  padding?: number
+  margin?: number
 }
 
 /**

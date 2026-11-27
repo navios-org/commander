@@ -1,6 +1,7 @@
 {
   "name": "@navios/commander",
-  "version": "1.9.0",
+  "version": "2.0.0-alpha.0",
+  "description": "Decorator-based command line framework: a transport of @navios/core",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -11,6 +12,19 @@
     "url": "https://github.com/navios-org/commander.git",
     "directory": "packages/commander"
   },
+  "files": [
+    "lib",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "./lib/index.*",
+    "./lib/legacy-compat/index.*",
+    "./lib/testing/index.*",
+    "./lib/*cli-transport*",
+    "./lib/*output*"
+  ],
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
   "typings": "./lib/index.d.mts",
@@ -23,6 +37,16 @@
       "require": {
         "types": "./lib/index.d.cts",
         "default": "./lib/index.cjs"
+      }
+    },
+    "./testing": {
+      "import": {
+        "types": "./lib/testing/index.d.mts",
+        "default": "./lib/testing/index.mjs"
+      },
+      "require": {
+        "types": "./lib/testing/index.d.cts",
+        "default": "./lib/testing/index.cjs"
       }
     },
     "./legacy-compat": {
@@ -45,23 +69,21 @@
     "publish:pkg": "yarn npm publish --access public",
     "publish:next": "yarn npm publish --access public --tag next"
   },
-  "dependencies": {
-    "@navios/core": "^1.1.0"
-  },
   "devDependencies": {
-    "@navios/builder": "^1.0.0",
-    "@navios/commander-tui": "workspace:*",
-    "tsx": "^4.23.15",
+    "@navios/core": "^2.0.0-alpha.1",
     "typescript": "^7.0.2",
     "zod": "^4.6.7"
   },
   "peerDependencies": {
-    "@navios/commander-tui": "^1.0.0",
+    "@navios/core": "^2.0.0-alpha.1",
     "zod": "^4.0.0"
   },
   "peerDependenciesMeta": {
-    "@navios/commander-tui": {
+    "zod": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

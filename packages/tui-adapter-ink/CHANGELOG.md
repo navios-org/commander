@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0-alpha.0] - 2026-11-27
+
+For `@navios/commander-tui` 2.0.
+
+### Breaking
+
+- **`inkAdapter()` replaces the `InkAdapter` class.** Pass it to `tui({ adapter: inkAdapter() })` or `manager.bind({ adapter })`. Importing the package no longer registers anything.
+- `@navios/core` is no longer a peer dependency. Node.js 24 or later.
+
+### Fixed
+
+- `exitOnCtrlC` of the bind options is honoured; it was always on.
+- When Ink exits by itself on Ctrl+C the screen manager is told, so the program stops drawing and prints what the screens held instead of running on behind a blank screen.
+- The sidebar position (`sidebar.position: 'right'`) is honoured.
+- A progress value beyond the total no longer crashes the interface.
+
 ## [2.0.0] - 2026-11-23
 
 ### Breaking Changes

@@ -19,6 +19,33 @@ import {
 } from './colors/index.ts'
 
 // ANSI escape codes
+// oxlint-disable-next-line no-control-regex
+const ANSI = /\x1b\[[0-9;]*m/g
+
+type Sink = Pick<NodeJS.WriteStream, 'write'>
+
+/**
+ * Whether colours belong on a stream: on a terminal, unless NO_COLOR says
+ * no; anywhere when FORCE_COLOR says yes. A file or a pipe gets plain text.
+ */
+function usesColor(stream: NodeJS.WriteStream): boolean {
+  const { NO_COLOR, FORCE_COLOR } = process.env
+  if (FORCE_COLOR !== undefined && FORCE_COLOR !== '' && FORCE_COLOR !== '0') {
+    return true
+  }
+  if (NO_COLOR !== undefined && NO_COLOR !== '') {
+    return false
+  }
+  return Boolean(stream.isTTY)
+}
+
+function sinkFor(stream: NodeJS.WriteStream): Sink {
+  if (usesColor(stream)) {
+    return stream
+  }
+  return { write: (text: string) => stream.write(text.replace(ANSI, '')) } as Sink
+}
+
 const RESET = '\x1b[0m'
 const BOLD = '\x1b[1m'
 const DIM = '\x1b[2m'
@@ -62,7 +89,7 @@ function formatTimestamp(date: Date): string {
 }
 
 // Print a single message
-function printMessage(message: MessageData, stream: NodeJS.WriteStream): void {
+function printMessage(message: MessageData, stream: Sink): void {
   switch (message.type) {
     case 'log': {
       const logMessage = message as LogMessageData
@@ -185,7 +212,10 @@ function printMessage(message: MessageData, stream: NodeJS.WriteStream): void {
       const iconColor = hexToAnsi(GROUP_COLORS.icon)
 
       if (isEnd) {
-        stream.write(`${groupColor}└─${RESET} ${DIM}end ${label}${RESET}\n`)
+        // The end of a group carries no label of its own.
+        stream.write(
+          label ? `${groupColor}└─${RESET} ${DIM}${label}${RESET}\n` : `${groupColor}└─${RESET}\n`,
+        )
       } else {
         const icon = collapsed ? '▶' : '▼'
         stream.write(
@@ -258,13 +288,16 @@ export function printSingleMessage(
   isError: boolean = false,
 ): void {
   const stream = isError ? process.stderr : process.stdout
-
-  // Add screen name prefix for context (dimmed)
-  if (screenName) {
-    stream.write(`${DIM}[${screenName}]${RESET} `)
-  }
-
-  printMessage(message, stream)
+  const sink = sinkFor(stream)
+  // One write for the whole message, so that lines of two screens cannot interleave.
+  let text = screenName ? `${DIM}[${screenName}]${RESET} ` : ''
+  printMessage(message, {
+    write: (part: string) => {
+      text += part
+      return true
+    },
+  } as Sink)
+  sink.write(text)
 }
 
 /**
@@ -275,7 +308,7 @@ export function printMessagesToStdout(
   screenName: string,
   isError: boolean = false,
 ): void {
-  const stream = isError ? process.stderr : process.stdout
+  const stream = sinkFor(isError ? process.stderr : process.stdout)
 
   // Print screen header
   const headerColor = isError ? '\x1b[31m' : '\x1b[32m'

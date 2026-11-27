@@ -1,46 +1,58 @@
-import { CommandHandler } from '@navios/commander'
-import { ScreenLogger } from '@navios/commander-tui'
-import { Command } from '@navios/commander/legacy-compat'
+import { CliError, Command } from '@navios/commander'
+import { Prompt, ScreenLogger } from '@navios/commander-tui'
 import { inject } from '@navios/core'
 import { z } from 'zod/v4'
 
+import type { CommandContext, CommandHandler, CommandOptions } from '@navios/commander'
+
 import { delay } from '../utils/index.js'
 
-const deployOptionsSchema = z.object({
+const options = z.object({
   environment: z.enum(['staging', 'production']).default('staging'),
-  dryRun: z.boolean().default(false),
+  dryRun: z.boolean().default(false).meta({ alias: 'n', description: 'Change nothing' }),
 })
-
-type DeployOptions = z.infer<typeof deployOptionsSchema>
 
 @Command({
-  path: 'deploy',
-  description: 'Deploy the application to the specified environment',
-  optionsSchema: deployOptionsSchema,
+  path: 'deploy [environment]',
+  description: 'Deploy the application to an environment',
+  options,
+  examples: ['deploy', 'deploy production --dry-run'],
 })
-export class DeployCommand implements CommandHandler<DeployOptions> {
-  private readonly logger = inject(ScreenLogger, {
-    screen: { name: 'Deploy', static: true },
-    context: 'Deploy',
-  })
+export class DeployCommand implements CommandHandler<typeof options> {
+  private readonly logger = inject(ScreenLogger, { screen: 'Deploy', context: 'Deploy' })
+  private readonly prompt = inject(Prompt, { screen: 'Deploy' })
 
-  async execute(options: DeployOptions): Promise<void> {
-    this.logger.log(`Deploying to ${options.environment}...`)
-
-    if (options.dryRun) {
-      this.logger.warn('Dry run mode - no actual changes will be made')
+  async execute(
+    { environment, dryRun }: CommandOptions<typeof options>,
+    ctx: CommandContext,
+  ): Promise<void> {
+    if (environment === 'production' && !dryRun) {
+      // Without a terminal nobody can answer, and the answer is the default: no.
+      const sure = await this.prompt.confirm({ question: 'Deploy to production?' })
+      if (!sure) {
+        throw new CliError('Deployment cancelled', { exitCode: 1 })
+      }
     }
 
-    // Simulate deployment steps
-    this.logger.log('Uploading artifacts...')
-    await delay(1500)
+    this.logger.log(`Deploying to ${environment}...`)
+    if (dryRun) {
+      this.logger.warn('Dry run: no changes will be made')
+    }
 
-    this.logger.log('Updating configuration...')
-    await delay(1000)
+    for (const [step, ms] of [
+      ['Uploading artifacts', 1500],
+      ['Updating configuration', 1000],
+      ['Running health checks', 1200],
+    ] as const) {
+      if (ctx.signal.aborted) {
+        // Ctrl+C
+        throw new CliError('Deployment interrupted', { exitCode: 130 })
+      }
+      const loading = this.logger.loading(`${step}...`)
+      await delay(ms)
+      loading.success(step)
+    }
 
-    this.logger.log('Running health checks...')
-    await delay(1200)
-
-    this.logger.log(`Successfully deployed to ${options.environment}!`)
+    this.logger.success(`Deployed to ${environment}`)
   }
 }

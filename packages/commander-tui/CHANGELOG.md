@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-alpha.0] - 2026-11-27
+
+For `@navios/core` 2.0. See the migration guide in `apps/docs/content/docs/reference/migrating-to-2.md`.
+
+### Breaking
+
+- **Adapters are passed, not imported for a side effect.** The contract is `TuiAdapter`: a `name`, an optional `isSupported()` and `mount({ manager, theme, options })`, which returns `{ unmount() }`. `AdapterInterface`, `AdapterRoot`, `handlesOwnRenderer` and `MissingAdapterOverride` are removed.
+- **`@opentui/core` is no longer a peer dependency.** The renderer is created by `@navios/tui-adapter-react`. `useOpenTUI`, `isOpenTUISupported()`, `isBunRuntime()` and `dynamicImport()` are removed.
+- **`overrideConsoleLogger()` and `IsomorphicLogger` are removed.** The `tui()` plugin routes the application's log to a screen; `ScreenLogger` works without an interface.
+- **Bind options**: `sidebarWidth`, `sidebarPosition` and `sidebarTitle` are `sidebar: { width, position, title }`, and `useMouse` is `mouse`.
+- **`prompt.confirm()` defaults to no.** It defaulted to yes, which runs without a terminal then answered.
+- `choice()` throws for a `defaultChoice` that is not among the choices.
+- `file()`, `diff()` and `fileError()` are shown at the `log` level instead of `debug`. `loading()`, `progress()`, `promise()`, `group()` and `table()` respect the levels too.
+- `isTuiBound()`, `isTuiRendererActive()` and `isOpenTUIActive()` are removed; use `isInteractive()` and `hasTuiRenderer()`.
+- The component prop types that referred to React and OpenTUI (`ScreenProps`, `ScreenManagerProps`, `LogMessageProps`, `LoggerContextValue`) moved to the adapters or are removed. Colours in the remaining types are strings.
+- Node.js 24 or later; `zod` is now a declared dependency.
+
+### Added
+
+- `tui(options)`: a plugin for `createApplication()` and `runCli()` that provides the adapter, opens the interface when the application has started and closes it with the application.
+- `@navios/commander-tui/react`: the store hooks both adapters used to carry a copy of.
+- `maxMessages` for screens, 10 000 by default. A screen used to keep every message for the life of the process.
+- `NO_COLOR` and `FORCE_COLOR` are honoured, and output that is not a terminal gets no colour codes.
+- `screen.getMessage(id)`, `screen.getMessagesVersion()`, `logger.getScreen()`.
+
+### Fixed
+
+- The Ink adapter was only used where OpenTUI could run, so on Node.js before 26.4 it fell back to standard output.
+- An adapter that failed to start was reported as "not available", whatever the error was. The reason is printed now.
+- Two `bind()` calls created two renderers, and `unbind()` during `bind()` could leave the interface up. Both are serialised.
+- Prompts never resolved when the interface closed or their screen was removed. They resolve with their defaults.
+- The timeout of a prompt ran while the prompt waited behind another one.
+- A prompt on a hidden screen made a screen active that nobody could see.
+- `autoClose` was not armed for screens that had finished before `bind()`, and its timer kept the process alive.
+- A static screen that was given a status printed all its messages a second time; a finished screen stopped printing later messages.
+- The digits toggled log levels while the search field of the filter had the focus, so they could not be searched for; the hint named seven levels where there are six.
+- `progress.update()` beyond the total crashed the interface.
+- More than ten loading or progress rows printed a `MaxListenersExceededWarning` over the interface.
+- A screen that logged while another one was in view showed stale messages when switched back to.
+- The sidebar did not repaint when a screen was shown, hidden, or changed its status or badge.
+- A burst of log lines rendered once per line; it now renders once.
+
 ## [1.7.0] - 2026-11-23
 
 ### Added

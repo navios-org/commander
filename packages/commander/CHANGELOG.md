@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-alpha.0] - 2026-11-27
+
+A rewrite on `@navios/core` 2.0. See the migration guide in `apps/docs/content/docs/reference/migrating-to-2.md`.
+
+### Breaking
+
+- **The command line is a transport.** `CommanderFactory`, `defineCliEnvironment()`, `app.getAdapter()`, `CommanderAdapterService`, `CommandRegistryService` and `CliParserService` are removed. Start a program with `runCli(AppModule, options)`, or list `cliTransport()` in `createApplication()`.
+- **`@CliModule` is removed.** `commands` is an option of `@Module` of `@navios/core`.
+- **`@navios/core` is no longer re-exported**, and is a peer dependency. Import `inject`, `Injectable`, `Module` and the rest from it.
+- **`@Command`**: `optionsSchema` is `options`. `token`, `priority` and `registry` are removed. `execute(options, ctx)` receives a `CommandContext` instead of the positionals, and the `CommandExecutionContext` token is removed.
+- **`run()` takes the arguments without the executable and the script**, `process.argv.slice(2)` by default, returns the exit code and does not throw. The search for a known command word in `argv` is removed. `dispatch()` rejects with the error.
+- **The parser is new** and decides types from the schema: `--name 123` stays a string for `z.string()`, `--offset -5` is a negative number, a boolean never takes the next argument, `--no-flag` sets `flag` to `false`, `--` ends the options. Unknown options and extra arguments are errors unless the schema (`z.looseObject`) or the path (`[...rest]`) asks for them.
+- **Help is plain text on standard output**, no longer log lines. Usage errors print one line and exit with 2.
+- **Enabling the terminal interface** moved to the `tui()` plugin of `@navios/commander-tui`: `enableTUI` and `tuiOptions` are removed, and the package no longer imports an adapter by name.
+- Node.js 24 or later.
+
+### Added
+
+- `runCli()`: builds the application, runs the command, closes the application also when the command fails, sets the exit code, and aborts `ctx.signal` on Ctrl+C.
+- Positional arguments declared in the path: `'copy <source> [target]'`, `'lint [...files]'`. They arrive in the options and are validated by the schema.
+- Aliases for options (`.meta({ alias: 'n' })`) and for commands (`aliases: ['d']`), `-abc` groups, `-n5`, and `--key=value` for every form.
+- Generated help for the program, for groups of commands (`mycli db`) and for commands, with arguments, choices, defaults and examples. `--version`.
+- "Did you mean" suggestions for unknown commands and options. Validation issues name the option or argument.
+- `CliError` and `CliUsageError`, and exit codes from the return value of `execute()`.
+- Guards, interceptors and attributes on commands and their modules, shared with every other transport.
+- `lazyCommand()`: a command whose code is imported when it runs.
+- `CliOutput`, the injectable standard output and standard error of a program, and `ctx.output`.
+- `@navios/commander/testing`: `createTestCli()` runs command lines in memory and returns stdout, stderr and the exit code.
+- Any Standard Schema validates options; zod is an optional peer dependency.
+- `execute()` is checked against the schema by the type of the decorator.
+- `defaultCommand`, `hidden` commands and options, `examples`.
+
+### Fixed
+
+- `--__proto__.x=1` and the like wrote to `Object.prototype`. Such options are refused.
+- `copy a.txt b.txt` was looked up as the command "copy a.txt b.txt". Arguments before the first option are arguments.
+- A command that failed left the application open when the documented bootstrap was used.
+- `-h` showed help for a command that uses `-h` for an option of its own.
+- Options were parsed twice and every registered path was sorted on each run. A command's schema is now read once, the first time the command is used, and commands, guards and services are built only when needed.
+
 ## [1.9.0] - 2026-11-23
 
 ### Added

@@ -29,6 +29,8 @@ export interface KeyboardContext {
   inInputMode: boolean
   /** Whether filter bar is visible */
   isFilterActive: boolean
+  /** Which part of the filter bar has the focus, while it is shown */
+  filterField?: 'search' | 'levels'
   /** Whether help overlay is visible */
   isHelpVisible: boolean
 }
@@ -52,6 +54,7 @@ export interface KeyBindingCondition {
   inInputMode?: boolean
   focusArea?: FocusArea
   isFilterActive?: boolean
+  filterField?: 'search' | 'levels'
   isHelpVisible?: boolean
   hasSidebar?: boolean
 }

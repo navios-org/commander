@@ -3,12 +3,15 @@ import { SyntaxStyle, type TreeSitterClient } from '@opentui/core'
 import { useAppContext } from '@opentui/react'
 import { createContext, useContext, useMemo, type ReactNode } from 'react'
 
-import type {
-  LoggerContextValue,
-  LogLevelColorMap,
-  Theme,
-  ThemePreset,
-} from '@navios/commander-tui'
+import type { LogLevelColorMap, Theme, ThemePreset } from '@navios/commander-tui'
+
+/** What the components of the interface share. */
+export interface LoggerContextValue {
+  syntaxStyle?: SyntaxStyle
+  treeSitterClient?: TreeSitterClient
+  levelColors: LogLevelColorMap
+  theme: Theme
+}
 
 const LoggerContext = createContext<LoggerContextValue | null>(null)
 

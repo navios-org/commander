@@ -1,58 +1,50 @@
-import { Adapter } from '@navios/commander-tui'
-import { Injectable } from '@navios/core'
 import { createElement } from 'react'
 
-import type { AdapterInterface, AdapterRoot, AdapterRenderProps } from '@navios/commander-tui'
+import type { TuiAdapter, TuiMount, TuiMountProps } from '@navios/commander-tui'
 
 import { ScreenManagerBridge } from './components/screen_manager_bridge.tsx'
 import { withFullScreen } from './fullscreen/index.ts'
 
-import type { WithFullScreen } from './fullscreen/index.ts'
-
 /**
- * Ink adapter for TUI rendering.
- * Uses Ink's native rendering system instead of OpenTUI.
- * Uses internal fullscreen utilities for alternate screen buffer and fullscreen support.
- * Automatically registers to DI when this module is imported.
+ * Draws the screens with Ink. Runs on any Node.js that `@navios/commander-tui`
+ * supports, and needs no native code.
+ *
+ * ```ts
+ * import { tui } from '@navios/commander-tui'
+ * import { inkAdapter } from '@navios/tui-adapter-ink'
+ *
+ * await runCli(AppModule, { plugins: [tui({ adapter: inkAdapter() })] })
+ * ```
  */
-@Injectable({ token: Adapter })
-export class InkAdapter implements AdapterInterface {
-  /**
-   * This adapter handles its own rendering without requiring OpenTUI's CliRenderer.
-   */
-  readonly handlesOwnRenderer = true
-
-  createRoot(): AdapterRoot {
-    let ink: WithFullScreen | null = null
-
-    return {
-      render(element: unknown): void {
-        if (ink) {
-          // Re-render with new element
-          ink.instance.rerender(element as React.ReactNode)
-        } else {
-          // Initial render with fullscreen mode (alternate screen buffer, fills terminal)
-          ink = withFullScreen(element as React.ReactNode, {
-            exitOnCtrlC: true,
-          })
-          // Start the fullscreen app (switches to alternate screen buffer)
-          ink.start()
+export function inkAdapter(): TuiAdapter {
+  return {
+    name: 'ink',
+    async mount({ manager, theme, options }: TuiMountProps): Promise<TuiMount> {
+      const ink = withFullScreen(createElement(ScreenManagerBridge, { manager, theme }), {
+        exitOnCtrlC: options.exitOnCtrlC ?? true,
+      })
+      // Switches to the alternate screen, then draws.
+      await ink.start()
+      // Ink unmounts by itself on Ctrl+C. The manager has to know, or it would
+      // go on drawing into an interface that is gone.
+      let unmounted = false
+      void ink.waitUntilExit().then(() => {
+        if (!unmounted) {
+          unmounted = true
+          void manager.unbind()
         }
-      },
-      async unmount(): Promise<void> {
-        if (ink) {
-          ink.instance.unmount()
-          // Wait for fullscreen to properly exit and cleanup
+      })
+      return {
+        async unmount(): Promise<void> {
+          if (!unmounted) {
+            unmounted = true
+            ink.instance.unmount()
+          }
+          // Resolves once the main screen and the cursor are back.
           await ink.waitUntilExit()
-          ink = null
-        }
-      },
-    }
-  }
-
-  renderToRoot(root: AdapterRoot, props: AdapterRenderProps): void {
-    const element = createElement(ScreenManagerBridge, props as any)
-    root.render(element)
+        },
+      }
+    },
   }
 }
 

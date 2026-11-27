@@ -24,6 +24,7 @@ function ScreenManagerBridgeInner({ manager, theme }: ScreenManagerBridgeProps) 
   const filterActions = useFilterActions()
 
   const bindOptions = manager.getBindOptions()
+  const sidebarOnRight = bindOptions.sidebar?.position === 'right'
 
   // Helper functions for keyboard bindings
   const getActiveScreen = useCallback(() => manager.getActiveScreen(), [manager])
@@ -62,6 +63,7 @@ function ScreenManagerBridgeInner({ manager, theme }: ScreenManagerBridgeProps) 
         hasPrompt: activeScreen?.hasActivePrompt() ?? false,
         inInputMode: activeScreen?.isPromptInInputMode() ?? false,
         isFilterActive: filter.isVisible,
+        filterField: filter.focusedField,
         isHelpVisible: showHelp,
       }
 
@@ -87,6 +89,7 @@ function ScreenManagerBridgeInner({ manager, theme }: ScreenManagerBridgeProps) 
       manager,
       keyboardManager,
       filter.isVisible,
+      filter.focusedField,
       showHelp,
       getActiveScreen,
       toggleHelp,
@@ -100,15 +103,14 @@ function ScreenManagerBridgeInner({ manager, theme }: ScreenManagerBridgeProps) 
   return (
     <LoggerProvider theme={theme}>
       <box flexDirection="row" flexGrow={1}>
-        {/* Sidebar - manages its own subscriptions */}
+        {/* The sidebar and the content manage their own subscriptions */}
+        {sidebarOnRight && <ContentArea manager={manager} />}
         <SidebarContainer
           manager={manager}
-          width={bindOptions.sidebarWidth ?? 25}
-          title={bindOptions.sidebarTitle ?? 'Screens'}
+          width={bindOptions.sidebar?.width ?? 25}
+          title={bindOptions.sidebar?.title ?? 'Screens'}
         />
-
-        {/* Content area - manages its own subscriptions */}
-        <ContentArea manager={manager} />
+        {!sidebarOnRight && <ContentArea manager={manager} />}
 
         {/* Help overlay */}
         {showHelp && <HelpOverlay bindings={keyboardManager.getBindingsForHelp()} />}

@@ -1,59 +1,44 @@
-import type { CliRenderer } from '@opentui/core'
+import type { ScreenManagerInstance } from '../services/screen_manager.ts'
+import type { BindOptions, Theme } from '../types/index.ts'
 
-import type { Theme } from '../types/index.ts'
+/** What an adapter is given to draw. */
+export interface TuiMountProps {
+  /** The screens, their messages and prompts, and the events that say they changed. */
+  manager: ScreenManagerInstance
+  theme?: Theme
+  /** The options the interface was bound with: sidebar, mouse, Ctrl+C. */
+  options: BindOptions
+}
 
-/**
- * Root instance returned by adapter's createRoot method.
- * Abstracts the framework-specific root implementation.
- */
-export interface AdapterRoot {
+/** A mounted interface. */
+export interface TuiMount {
   /**
-   * Render an element to the root.
-   * @param element - Framework-specific element to render
-   */
-  render(element: unknown): void
-
-  /**
-   * Unmount and cleanup the root.
-   * Can be async to allow waiting for cleanup to complete.
+   * Removes the interface and gives the terminal back as it was: main
+   * screen, cursor shown, mouse reporting off. Resolves when that is done,
+   * so that what is printed next is not lost.
    */
   unmount(): void | Promise<void>
 }
 
 /**
- * Props passed to the adapter's internal bridge component.
- * The manager type is kept generic to avoid circular imports.
+ * Draws the screens in the terminal. `@navios/tui-adapter-ink` and
+ * `@navios/tui-adapter-react` are adapters; pass one to `tui()`:
+ *
+ * ```ts
+ * import { tui } from '@navios/commander-tui'
+ * import { inkAdapter } from '@navios/tui-adapter-ink'
+ *
+ * createApplication(AppModule, { plugins: [tui({ adapter: inkAdapter() })] })
+ * ```
  */
-export interface AdapterRenderProps {
-  manager: unknown
-  theme?: Theme
-}
-
-/**
- * Abstract interface for rendering adapters.
- * Implementations provide framework-specific rendering capabilities.
- */
-export interface AdapterInterface {
+export interface TuiAdapter {
+  /** For messages: `'ink'`. */
+  readonly name: string
   /**
-   * Whether this adapter handles its own rendering without requiring
-   * the ScreenManager to create an OpenTUI CliRenderer.
-   * When true, createRoot() will be called without a renderer argument.
-   * @default false
+   * Whether the adapter can run in this process. `false`, or a string that
+   * says why not, makes the screens print to standard output instead.
    */
-  readonly handlesOwnRenderer?: boolean
-
-  /**
-   * Create a root instance for rendering.
-   * @param renderer - CLI renderer from @opentui/core (undefined if handlesOwnRenderer is true)
-   * @returns Root instance with render/unmount methods, or a Promise that resolves to one
-   */
-  createRoot(renderer?: CliRenderer): AdapterRoot | Promise<AdapterRoot>
-
-  /**
-   * Render the adapter's internal bridge component to the root.
-   * The adapter owns its bridge component - no component is passed in.
-   * @param root - Root instance created by createRoot
-   * @param props - Props to pass to the bridge component
-   */
-  renderToRoot(root: AdapterRoot, props: AdapterRenderProps): void
+  isSupported?(): boolean | string | Promise<boolean | string>
+  /** Takes over the terminal and draws the screens until it is unmounted. */
+  mount(props: TuiMountProps): TuiMount | Promise<TuiMount>
 }

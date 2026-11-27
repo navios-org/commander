@@ -1,23 +1,17 @@
 import { EventEmitter } from 'node:events'
 
-import { Container, Injectable, inject, type OnServiceDestroy } from '@navios/core'
+import { Injectable, optional, type OnServiceDestroy } from '@navios/core'
 
 import type { LogLevel } from '@navios/core'
-import type { CliRenderer } from '@opentui/core'
 
 import { getThemePreset } from '../themes/index.ts'
 import { Adapter } from '../tokens/adapter.ts'
 import { ScreenManager } from '../tokens/screen-manager.ts'
 import { RenderMode } from '../types/index.ts'
-import {
-  dynamicImport,
-  getPromptDefaultValue,
-  isOpenTUISupported,
-  printMessagesToStdout,
-} from '../utils/index.ts'
+import { getPromptDefaultValue, printMessagesToStdout } from '../utils/index.ts'
 
-import type { AdapterInterface, AdapterRoot } from '../adapters/interface.ts'
-import type { ScreenOptions } from '../schemas/index.ts'
+import type { TuiAdapter, TuiMount } from '../adapters/interface.ts'
+import type { ScreenOptionsInput } from '../schemas/index.ts'
 import type {
   BindOptions,
   FocusArea,
@@ -30,19 +24,26 @@ import type {
 import { ReadlinePromptService } from './readline_prompt.ts'
 import { ScreenInstance } from './screen.ts'
 
+export interface ManagerBindOptions extends BindOptions {
+  /** The adapter to draw with, instead of the one that is provided for `Adapter`. */
+  adapter?: TuiAdapter | null
+}
+
 @Injectable({ token: ScreenManager })
 export class ScreenManagerInstance
   extends EventEmitter<ScreenManagerEventMap>
   implements OnServiceDestroy
 {
   private screens: Map<string, ScreenInstance> = new Map()
+  private screensByName: Map<string, ScreenInstance> = new Map()
   private screenOrder: string[] = []
+  private screenCount = 0
   private activeScreenId: string | null = null
-  private renderer: CliRenderer | null = null
-  private root: AdapterRoot | null = null
-  private adapter: AdapterInterface | null = null
-  private container = inject(Container)
+  private mount: TuiMount | null = null
+  private providedAdapter = optional(Adapter)
   private mode: RenderMode = RenderMode.UNBOUND
+  private binding: Promise<void> | null = null
+  private unbinding: Promise<void> | null = null
   private readlinePromptService: ReadlinePromptService | null = null
   private bindOptions: BindOptions = {}
   private autoCloseTimer: ReturnType<typeof setTimeout> | null = null
@@ -55,13 +56,15 @@ export class ScreenManagerInstance
 
   constructor() {
     super()
+    // Every part of an interface listens; the default limit of ten is a false alarm here.
+    this.setMaxListeners(0)
   }
 
   /**
    * Create a new screen and return it
    */
-  createScreen(options: ScreenOptions): ScreenInstance {
-    const id = `screen-${Date.now()}-${Math.random().toString(36).slice(2)}`
+  createScreen(options: ScreenOptionsInput): ScreenInstance {
+    const id = `screen-${++this.screenCount}`
     const screen = new ScreenInstance(id, options)
 
     // Set up the screen with manager reference and print function
@@ -69,6 +72,10 @@ export class ScreenManagerInstance
     screen._setPrintFn(printMessagesToStdout)
 
     this.screens.set(id, screen)
+    // The first screen of a name is the one the name finds.
+    if (!this.screensByName.has(screen.getName())) {
+      this.screensByName.set(screen.getName(), screen)
+    }
     this.screenOrder.push(id)
 
     // Set first visible screen as active by default
@@ -84,10 +91,7 @@ export class ScreenManagerInstance
   }
 
   getScreenByName(name: string): ScreenInstance | undefined {
-    const id = Array.from(this.screens.keys()).find(
-      (id) => this.screens.get(id)?.getName() === name,
-    )
-    return id ? this.screens.get(id) : undefined
+    return this.screensByName.get(name)
   }
 
   /**
@@ -98,6 +102,11 @@ export class ScreenManagerInstance
     if (!this.screens.has(id)) return
 
     this.screens.delete(id)
+    if (this.screensByName.get(screen.getName()) === screen) {
+      this.screensByName.delete(screen.getName())
+    }
+    // Nobody will answer what it still asks.
+    screen._cancelPrompts()
     this.screenOrder = this.screenOrder.filter((sid) => sid !== id)
 
     // If removed screen was active, switch to first visible screen
@@ -122,83 +131,69 @@ export class ScreenManagerInstance
   }
 
   /**
-   * Non-blocking bind - starts TUI rendering in background
+   * Starts showing the screens: with the adapter when there is one and it can
+   * run here, otherwise on standard output. Without a terminal on both ends
+   * (a pipe, CI) nothing changes: messages keep being printed as they come and
+   * prompts answer with their defaults.
+   *
+   * Calling it again while it is bound, or being bound, changes nothing.
    */
-  async bind(options?: BindOptions): Promise<void> {
-    if (this.mode !== RenderMode.UNBOUND) return
+  bind(options: ManagerBindOptions = {}): Promise<void> {
+    if (this.mode !== RenderMode.UNBOUND) {
+      return Promise.resolve()
+    }
+    this.binding ??= this.bindOnce(options).finally(() => {
+      this.binding = null
+    })
+    return this.binding
+  }
 
-    // In non-interactive environments (no TTY), stay in UNBOUND mode
-    // This allows prompts to return defaults and screens to print on completion
+  private async bindOnce(options: ManagerBindOptions): Promise<void> {
+    // An unbind that is under way still owns the terminal.
+    await this.unbinding
+
     if (!process.stdout.isTTY || !process.stdin.isTTY) {
       return
     }
 
-    this.bindOptions = options ?? {}
-
-    // Resolve theme from options
-    if (options?.theme) {
+    const { adapter: givenAdapter, ...bindOptions } = options
+    this.bindOptions = bindOptions
+    if (options.theme) {
       this.theme = typeof options.theme === 'string' ? getThemePreset(options.theme) : options.theme
     }
 
-    // Default to the TUI whenever this runtime can run OpenTUI:
-    // Bun, or Node.js 26.4+ started with --experimental-ffi
-    const useOpenTUI = options?.useOpenTUI ?? (await isOpenTUISupported())
-
-    if (!useOpenTUI) {
-      // Explicit stdout mode requested
-      this.mode = RenderMode.STDOUT_INTERACTIVE
-      this.readlinePromptService = new ReadlinePromptService()
-      this.emit('mode:changed', this.mode)
+    const adapter = givenAdapter === undefined ? this.providedAdapter : givenAdapter
+    if (!adapter) {
+      this.useStdout(RenderMode.STDOUT_INTERACTIVE)
       return
     }
 
-    // Try to initialize TUI adapter
     try {
-      this.adapter = await this.container.get(Adapter)
-
-      // Check if adapter is the MissingAdapterOverride (has marker property)
-      if ((this.adapter as { isMissingAdapter?: boolean }).isMissingAdapter) {
-        throw new Error('No adapter registered')
+      const supported = (await adapter.isSupported?.()) ?? true
+      if (supported !== true) {
+        throw new Error(typeof supported === 'string' ? supported : 'it cannot run in this process')
       }
-
-      // Check if adapter handles its own rendering (e.g., Ink adapter)
-      if (this.adapter.handlesOwnRenderer) {
-        // Adapter manages its own renderer - no OpenTUI needed
-        this.root = await this.adapter.createRoot()
-      } else {
-        // Default path: use OpenTUI renderer
-        // Dynamic import using Function constructor to bypass bundler static analysis
-        const { createCliRenderer } =
-          await dynamicImport<typeof import('@opentui/core')>('@opentui/core')
-
-        this.renderer = await createCliRenderer({
-          exitOnCtrlC: options?.exitOnCtrlC ?? true,
-          screenMode: 'alternate-screen',
-          useMouse: options?.useMouse ?? true,
-        })
-
-        this.root = await this.adapter.createRoot(this.renderer!)
-      }
-
-      this.mode = RenderMode.TUI_ACTIVE
-      this.emit('mode:changed', this.mode)
-
-      // Initial render
-      this.render()
-    } catch {
-      // Graceful fallback to stdout mode with warning
+      this.mount = await adapter.mount({ manager: this, theme: this.theme, options: bindOptions })
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error)
       console.warn(
-        '[commander-tui] TUI adapter not available, falling back to stdout mode. ' +
-          'To enable TUI, import a TUI adapter: @navios/tui-adapter-react, @navios/tui-adapter-ink, or @navios/tui-adapter-solid',
+        `[commander-tui] The ${adapter.name} adapter could not start: ${reason}. ` +
+          'Printing to standard output instead.',
       )
-
-      this.mode = RenderMode.STDOUT_FALLBACK
-      this.readlinePromptService = new ReadlinePromptService()
-      this.adapter = null
-      this.renderer = null
-      this.root = null
-      this.emit('mode:changed', this.mode)
+      this.useStdout(RenderMode.STDOUT_FALLBACK)
+      return
     }
+
+    this.mode = RenderMode.TUI_ACTIVE
+    this.emit('mode:changed', this.mode)
+    // Screens that were created before may already be done.
+    this.checkAutoClose()
+  }
+
+  private useStdout(mode: RenderMode): void {
+    this.mode = mode
+    this.readlinePromptService = new ReadlinePromptService()
+    this.emit('mode:changed', this.mode)
   }
 
   /**
@@ -280,10 +275,27 @@ export class ScreenManagerInstance
   }
 
   /**
-   * Stop TUI rendering and cleanup
-   * Flushes screens to stdout/stderr based on mode
+   * Stops showing the screens, gives the terminal back and prints what the
+   * interface held: in the terminal a screen is only ever drawn, so its
+   * messages reach standard output here. Prompts that nobody answered resolve
+   * with their defaults.
    */
-  async unbind(): Promise<void> {
+  unbind(): Promise<void> {
+    this.unbinding ??= this.unbindOnce().finally(() => {
+      this.unbinding = null
+    })
+    return this.unbinding
+  }
+
+  private async unbindOnce(): Promise<void> {
+    // A bind that is under way has to finish first, or it would bind after this.
+    await this.binding?.catch(() => {})
+
+    if (this.autoCloseTimer) {
+      clearTimeout(this.autoCloseTimer)
+      this.autoCloseTimer = null
+    }
+
     if (this.mode === RenderMode.UNBOUND) {
       // Even in unbound mode, flush any remaining screens on destroy
       this.flushRemainingScreens()
@@ -291,46 +303,27 @@ export class ScreenManagerInstance
     }
 
     const previousMode = this.mode
+    const mount = this.mount
+    this.mount = null
+    // From here on messages are printed again instead of drawn.
+    this.mode = RenderMode.UNBOUND
 
-    // Clear any pending auto-close timer
-    if (this.autoCloseTimer) {
-      clearTimeout(this.autoCloseTimer)
-      this.autoCloseTimer = null
+    for (const screen of this.screens.values()) {
+      screen._cancelPrompts()
     }
 
-    // Cleanup TUI if active
-    if (previousMode === RenderMode.TUI_ACTIVE) {
-      if (this.root) {
-        await this.root.unmount()
-      }
-
-      // Explicitly disable mouse tracking before destroy to prevent escape sequence leakage
-      if (this.renderer) {
-        if ('disableMouse' in this.renderer) {
-          ;(this.renderer as unknown as { disableMouse: () => void }).disableMouse()
-        }
-        this.renderer.destroy()
-        // destroy() restores the terminal asynchronously; wait before writing to stdout.
-        // `closed` rejects on sink errors or a late/timed-out graceful close; the
-        // renderer is still released, so carry on and flush rather than lose output.
-        await this.renderer.closed.catch(() => {})
-      }
+    try {
+      await mount?.unmount()
+    } catch (error) {
+      console.error('[commander-tui] Error while closing the interface:', error)
     }
 
-    // Cleanup readline if used
     if (this.readlinePromptService) {
       this.readlinePromptService.destroy()
       this.readlinePromptService = null
     }
 
-    // Flush screens based on previous mode
     this.flushScreensOnExit(previousMode)
-
-    // Reset state
-    this.mode = RenderMode.UNBOUND
-    this.renderer = null
-    this.root = null
-    this.adapter = null
     this.emit('mode:changed', this.mode)
   }
 
@@ -371,34 +364,14 @@ export class ScreenManagerInstance
   }
 
   /**
-   * Check if TUI is currently bound
-   * @deprecated Use isInteractive() instead
-   */
-  isTuiBound(): boolean {
-    return this.isInteractive()
-  }
-
-  /**
-   * Check if TUI rendering is active (has renderer or self-rendering adapter).
-   * @deprecated Use hasTuiRenderer() instead
-   */
-  isTuiRendererActive(): boolean {
-    return this.hasTuiRenderer()
-  }
-
-  /**
-   * Check if OpenTUI rendering is active (has renderer).
-   * @deprecated Use hasTuiRenderer() instead
-   */
-  isOpenTUIActive(): boolean {
-    return this.hasTuiRenderer()
-  }
-
-  /**
    * Called by Screen when a prompt becomes active
    * Focuses the screen and switches to content area
    */
   onScreenPromptActivated(screen: ScreenInstance): void {
+    if (screen.isHidden()) {
+      // A question nobody can see would never be answered.
+      screen.show()
+    }
     const prevActiveId = this.activeScreenId
     this.activeScreenId = screen.getId()
     if (prevActiveId !== this.activeScreenId) {
@@ -517,8 +490,12 @@ export class ScreenManagerInstance
     // Start auto-close timer (either all non-static screens succeeded, or only static screens exist)
     const delay = typeof autoClose === 'number' ? autoClose : 5000
     this.autoCloseTimer = setTimeout(() => {
-      void this.unbind()
+      this.unbind().catch((error: unknown) => {
+        console.error('[commander-tui] Error while closing the interface:', error)
+      })
     }, delay)
+    // The timer alone must not keep the process alive.
+    this.autoCloseTimer.unref?.()
   }
 
   /**
@@ -617,15 +594,5 @@ export class ScreenManagerInstance
   toggleFocus(): void {
     this.focusArea = this.focusArea === 'sidebar' ? 'content' : 'sidebar'
     this.emit('focus:changed', this.focusArea)
-  }
-
-  private render(): void {
-    if (!this.root || !this.adapter) return
-
-    // Adapter owns the bridge component - no React import here
-    this.adapter.renderToRoot(this.root, {
-      manager: this,
-      theme: this.theme,
-    })
   }
 }

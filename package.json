@@ -2,6 +2,7 @@
   "name": "@navios/commander-mono",
   "private": true,
   "workspaces": [
+    "apps/*",
     "packages/*",
     "examples/*"
   ],
@@ -12,10 +13,11 @@
     "test": "turbo run test --filter='./packages/*'",
     "test:ci": "turbo run test:ci --filter='./packages/*'",
     "publish:all": "turbo run publish:pkg --filter='./packages/*'",
-    "publish:next": "turbo run publish:next --filter='./packages/*'"
+    "publish:next": "turbo run publish:next --filter='./packages/*'",
+    "docs:dev": "yarn workspace @navios/commander-docs dev",
+    "docs:build": "yarn workspace @navios/commander-docs build"
   },
   "devDependencies": {
-    "@navios/builder": "^1.0.0",
     "@swc/core": "^1.16.22",
     "@types/bun": "^1.4.5",
     "@types/node": "^24.19.2",

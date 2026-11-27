@@ -1,40 +1,29 @@
-// @ts-expect-error - Symbol.metadata is not defined in the global scope
-Symbol.metadata ??= Symbol('Symbol.metadata')
-
 /**
- * Commander TUI Integration Example
+ * A command line application with a terminal interface.
  *
- * This example demonstrates using @navios/commander with TUI mode enabled.
- * When enableTUI is true, the standard Logger is automatically overridden
- * to use the TUI's ScreenLogger, providing rich terminal UI logging.
+ *   yarn start build --target production --minify
+ *   yarn start deploy production --dry-run
+ *   yarn start status
+ *   yarn start --help
  *
- * Run with:
- *   yarn start build     - Run the build command
- *   yarn start deploy    - Run the deploy command
- *   yarn start status    - Run the status command
+ * In a terminal the commands draw their screens with Ink. Piped, or in CI,
+ * the same commands print plain lines.
  */
-
-import { CommanderFactory } from '@navios/commander'
+import { runCli } from '@navios/commander'
+import { tui } from '@navios/commander-tui'
+import { inkAdapter } from '@navios/tui-adapter-ink'
 
 import { AppModule } from './app.module.js'
 
-async function bootstrap() {
-  const app = await CommanderFactory.create(AppModule, {
-    enableTUI: true,
-    tuiOptions: {
-      sidebarTitle: 'Commander TUI Demo',
-      autoClose: 5000, // Auto close 5 seconds after all screens complete
-      hideDefaultScreen: true,
-      adapter: 'ink',
-    },
-  })
-
-  await app.init()
-
-  const adapter = app.getAdapter()
-  await adapter.run(process.argv)
-  await app.close()
-  console.log('App closed')
-}
-
-bootstrap().catch(console.error)
+await runCli(AppModule, {
+  name: 'demo',
+  description: 'Commander with a terminal interface',
+  version: '1.0.0',
+  plugins: [
+    tui({
+      adapter: inkAdapter(),
+      sidebar: { title: 'Commander TUI Demo' },
+      logScreen: { hidden: true },
+    }),
+  ],
+})

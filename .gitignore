@@ -23,3 +23,5 @@ tsconfig.vitest-temp.json
 coverage
 **/*.cache
 **/*.reload.ts
+# Documentation site
+apps/docs/build

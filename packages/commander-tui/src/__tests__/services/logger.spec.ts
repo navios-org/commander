@@ -1,4 +1,4 @@
-import { TestContainer } from '@navios/core/testing'
+import { Container, provide } from '@navios/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { LogLevel } from '@navios/core'
@@ -11,15 +11,16 @@ import type { ScreenInstance } from '../../index.js'
 import type { MockScreenInstance } from '../utils/factories.ts'
 
 describe('ScreenLoggerInstance', () => {
-  let container: TestContainer
+  let container: Container
   let mockScreen: MockScreenInstance
 
   const ALL_LEVELS: LogLevel[] = ['verbose', 'debug', 'log', 'warn', 'error', 'fatal']
 
   beforeEach(() => {
-    container = new TestContainer()
     mockScreen = createMockScreenInstance()
-    container.bind(Screen).toValue(mockScreen as unknown as ScreenInstance)
+    container = new Container({
+      providers: [provide(Screen, { value: mockScreen as unknown as ScreenInstance })],
+    })
   })
 
   afterEach(async () => {
@@ -308,8 +309,8 @@ describe('ScreenLoggerInstance', () => {
       )
     })
 
-    it('should respect debug level for file methods', async () => {
-      const logger = await createLogger({ enabledLevels: ['log'] }) // No debug
+    it('should show files at the log level', async () => {
+      const logger = await createLogger({ enabledLevels: ['warn', 'error'] }) // No log
 
       logger.file('/path.ts', 'content')
 

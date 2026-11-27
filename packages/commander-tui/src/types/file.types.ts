@@ -1,5 +1,3 @@
-import type { RGBA } from '@opentui/core'
-
 // ============================================
 // FileLog Component Types
 // ============================================
@@ -20,7 +18,7 @@ export interface FileLogBaseProps {
   showHeader?: boolean
 
   /** Custom header background color */
-  headerBackgroundColor?: string | RGBA
+  headerBackgroundColor?: string
 }
 
 export interface FileLogFullProps extends FileLogBaseProps {
@@ -53,8 +51,8 @@ export interface FileLogPartialProps extends FileLogBaseProps {
   errorLines?: number[]
 
   /** Error highlighting colors */
-  errorLineBackground?: string | RGBA
-  errorLineBorderColor?: string | RGBA
+  errorLineBackground?: string
+  errorLineBorderColor?: string
 }
 
 export type FileLogProps = FileLogFullProps | FileLogDiffProps | FileLogPartialProps

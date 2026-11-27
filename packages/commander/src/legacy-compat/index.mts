@@ -1,31 +1,28 @@
 /**
- * Legacy-compatible decorators for projects using TypeScript experimental decorators.
+ * `@Command` for projects that keep `experimentalDecorators: true`.
+ * Everything else comes from `@navios/commander`, and works with both.
  *
- * These decorators wrap the Stage 3 decorator implementations and convert
- * the legacy decorator arguments to Stage 3 format internally.
- *
- * @example
- * ```typescript
- * import { Command, CliModule, CommandHandler } from '@navios/commander/legacy-compat'
- *
- * @Command({ path: 'greet' })
- * export class GreetCommand implements CommandHandler {
- *   async execute() {
- *     console.log('Hello!')
- *   }
- * }
- *
- * @CliModule({
- *   commands: [GreetCommand],
- * })
- * export class AppModule {}
+ * ```ts
+ * import { runCli } from '@navios/commander'
+ * import { Command } from '@navios/commander/legacy-compat'
  * ```
- *
- * @packageDocumentation
  */
+import { legacy } from '@navios/core/legacy-compat'
 
-// Export legacy-compatible decorators (commander-specific)
-export * from './decorators/index.mjs'
+import type { ClassType, StandardSchemaV1 } from '@navios/core'
 
-// Re-export core/DI legacy-compat utilities for convenience
-export * from '@navios/core/legacy-compat'
+import { Command as StandardCommand } from '../command/command.mjs'
+
+import type { CommandDefinition } from '../command/command.mjs'
+
+// Adds `commands` to the options of `@Module`.
+import '../transport/cli-transport.mjs'
+
+export type { CommandDefinition } from '../command/command.mjs'
+
+/** `@Command` for legacy decorators: makes a class a command, and injectable. */
+export function Command<Schema extends StandardSchemaV1 | undefined = undefined>(
+  definition: CommandDefinition<Schema>,
+) {
+  return legacy(StandardCommand(definition) as never) as <T extends ClassType>(target: T) => T
+}

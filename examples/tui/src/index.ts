@@ -4,13 +4,16 @@
  * This file demonstrates the usage of @navios/commander-tui
  * with the @navios/core dependency injection container.
  *
- * Run with: yarn start
+ * Run with: yarn start <example> [ink|opentui|none]
  */
 
 import { Prompt, ScreenLogger, ScreenManager } from '@navios/commander-tui'
 import { Container } from '@navios/core'
 
-let adapter: 'ink' | 'react' | 'solid' | 'none' = 'ink'
+import type { TuiAdapter } from '@navios/commander-tui'
+
+// The adapter that draws the screens. `null` prints to standard output instead.
+let adapter: TuiAdapter | null = null
 // ============================================
 // Example 1: Basic Logger Usage
 // ============================================
@@ -21,9 +24,9 @@ async function basicLoggerExample() {
   const screenManager = await container.get(ScreenManager)
   try {
     await screenManager.bind({
+      adapter,
       theme: 'dark',
-      useOpenTUI: adapter !== 'none',
-      sidebarTitle: 'Basic Logger Example',
+      sidebar: { title: 'Basic Logger Example' },
     })
   } catch (error) {
     console.error(error)
@@ -34,7 +37,6 @@ async function basicLoggerExample() {
     screen: { name: 'Main' },
     context: 'App',
   })
-  console.log('here3')
   // Basic log levels
   logger.log('Application started')
   logger.debug('Debug information')
@@ -43,10 +45,9 @@ async function basicLoggerExample() {
   logger.success('Operation completed successfully')
   logger.trace('Trace information with stack')
 
-  console.log(screenManager.getScreenByName('Main'))
   // Wait a bit then unbind
   await delay(5000)
-  screenManager.unbind()
+  await screenManager.unbind()
 }
 
 // ============================================
@@ -56,7 +57,7 @@ async function progressExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
+  await screenManager.bind({ adapter, theme: 'dark' })
 
   const logger = await container.get(ScreenLogger, {
     screen: { name: 'Progress Demo' },
@@ -88,7 +89,7 @@ async function progressExample() {
   })
 
   await delay(2000)
-  screenManager.unbind()
+  await screenManager.unbind()
 }
 
 // ============================================
@@ -98,7 +99,7 @@ async function promptExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
+  await screenManager.bind({ adapter, theme: 'dark' })
 
   const logger = await container.get(ScreenLogger, {
     screen: { name: 'Prompts' },
@@ -162,7 +163,7 @@ async function promptExample() {
 
   logger.log('Demo completed!')
   await delay(3000)
-  screenManager.unbind()
+  await screenManager.unbind()
 }
 
 // ============================================
@@ -172,7 +173,7 @@ async function multiScreenExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
+  await screenManager.bind({ adapter, theme: 'dark' })
 
   // Create multiple loggers for different screens
   const buildLogger = await container.get(ScreenLogger, {
@@ -233,7 +234,7 @@ async function multiScreenExample() {
   lintScreen?.setStatus('success')
 
   await delay(3000)
-  screenManager.unbind()
+  await screenManager.unbind()
 }
 
 // ============================================
@@ -243,7 +244,7 @@ async function tablesAndGroupsExample() {
   const container = new Container()
 
   const screenManager = await container.get(ScreenManager)
-  await screenManager.bind({ theme: 'dark', useOpenTUI: adapter !== 'none' })
+  await screenManager.bind({ adapter, theme: 'dark' })
 
   const logger = await container.get(ScreenLogger, {
     screen: { name: 'Data Display' },
@@ -276,7 +277,7 @@ async function tablesAndGroupsExample() {
   logger.groupEnd()
 
   await delay(5000)
-  screenManager.unbind()
+  await screenManager.unbind()
 }
 
 // ============================================
@@ -291,17 +292,16 @@ function delay(ms: number): Promise<void> {
 // ============================================
 async function main() {
   const example = process.argv[2] || 'basic'
-  adapter = (process.argv[3] as 'ink' | 'react' | 'solid' | 'none') || 'ink'
-  switch (adapter) {
+  switch (process.argv[3] ?? 'ink') {
     case 'ink':
-      await import('@navios/tui-adapter-ink')
+      adapter = (await import('@navios/tui-adapter-ink')).inkAdapter()
       break
-    case 'react':
-      await import('@navios/tui-adapter-react')
+    case 'opentui':
+      // Bun, or Node.js 26.4+ with --experimental-ffi
+      adapter = (await import('@navios/tui-adapter-react')).openTuiAdapter()
       break
-    case 'solid':
-      await import('@navios/tui-adapter-solid')
-      break
+    default:
+      adapter = null
   }
 
   const examples: Record<string, () => Promise<void>> = {

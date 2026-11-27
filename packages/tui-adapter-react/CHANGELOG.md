@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0-alpha.0] - 2026-11-27
+
+For `@navios/commander-tui` 2.0.
+
+### Breaking
+
+- **`openTuiAdapter()` replaces the `ReactAdapter` class.** Pass it to `tui({ adapter: openTuiAdapter() })` or `manager.bind({ adapter })`. Importing the package no longer registers anything.
+- The adapter creates and destroys the OpenTUI renderer itself. `@navios/commander-tui` no longer does, and has no OpenTUI dependency.
+- `react` is a peer dependency instead of a dependency, so that an application has one copy. `web-tree-sitter`, which nothing imported, is no longer a dependency. `@navios/core` is no longer a peer dependency.
+
+### Added
+
+- `openTuiSupport()`: whether OpenTUI can run in this process, or the reason why not. The reason is printed when the adapter falls back to standard output.
+
+### Fixed
+
+- The background of the active sidebar item was an invalid colour with the dark theme, and was drawn magenta.
+- The sidebar position (`sidebar.position: 'right'`) is honoured.
+- A progress value beyond the total no longer crashes the interface.
+- A renderer that was created but could not be given a root is destroyed, instead of leaving the terminal in the alternate screen.
+
 ## [2.0.0] - 2026-11-23
 
 ### Breaking Changes

@@ -1,6 +1,7 @@
 {
   "name": "@navios/commander-tui",
-  "version": "1.7.0",
+  "version": "2.0.0-alpha.0",
+  "description": "Terminal interface for Navios applications: screens, logs, progress and prompts",
   "license": "MIT",
   "author": {
     "name": "Oleksandr Hanzha",
@@ -11,7 +12,13 @@
     "url": "https://github.com/navios-org/commander.git",
     "directory": "packages/commander-tui"
   },
+  "files": [
+    "lib",
+    "README.md",
+    "CHANGELOG.md"
+  ],
   "type": "module",
+  "sideEffects": true,
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
   "typings": "./lib/index.d.mts",
@@ -25,6 +32,16 @@
         "types": "./lib/index.d.cts",
         "default": "./lib/index.cjs"
       }
+    },
+    "./react": {
+      "import": {
+        "types": "./lib/react/index.d.mts",
+        "default": "./lib/react/index.mjs"
+      },
+      "require": {
+        "types": "./lib/react/index.d.cts",
+        "default": "./lib/react/index.cjs"
+      }
     }
   },
   "scripts": {
@@ -36,18 +53,26 @@
     "publish:pkg": "yarn npm publish --access public",
     "publish:next": "yarn npm publish --access public --tag next"
   },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
   "devDependencies": {
-    "@navios/core": "^1.1.0",
-    "@opentui/core": "^0.9.7",
-    "typescript": "^7.0.2"
+    "@navios/core": "^2.0.0-alpha.1",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.1",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.7"
   },
   "peerDependencies": {
-    "@navios/core": "*",
-    "@opentui/core": "^0.9.7"
+    "@navios/core": "^2.0.0-alpha.1",
+    "react": ">=19.0.0"
   },
   "peerDependenciesMeta": {
-    "@opentui/core": {
+    "react": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=24"
   }
 }
